@@ -21,6 +21,8 @@ import AddListingPage from "./pages/admin/AddListing";
 import ContactUsListPage from "./pages/admin/ContactUsListPage";
 import ProductListPage from "./pages/admin/ProductListPage";
 import SalesList from "./pages/admin/SalesList";
+import AddSalesPage from "./pages/sales/AddSalesPage";
+
 import SubscribleListPage from "./pages/admin/SubscribleListPage";
 import CartPage from "./pages/sales/CartPage";
 import SalesPage from "./pages/sales/SalesPage";
@@ -59,6 +61,8 @@ export const router = createBrowserRouter([
       { path: "/product", element: <ProductPage /> },
       { path: "product/:productCode", element: <ProductDetailPage /> },
       { path: "/sales", element: <SalesPage /> },
+      { path: "/add-sales", element: <AddSalesPage /> },
+
       { path: "/cart", element: <CartPage /> },
       { path: "/checkout", element: <CheckoutPage /> },
       { path: "/admin/add-listing", element: <AddListingPage /> },

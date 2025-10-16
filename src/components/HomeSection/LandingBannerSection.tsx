@@ -38,16 +38,19 @@ const LandingBannerSection = () => {
           <Box sx={{ mb: 2 }}>
             <TrueFocus
               sentence="Pick Me Choose Me Love Me"
+              delimiter=" "
+              groupSize={2}
               manualMode={false}
               blurAmount={4}
               borderColor="#FF7AD9"
               glowColor="rgba(255, 122, 217, 0.6)"
-              animationDuration={0.5}
-              pauseBetweenAnimations={0.8}
+              animationDuration={0.6}
+              pauseBetweenAnimations={0.6}
+              textGradient="linear-gradient(90deg, #E40303 0%, #FF8C00 25%, #FFED00 50%, #008026 65%, #004DFF 80%, #750787 100%)"
             />
           </Box>
         </ClickSpark>
-        <Typography variant="h6" mb={4} sx={{ color: "rgba(255,255,255,0.8)" }}>
+        <Typography variant="h6" mb={4} sx={{ color: "rgba(0, 0, 0, 0.8)" }}>
           Match by ideas, not looks. Let your date plan do the talking.
         </Typography>
         <Button
@@ -64,6 +67,8 @@ const LandingBannerSection = () => {
             boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
             "&:hover": {
               transform: "scale(1.05)",
+              background:
+                "linear-gradient(90deg, #fbbf24 0%, #ec4899 50%, #7c3aed 100%)",
             },
           }}
         >

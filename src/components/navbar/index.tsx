@@ -1,7 +1,12 @@
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
+import ArticleRoundedIcon from "@mui/icons-material/ArticleRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+import LayersRoundedIcon from "@mui/icons-material/LayersRounded";
 import LoginIcon from "@mui/icons-material/Login";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import StarRoundedIcon from "@mui/icons-material/StarRounded";
+import StorefrontRoundedIcon from "@mui/icons-material/StorefrontRounded";
 import {
   AppBar,
   Box,
@@ -24,55 +29,44 @@ const Navbar: React.FC = () => {
   const location = useLocation();
   const theme = useTheme();
 
+  const isHome = location.pathname === "/";
   const [isScrolled, setIsScrolled] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const isHome = location.pathname === "/";
-
-  // Detect scroll for home page
   useEffect(() => {
+    if (!isHome) return;
+
     const handleScroll = () => {
-      const vh30 = window.innerHeight * 0.3;
-      setIsScrolled(window.scrollY > vh30);
+      const trigger = 10; // turn white as soon as user scrolls a bit
+      setIsScrolled(window.scrollY > trigger);
     };
+
+    handleScroll();
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isHome]);
 
-  // Navigation links
   const navLinks = [
-    { name: "Home", link: "/" },
-    { name: "Shop", link: "/shop" },
-    { name: "Featured", link: "/featured" },
-    { name: "Pages", link: "/pages" },
-    { name: "Blogs", link: "/blogs" },
+    { name: "Home", link: "/", icon: <HomeRoundedIcon /> },
+    { name: "Shop", link: "/sales", icon: <StorefrontRoundedIcon /> },
+    { name: "Featured", link: "/featured", icon: <StarRoundedIcon /> },
+    { name: "Pages", link: "/pages", icon: <LayersRoundedIcon /> },
+    { name: "Blogs", link: "/blogs", icon: <ArticleRoundedIcon /> },
   ];
 
-  const bgColor =
-    isHome && !isScrolled
-      ? "transparent"
-      : theme.palette.mode === "dark"
-      ? theme.palette.dark.main
-      : "#fff";
-
-  const textColor =
-    isHome && !isScrolled
-      ? theme.palette.light.main
-      : theme.palette.text.primary;
+  const isWhite = !isHome || isScrolled;
+  const bgColor = isWhite ? "#fff" : "transparent";
+  const textColor = isWhite ? "#000" : theme.palette.light.main;
 
   const handleLogoClick = () => navigate("/");
-
-  const handleLoginOrProfile = () => {
-    if (user) navigate("/member/profile");
-    else navigate("/login");
-  };
+  const handleLoginOrProfile = () =>
+    user ? navigate("/member/profile") : navigate("/login");
 
   const handleLogout = () => {
     logout();
     navigate("/");
   };
 
-  // Drawer (mobile)
   const toggleDrawer = (open: boolean) => () => {
     setDrawerOpen(open);
   };
@@ -81,42 +75,37 @@ const Navbar: React.FC = () => {
     <>
       <AppBar
         position="fixed"
-        elevation={isHome && !isScrolled ? 0 : 2}
+        elevation={isWhite ? 2 : 0}
         sx={{
-          backgroundColor: bgColor,
-          transition: "background-color 0.3s ease, box-shadow 0.3s ease",
+          backgroundColor: isWhite ? "rgba(255,255,255,0.86)" : bgColor,
           color: textColor,
-          boxShadow:
-            isHome && !isScrolled ? "none" : "0 2px 6px rgba(0,0,0,0.1)",
-          borderRadius: "0 0 20px 20px",
+          transition: "background-color 0.3s ease, box-shadow 0.3s ease",
+          boxShadow: isWhite ? "0 2px 6px rgba(0,0,0,0.06)" : "none",
+          borderBottom: isWhite ? `1px solid ${theme.palette.divider}` : "none",
+          padding: 0,
+          borderRadius: 0,
+          backdropFilter: isWhite ? "saturate(180%) blur(8px)" : "none",
         }}
       >
         <Toolbar
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            alignItems: "center",
             px: { xs: 2, md: 6 },
             py: 1.5,
           }}
         >
-          {/* ====== Logo ====== */}
           <Box
             sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+            onClick={handleLogoClick}
           >
-            <img
-              src="/logo.png"
-              alt="Logo"
-              style={{ height: 40 }}
-              onClick={handleLogoClick}
-            />
+            <img src="/logo.png" alt="Logo" style={{ height: 40 }} />
           </Box>
 
-          {/* ====== Center Nav (Desktop) ====== */}
           <Box
             sx={{
               display: { xs: "none", md: "flex" },
-              gap: 4,
+              gap: 2,
               alignItems: "center",
             }}
           >
@@ -124,49 +113,57 @@ const Navbar: React.FC = () => {
               <NavLink
                 key={item.name}
                 to={item.link}
-                style={({ isActive }) => ({
-                  textDecoration: "none",
-                  color: isActive ? theme.palette.primary.main : textColor,
-                  fontWeight: 500,
-                  fontSize: "0.95rem",
-                  transition: "color 0.2s ease",
-                })}
+                style={{ textDecoration: "none" }}
               >
-                {item.name}
+                {({ isActive }) => (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 1,
+                      px: 1,
+                      py: 0.5,
+                      borderRadius: 2,
+                      color: isActive ? theme.palette.primary.main : textColor,
+                      transition: "background-color .2s ease",
+                      "&:hover": {
+                        backgroundColor: isWhite
+                          ? "rgba(0,0,0,0.04)"
+                          : "rgba(255,255,255,0.08)",
+                      },
+                    }}
+                  >
+                    <Box sx={{ display: "grid", placeItems: "center" }}>
+                      {item.icon}
+                    </Box>
+                    <Box
+                      component="span"
+                      sx={{ fontWeight: 600, fontSize: "0.95rem" }}
+                    >
+                      {item.name}
+                    </Box>
+                  </Box>
+                )}
               </NavLink>
             ))}
           </Box>
 
-          {/* ====== Right Icons ====== */}
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            {/* Mobile menu button */}
             <IconButton
               onClick={toggleDrawer(true)}
               sx={{
                 display: { xs: "flex", md: "none" },
-                color:
-                  isHome && !isScrolled
-                    ? theme.palette.light.main
-                    : theme.palette.primary.main,
+                color: textColor,
               }}
             >
               <MenuRoundedIcon />
             </IconButton>
 
-            {/* Login/Profile button (always visible) */}
             <IconButton
               onClick={handleLoginOrProfile}
               sx={{
-                color:
-                  isHome && !isScrolled
-                    ? theme.palette.light.main
-                    : theme.palette.primary.main,
-                border: "1.5px solid",
-                borderColor:
-                  isHome && !isScrolled
-                    ? theme.palette.light.main
-                    : theme.palette.primary.main,
-                borderRadius: "12px",
+                color: textColor,
+
                 "&:hover": {
                   backgroundColor:
                     isHome && !isScrolled
@@ -181,7 +178,6 @@ const Navbar: React.FC = () => {
         </Toolbar>
       </AppBar>
 
-      {/* ====== Drawer (Mobile Navigation) ====== */}
       <Drawer
         anchor="left"
         open={drawerOpen}
@@ -189,9 +185,14 @@ const Navbar: React.FC = () => {
         PaperProps={{
           sx: {
             width: "70%",
-            backgroundColor: theme.palette.background.paper,
+            background:
+              theme.palette.mode === "dark"
+                ? theme.palette.background.paper
+                : "#ffffff",
             color: theme.palette.text.primary,
             pt: 2,
+            borderRadius: 0,
+            boxShadow: "0 10px 30px rgba(0,0,0,0.12)",
           },
         }}
       >
@@ -213,8 +214,20 @@ const Navbar: React.FC = () => {
               setDrawerOpen(false);
             }}
           />
-          <IconButton onClick={toggleDrawer(false)}>
-            <CloseRoundedIcon />
+          <IconButton
+            onClick={toggleDrawer(false)}
+            sx={{
+              backgroundColor: "#fff",
+              border: (t) => `1px solid ${t.palette.divider}`,
+              boxShadow: "0 2px 6px rgba(0,0,0,0.06)",
+              "&:hover": { backgroundColor: "#fff" },
+              borderRadius: 2,
+              width: 36,
+              height: 36,
+            }}
+            aria-label="Close menu"
+          >
+            <CloseRoundedIcon sx={{ color: "#111" }} />
           </IconButton>
         </Box>
 
@@ -225,24 +238,100 @@ const Navbar: React.FC = () => {
                 component={NavLink}
                 to={item.link}
                 onClick={() => setDrawerOpen(false)}
-                sx={{
-                  py: 1.5,
-                  px: 3,
-                  "&.active": {
-                    color: theme.palette.primary.main,
-                  },
-                }}
+                sx={{ py: 1.25, px: 2.5 }}
               >
-                <ListItemText
-                  primary={item.name}
-                  primaryTypographyProps={{
-                    fontWeight: 500,
-                    fontSize: "1rem",
-                  }}
-                />
+                {(() => {
+                  const isActive = location.pathname === item.link;
+                  return (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 1.25,
+                        width: 1,
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          width: 34,
+                          height: 34,
+                          borderRadius: 2,
+                          display: "grid",
+                          placeItems: "center",
+                          background: isActive
+                            ? "transparent"
+                            : "linear-gradient(180deg, rgba(0,0,0,0.04), rgba(0,0,0,0.06))",
+                          border: (t) =>
+                            isActive
+                              ? `1px solid transparent`
+                              : `1px solid ${t.palette.divider}`,
+                          "& svg": {
+                            color: isActive
+                              ? theme.palette.primary.main
+                              : theme.palette.text.primary,
+                          },
+                        }}
+                      >
+                        {item.icon}
+                      </Box>
+                      <Box
+                        sx={{
+                          flexGrow: 1,
+                          px: 1.25,
+                          py: 0.9,
+                          borderRadius: 0,
+                          background: isActive ? "#FFFFFF" : "transparent",
+                          boxShadow: isActive
+                            ? "0 10px 30px rgba(0,0,0,0.12)"
+                            : "none",
+                        }}
+                      >
+                        <ListItemText
+                          primary={item.name}
+                          primaryTypographyProps={{
+                            fontWeight: 800,
+                            color: isActive ? "primary.main" : "text.primary",
+                          }}
+                        />
+                      </Box>
+                    </Box>
+                  );
+                })()}
               </ListItemButton>
             </ListItem>
           ))}
+
+          <ListItem disablePadding>
+            <ListItemButton
+              onClick={() => {
+                handleLoginOrProfile();
+                setDrawerOpen(false);
+              }}
+              sx={{ py: 1.25, px: 2.5 }}
+            >
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1.25 }}>
+                <Box
+                  sx={{
+                    width: 34,
+                    height: 34,
+                    borderRadius: 2,
+                    display: "grid",
+                    placeItems: "center",
+                    background:
+                      "linear-gradient(180deg, rgba(0,0,0,0.04), rgba(0,0,0,0.06))",
+                    border: (t) => `1px solid ${t.palette.divider}`,
+                  }}
+                >
+                  {user ? <AccountCircleRoundedIcon /> : <LoginIcon />}
+                </Box>
+                <ListItemText
+                  primary={user ? "Profile" : "Sign in"}
+                  primaryTypographyProps={{ fontWeight: 700 }}
+                />
+              </Box>
+            </ListItemButton>
+          </ListItem>
+
           {user && (
             <ListItem disablePadding>
               <ListItemButton
@@ -250,14 +339,11 @@ const Navbar: React.FC = () => {
                   handleLogout();
                   setDrawerOpen(false);
                 }}
-                sx={{ py: 1.5, px: 3 }}
+                sx={{ py: 1.25, px: 2.5 }}
               >
                 <ListItemText
                   primary="Logout"
-                  primaryTypographyProps={{
-                    fontWeight: 500,
-                    fontSize: "1rem",
-                  }}
+                  primaryTypographyProps={{ fontWeight: 600 }}
                 />
               </ListItemButton>
             </ListItem>

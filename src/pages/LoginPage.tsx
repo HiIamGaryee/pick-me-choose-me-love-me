@@ -45,147 +45,36 @@ const LoginPage = () => {
   };
 
   return (
-    <Box
-      sx={{
-        backgroundImage: `url(${loginBg})`,
-        backgroundSize: "cover",
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        color: "#fff",
-      }}
-    >
-      <Grid container sx={{ py: 2 }}>
-        <Grid item xs={12} md={1} sx={{ h: 1 }}></Grid>
-
-        <Grid
-          item
-          xs={12}
-          md={4}
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            p: 4,
-            alignitem: { xs: "center", md: "start" },
-          }}
-        >
-          {" "}
-          <Box
-            sx={{ display: "flex", justifyItems: "end", justifyContent: "end" }}
-          >
-            <img
-              src="/logo.png"
-              // src={loginBg2}
-              alt="Logo"
-              style={{
-                height: "auto",
-                width: 120,
-                cursor: "pointer",
-                objectFit: "cover",
-              }}
-              onClick={() => navigate(`/`)}
-            />
+    <Box sx={{ minHeight: "100vh", display: "grid", placeItems: "center", bgcolor: "dark.main", p: { xs: 2, md: 4 } }}>
+      <Grid container sx={{ maxWidth: 1100, width: "100%", border: (t) => `1px solid ${t.palette.divider}`, borderRadius: 3, overflow: "hidden", bgcolor: "light.light" }}>
+        <Grid item xs={12} md={6} sx={{ display: { xs: "none", md: "block" }, position: "relative", minHeight: 520 }}>
+          <Box sx={{ position: "absolute", inset: 0, backgroundImage: `url(${loginBg})`, backgroundSize: "cover", backgroundPosition: "center" }} />
+          <Box sx={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(0,0,0,0.4), rgba(0,0,0,0.6))" }} />
+          <Box sx={{ position: "relative", zIndex: 1, color: "#fff", p: 6, display: "flex", flexDirection: "column", justifyContent: "flex-end", height: 1 }}>
+            <Typography variant="h4" fontWeight={800} mb={1}>Create your Account</Typography>
+            <Typography variant="body1">Share your artwork and Get projects!</Typography>
           </Box>
-          <Box>
-            <Typography variant="h4" color="light.main">
-              Welcome !
-            </Typography>
+        </Grid>
+        <Grid item xs={12} md={6} sx={{ p: { xs: 3, md: 6 }, bgcolor: "#fff" }}>
+          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3 }}>
+            <img src="/logo.png" alt="Logo" style={{ width: 100, cursor: "pointer" }} onClick={() => navigate(`/`)} />
             <Link href="/sign-up" underline="none">
-              <Typography variant="body2" color="light.main" pb={4}>
-                Don't have an account?{" "}
-                <span style={{ color: "#e2994f", fontWeight: "bold" }}>
-                  Sign up
-                </span>
-              </Typography>
+              <Typography variant="body2" color="text.secondary">Don't have an account? <b>Sign up</b></Typography>
             </Link>
           </Box>
+          <Typography variant="h3" fontWeight={800} mb={3}>Sign In</Typography>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Stack spacing={4}>
-              <TextField
-                {...register("email")}
-                placeholder="Email address"
-                type="email"
-                fullWidth
-                error={Boolean(errors.email)}
-                helperText={errors.email ? errors.email.message : ""}
-                variant="filled"
-                sx={{
-                  "& .MuiFilledInput-input": {
-                    color: "light.main",
-                  },
-                  "& .MuiFilledInput-root": {
-                    "&::before": { borderBottomColor: "light.main" },
-                    "&::after": { borderBottomColor: "light.main" },
-                  },
-                  "& .MuiInputBase-input::placeholder": {
-                    color: "white",
-                    opacity: 1,
-                  },
-                }}
-              />
-              <TextField
-                {...register("password")}
-                placeholder="Password"
-                type="password"
-                fullWidth
-                error={Boolean(errors.password)}
-                helperText={errors.password ? errors.password.message : ""}
-                variant="filled"
-                sx={{
-                  "& .MuiFilledInput-input": {
-                    color: "light.main",
-                  },
-                  "& .MuiFilledInput-root": {
-                    "&::before": { borderBottomColor: "light.main" },
-                    "&::after": { borderBottomColor: "light.main" },
-                  },
-                  "& .MuiInputBase-input::placeholder": {
-                    color: "white",
-                    opacity: 1,
-                  },
-                }}
-              />
-
-              <Button
-                variant="contained"
-                fullWidth
-                type="submit"
-                sx={{ mt: 2, color: "light.main" }}
-              >
-                Sign In
-              </Button>
+            <Stack spacing={2}>
+              <TextField {...register("email")} placeholder="Email address" type="email" fullWidth error={Boolean(errors.email)} helperText={errors.email ? errors.email.message : ""} />
+              <TextField {...register("password")} placeholder="Password" type="password" fullWidth error={Boolean(errors.password)} helperText={errors.password ? errors.password.message : ""} />
+              <Button variant="contained" fullWidth type="submit">Join us</Button>
             </Stack>
-            <Box
-              mt={2}
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
-              <Link href="#" underline="none" sx={{ color: "light.main" }}>
-                <Typography
-                  variant="body2"
-                  color="light.main"
-                  sx={{ cursor: "pointer" }}
-                >
-                  Forgot Password ?
-                </Typography>
-              </Link>{" "}
-              <Link href="/" underline="none">
-                <Typography
-                  variant="body2"
-                  color="light.main"
-                  sx={{ cursor: "pointer" }}
-                >
-                  Back Home
-                </Typography>
-              </Link>
+            <Box mt={2} sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Link href="#" underline="none"><Typography variant="body2" color="text.secondary">Forgot Password?</Typography></Link>
+              <Link href="/" underline="none"><Typography variant="body2" color="text.secondary">Back Home</Typography></Link>
             </Box>
           </form>
         </Grid>
-        <Grid item xs={12} md={7} sx={{ h: 1 }} />
       </Grid>
     </Box>
   );

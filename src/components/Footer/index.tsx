@@ -1,14 +1,11 @@
-import { yupResolver } from "@hookform/resolvers/yup";
-import { Box, Typography } from "@mui/material";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import FacebookRoundedIcon from "@mui/icons-material/FacebookRounded";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import PinterestIcon from "@mui/icons-material/Pinterest";
+import XIcon from "@mui/icons-material/X";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import { Box, IconButton, Stack, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import * as Yup from "yup";
-import {
-  EmailSubscribeParams,
-  postEmailSubscribe,
-} from "../../api/postEmailSubscribe";
-import { useAppMutation } from "../../hooks/useAppMutation";
 
 const footerLinks = [
   {
@@ -34,49 +31,17 @@ const footerLinks = [
 const Footer = () => {
   const navigate = useNavigate();
 
-  const validationSchema = Yup.object({
-    email: Yup.string()
-      .required("Email is required")
-      .email("Invalid email address"),
-  });
-
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm<EmailSubscribeParams>({
-    resolver: yupResolver(validationSchema),
-  });
-
-  // const { mutate } = useAppMutation(postEmailSubscribe);
-  const [showSuccess, setShowSuccess] = useState(false);
-
-  const { mutate, reset } = useAppMutation(postEmailSubscribe, {
-    onSuccess: () => {
-      reset();
-      setShowSuccess(true);
-      setTimeout(() => setShowSuccess(false), 3000);
-    },
-  });
-
-  const onSubmit = (data: EmailSubscribeParams) => {
-    mutate(data);
-  };
-
   return (
-    // <Box>OI</Box>
     <Box
       component="footer"
       sx={{
-        position: "relative",
         backgroundColor: (t) => t.palette.secondary.main,
-        padding: 6,
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        width: "100%",
+        px: { xs: 3, md: 6 },
+        py: { xs: 6, md: 10 },
+        display: "grid",
+        gridTemplateColumns: { xs: "1fr", md: "1.5fr 1fr 1fr" },
+        gap: 4,
         color: (t) => t.palette.common.white,
-        flexWrap: "wrap",
       }}
     >
       {/* Scalloped top border */}
@@ -113,34 +78,63 @@ const Footer = () => {
           pointerEvents: "none",
         }}
       />
+      {/* Left big message */}
+      <Box>
+        <Typography
+          variant="h3"
+          fontWeight={900}
+          sx={{
+            mb: 2,
+            lineHeight: 1.1,
+            background:
+              "linear-gradient(90deg, #E40303 0%, #FF8C00 25%, #FFED00 50%, #008026 65%, #004DFF 80%, #750787 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+          }}
+        >
+          Pick Me Choose Me Love Me
+        </Typography>
+        <Stack direction="row" spacing={1}>
+          {[
+            { key: "facebook", Icon: FacebookRoundedIcon, color: "#1877F2" },
+            { key: "instagram", Icon: InstagramIcon, color: "#E1306C" },
+            { key: "x", Icon: XIcon, color: "#111111" },
+            { key: "youtube", Icon: YouTubeIcon, color: "#FF0000" },
+            { key: "linkedin", Icon: LinkedInIcon, color: "#0A66C2" },
+            { key: "pinterest", Icon: PinterestIcon, color: "#E60023" },
+          ].map(({ key, Icon, color }) => (
+            <IconButton key={key} size="small" aria-label={key} sx={{ color }}>
+              <Icon />
+            </IconButton>
+          ))}
+        </Stack>
+      </Box>
+
+      {/* Quick links */}
       {footerLinks.map((section) => (
-        <Box key={section.title} sx={{ flex: 1, minWidth: 200 }}>
-          <Typography
-            variant="h6"
-            sx={{ mt: 4, color: (t) => t.palette.common.white }}
-          >
+        <Box key={section.title} sx={{ minWidth: 200 }}>
+          <Typography variant="subtitle2" sx={{ color: "#fff", mb: 1 }}>
             {section.title}
           </Typography>
-          {section.links.map((item) => (
-            <Link
-              key={item.name}
-              to={item.link}
-              style={{ textDecoration: "none" }}
-            >
-              <Typography
-                variant="body2"
-                sx={{
-                  color: (t) => t.palette.light.light,
-                  mb: 1,
-                  "&:hover": {
-                    color: (t) => t.palette.info.light,
-                  },
-                }}
+          <Stack spacing={0.75}>
+            {section.links.map((item) => (
+              <Link
+                key={item.name}
+                to={item.link}
+                style={{ textDecoration: "none" }}
               >
-                {item.name}
-              </Typography>
-            </Link>
-          ))}
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: (t) => t.palette.light.light,
+                    "&:hover": { color: (t) => t.palette.info.light },
+                  }}
+                >
+                  {item.name}
+                </Typography>
+              </Link>
+            ))}
+          </Stack>
         </Box>
       ))}
 
@@ -206,7 +200,9 @@ const Footer = () => {
           </Link>
         </Box>
       </Box> */}
-      <Box sx={{ width: "100%", mt: 4, textAlign: "center" }}>
+      <Box
+        sx={{ gridColumn: "1 / -1", mt: { xs: 4, md: 6 }, textAlign: "center" }}
+      >
         <Typography
           variant="body2"
           sx={{ color: (t) => t.palette.common.white }}

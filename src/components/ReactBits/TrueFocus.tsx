@@ -10,6 +10,9 @@ interface TrueFocusProps {
   glowColor?: string;
   animationDuration?: number;
   pauseBetweenAnimations?: number;
+  delimiter?: string; // allows grouping words by a custom separator
+  textGradient?: string; // optional CSS gradient for text fill
+  groupSize?: number; // number of words to focus at once
 }
 
 interface FocusRect {
@@ -27,8 +30,11 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
   glowColor = "rgba(0, 255, 0, 0.6)",
   animationDuration = 0.5,
   pauseBetweenAnimations = 1,
+  delimiter = " ",
+  textGradient,
+  groupSize = 1,
 }) => {
-  const words = sentence.split(" ");
+  const words = sentence.split(delimiter);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [lastActiveIndex, setLastActiveIndex] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -47,11 +53,19 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
   useEffect(() => {
     if (!manualMode) {
       const interval = setInterval(() => {
-        setCurrentIndex((prev) => (prev + 1) % words.length);
+        setCurrentIndex(
+          (prev) => (prev + Math.max(1, groupSize)) % words.length
+        );
       }, (animationDuration + pauseBetweenAnimations) * 1000);
       return () => clearInterval(interval);
     }
-  }, [manualMode, animationDuration, pauseBetweenAnimations, words.length]);
+  }, [
+    manualMode,
+    animationDuration,
+    pauseBetweenAnimations,
+    words.length,
+    groupSize,
+  ]);
 
   // update focus frame position
   useEffect(() => {
@@ -63,13 +77,30 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
       return;
 
     const parentRect = containerRef.current.getBoundingClientRect();
-    const activeRect = wordRefs.current[currentIndex]!.getBoundingClientRect();
-
+    // compute union bounding box for the active group
+    const start = currentIndex;
+    const end = Math.min(
+      words.length - 1,
+      currentIndex + Math.max(1, groupSize) - 1
+    );
+    let minLeft = Infinity,
+      minTop = Infinity,
+      maxRight = -Infinity,
+      maxBottom = -Infinity;
+    for (let i = start; i <= end; i++) {
+      const el = wordRefs.current[i];
+      if (!el) continue;
+      const r = el.getBoundingClientRect();
+      minLeft = Math.min(minLeft, r.left);
+      minTop = Math.min(minTop, r.top);
+      maxRight = Math.max(maxRight, r.right);
+      maxBottom = Math.max(maxBottom, r.bottom);
+    }
     const newRect = {
-      x: activeRect.left - parentRect.left,
-      y: activeRect.top - parentRect.top,
-      width: activeRect.width,
-      height: activeRect.height,
+      x: minLeft - parentRect.left,
+      y: minTop - parentRect.top,
+      width: Math.max(0, maxRight - minLeft),
+      height: Math.max(0, maxBottom - minTop),
     };
 
     setFocusRect(newRect);
@@ -102,7 +133,9 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
   return (
     <div className="focus-container" ref={containerRef}>
       {words.map((word, index) => {
-        const isActive = index === currentIndex;
+        const isActive =
+          index >= currentIndex &&
+          index < currentIndex + Math.max(1, groupSize);
         return (
           <span
             key={index}
@@ -118,6 +151,14 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
                 transition: `filter ${animationDuration}s ease`,
                 "--border-color": borderColor,
                 "--glow-color": glowColor,
+                ...(textGradient
+                  ? ({
+                      backgroundImage: textGradient,
+                      WebkitBackgroundClip: "text",
+                      backgroundClip: "text",
+                      color: "transparent",
+                    } as React.CSSProperties)
+                  : {}),
               } as React.CSSProperties
             }
             onMouseEnter={() => handleMouseEnter(index)}

@@ -1,12 +1,11 @@
-import { ReactNode, useState } from "react";
-import { Box, Paper } from "@mui/material";
-import Sidebar from "../components/sidebar";
+import { Box } from "@mui/material";
+import { ReactNode } from "react";
 import Footer from "../components/Footer";
 import Navbar from "../components/navbar";
 // import Navbar from "../components/navbar";
-import { Button, Dialog } from "@mui/material";
-import AiBot from "../components/AiBot";
-import botImg from "../assets/brewed-in-chaos/bot-ai-img.png";
+// import { Button, Dialog } from "@mui/material";
+// import AiBot from "../components/AiBot";
+// import botImg from "../assets/brewed-in-chaos/bot-ai-img.png";
 import ScrollToTopButton from "../components/ScrollToTopButton";
 
 interface LayoutProps {
@@ -14,10 +13,10 @@ interface LayoutProps {
 }
 
 const Layout = ({ children }: LayoutProps) => {
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  // const handleOpen = () => setOpen(true);
+  // const handleClose = () => setOpen(false);
 
   return (
     <Box
@@ -42,7 +41,7 @@ const Layout = ({ children }: LayoutProps) => {
         {children}
         <Footer />
       </Box>
-      <Paper
+      {/* <Paper
         component="img"
         onClick={handleOpen}
         src={botImg}
@@ -64,11 +63,11 @@ const Layout = ({ children }: LayoutProps) => {
             },
           },
         }}
-      />
+      /> */}
 
-      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
+      {/* <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
         <AiBot onClose={handleClose} />
-      </Dialog>
+      </Dialog> */}
       <ScrollToTopButton />
     </Box>
   );
