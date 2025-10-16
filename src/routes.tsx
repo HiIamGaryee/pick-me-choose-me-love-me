@@ -1,31 +1,33 @@
-import React from "react";
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import Home from "./pages/HomePage";
-import Movie from "./pages/MoviePage";
-import TvSeries from "./pages/TvSeriesPage";
-import SignUp from "./pages/SignUpPage";
-import Profile from "./pages/ProfilePage";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { AuthProvider } from "./AuthProvider";
 import ProtectedRoute from "./ProtectedRoute";
-import Faq from "./pages/FaqPage";
-import PackagePage from "./pages/PackagePage";
-import WizardzPage from "./pages/landings/wizardz";
 import AboutUsPage from "./pages/AboutUs";
-import UpcomingPage from "./pages/UpcomingPage";
-import ReferralPage from "./pages/ReferralPage";
+import Faq from "./pages/FaqPage";
+import Home from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
-import ServicesPage from "./pages/ServicesPage";
-import ErrorPage from "./pages/ErrorPage";
+import Movie from "./pages/MoviePage";
+import PackagePage from "./pages/PackagePage";
+import Profile from "./pages/ProfilePage";
+import ReferralPage from "./pages/ReferralPage";
+import SignUp from "./pages/SignUpPage";
+import TvSeries from "./pages/TvSeriesPage";
+import UpcomingPage from "./pages/UpcomingPage";
+import WizardzPage from "./pages/landings/wizardz";
+
 import BookmarkPage from "./pages/BookmarkPage";
-import ProductPage from "./pages/sales/ProductPage";
+import ErrorPage from "./pages/ErrorPage";
+import ServicesPage from "./pages/ServicesPage";
+import AddListingPage from "./pages/admin/AddListing";
+import ContactUsListPage from "./pages/admin/ContactUsListPage";
+import ProductListPage from "./pages/admin/ProductListPage";
+import SalesList from "./pages/admin/SalesList";
+import SubscribleListPage from "./pages/admin/SubscribleListPage";
 import CartPage from "./pages/sales/CartPage";
+import SalesPage from "./pages/sales/SalesPage";
+
 import CheckoutPage from "./pages/sales/CheckoutPage";
 import ProductDetailPage from "./pages/sales/ProductDetailPage";
-import AddListingPage from "./pages/admin/AddListing";
-import ProductListPage from "./pages/admin/ProductListPage";
-import SubscribleListPage from "./pages/admin/SubscribleListPage";
-import ContactUsListPage from "./pages/admin/ContactUsListPage";
-import SalesList from "./pages/admin/SalesList";
+import ProductPage from "./pages/sales/ProductPage";
 
 // Layout component that specifies the default error element
 const Layout = () => {
@@ -56,6 +58,7 @@ export const router = createBrowserRouter([
       { path: "/upcoming-movies", element: <UpcomingPage /> },
       { path: "/product", element: <ProductPage /> },
       { path: "product/:productCode", element: <ProductDetailPage /> },
+      { path: "/sales", element: <SalesPage /> },
       { path: "/cart", element: <CartPage /> },
       { path: "/checkout", element: <CheckoutPage /> },
       { path: "/admin/add-listing", element: <AddListingPage /> },

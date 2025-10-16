@@ -16,7 +16,7 @@ const TeamMemberSection = () => {
   ];
 
   return (
-    <Box sx={{ py: 10, background: (t) => t.palette.light.main }}>
+    <Box sx={{ py: 10, background: "transparent" }}>
       <Typography
         variant="h4"
         textAlign="center"
@@ -26,10 +26,16 @@ const TeamMemberSection = () => {
       >
         The Team
       </Typography>
-      <Box sx={{ px: { xs: 2, md: 4 } }}>
+      <Box
+        sx={{
+          px: { xs: 2, md: 4 },
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
         <ChromaGrid
           items={teamMembers}
-          columns={3}
+          columns={1}
           rows={1}
           radius={400}
           damping={0.6}

@@ -1,7 +1,12 @@
 import { Box, Button, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import ClickSpark from "../ReactBits/ClickSpark";
+import TrueFocus from "../ReactBits/TrueFocus";
 import RippleGrid from "../RippleGrid";
 
 const LandingBannerSection = () => {
+  const navigate = useNavigate();
+
   return (
     <Box
       sx={{
@@ -21,14 +26,34 @@ const LandingBannerSection = () => {
       </Box>
 
       <Box sx={{ zIndex: 1 }}>
-        <Typography variant="h2" fontWeight="bold" mb={2}>
-          Pick Me Choose Me Love Me
-        </Typography>
+        <ClickSpark
+          sparkColor="#FF7AD9"
+          sparkSize={12}
+          sparkRadius={25}
+          sparkCount={12}
+          duration={600}
+          easing="ease-out"
+          extraScale={1.2}
+        >
+          <Box sx={{ mb: 2 }}>
+            <TrueFocus
+              sentence="Pick Me Choose Me Love Me"
+              manualMode={false}
+              blurAmount={4}
+              borderColor="#FF7AD9"
+              glowColor="rgba(255, 122, 217, 0.6)"
+              animationDuration={0.5}
+              pauseBetweenAnimations={0.8}
+            />
+          </Box>
+        </ClickSpark>
         <Typography variant="h6" mb={4} sx={{ color: "rgba(255,255,255,0.8)" }}>
           Match by ideas, not looks. Let your date plan do the talking.
         </Typography>
         <Button
           variant="contained"
+          onClick={() => navigate(`/login`)}
+          //   onClick={() => navigate(`/signup`)}
           sx={{
             background:
               "linear-gradient(90deg, #7c3aed 0%, #ec4899 50%, #fbbf24 100%)",
@@ -42,7 +67,7 @@ const LandingBannerSection = () => {
             },
           }}
         >
-          Enter Network
+          Try it now
         </Button>
       </Box>
     </Box>

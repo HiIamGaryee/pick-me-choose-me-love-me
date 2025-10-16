@@ -5,7 +5,6 @@
     cursor: grab;
     position: relative;
     background-color: #1B0B3A;
-    border-radius: 24px;
   }
   
   .circular-gallery:active {

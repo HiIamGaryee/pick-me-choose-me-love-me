@@ -47,7 +47,7 @@
   
     --mouse-x: 50%;
     --mouse-y: 50%;
-    --spotlight-color: rgba(255, 255, 255, 0.3);
+    --spotlight-color: rgba(255, 255, 255, 0.1);
   }
   
   .chroma-card:hover {
@@ -142,34 +142,34 @@
     inset: 0;
     pointer-events: none;
     z-index: 4;
-    backdrop-filter: grayscale(1) brightness(0.78);
-    -webkit-backdrop-filter: grayscale(1) brightness(0.78);
-    background: rgba(0, 0, 0, 0.001);
+    backdrop-filter: grayscale(0.3) brightness(0.9);
+    -webkit-backdrop-filter: grayscale(0.3) brightness(0.9);
+    background: transparent;
   
     mask-image: radial-gradient(
       circle var(--r) at var(--x) var(--y),
-      white 0%,
-      white 15%,
-      rgba(255, 255, 255, 0.9) 30%,
-      rgba(255, 255, 255, 0.78) 45%,
-      rgba(255, 255, 255, 0.65) 60%,
-      rgba(255, 255, 255, 0.5) 75%,
-      rgba(255, 255, 255, 0.32) 88%,
+      transparent 0%,
+      transparent 15%,
+      rgba(255, 255, 255, 0.1) 30%,
+      rgba(255, 255, 255, 0.05) 45%,
+      rgba(255, 255, 255, 0.02) 60%,
+      transparent 75%,
+      transparent 88%,
       transparent 100%
     );
     -webkit-mask-image: radial-gradient(
       circle var(--r) at var(--x) var(--y),
-      white 0%,
-      white 15%,
-      rgba(255, 255, 255, 0.9) 30%,
-      rgba(255, 255, 255, 0.78) 45%,
-      rgba(255, 255, 255, 0.65) 60%,
-      rgba(255, 255, 255, 0.5) 75%,
-      rgba(255, 255, 255, 0.32) 88%,
+      transparent 0%,
+      transparent 15%,
+      rgba(255, 255, 255, 0.1) 30%,
+      rgba(255, 255, 255, 0.05) 45%,
+      rgba(255, 255, 255, 0.02) 60%,
+      transparent 75%,
+      transparent 88%,
       transparent 100%
     );
   
-    opacity: 1;
+    opacity: 0.2;
     transition: opacity 0.25s ease;
   }
   

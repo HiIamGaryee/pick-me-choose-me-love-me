@@ -8,7 +8,6 @@ import {
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import homeIcon from "../assets/brewedinchaosIcon.png";
 import whyImg from "../assets/upcoming2.jpg";
 import LandingBannerSection from "../components/HomeSection/LandingBannerSection";
 import TeamMemberSection from "../components/HomeSection/TeamMemberSection";
@@ -31,120 +30,8 @@ const HomePage = () => {
     <Layout>
       <LandingBannerSection />
 
-      <Box
-        sx={{
-          position: "relative",
-          width: "100%",
-          minHeight: "340px",
-          height: "auto",
-          overflow: "hidden",
-          background: (theme) =>
-            `radial-gradient(1200px 300px at 0% 100%, ${theme.palette.secondary.light}22 0%, transparent 60%), radial-gradient(1200px 300px at 100% 0%, ${theme.palette.info.light}22 0%, transparent 60%), linear-gradient(180deg, ${theme.palette.dark.main} 0%, ${theme.palette.dark.dark} 100%)`,
-        }}
-      >
-        <Grid container sx={{ py: 2 }}>
-          <Grid
-            item
-            xs={12}
-            md={6}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignitem: { xs: "center", md: "start" },
-              justifyContent: "center",
-              pl: { xs: 0, md: 8 },
-              order: { xs: 2, md: 1 },
-            }}
-          >
-            <Stack spacing={2}>
-              <Box>
-                <Stack spacing={4}>
-                  <Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexWrap: "wrap",
-                        gap: 1,
-                        justifyContent: { xs: "center", md: "start" },
-                      }}
-                    >
-                      <Typography
-                        variant="h3"
-                        fontWeight="bold"
-                        color="secondary.main"
-                        sx={{ textAlign: { xs: "center", md: "start" } }}
-                      >
-                        Pick. Plan. Play.
-                      </Typography>
-                      <Typography
-                        variant="h3"
-                        fontWeight="bold"
-                        sx={{ textAlign: { xs: "center", md: "start" } }}
-                      >
-                        Your To‑Do, Your Vibe.
-                      </Typography>
-                    </Box>
-                  </Box>
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      textAlign: { xs: "center", md: "start" },
-                      pl: { xs: 2, md: 0 },
-                      pr: { xs: 2, md: 12 },
-                      color: "light.light",
-                    }}
-                  >
-                    Organize date ideas, errands, and life admin with a playful,
-                    stress‑free to‑do list. Create tasks, group by vibe, set
-                    reminders, and keep momentum every day.
-                  </Typography>
-
-                  <Box
-                    sx={{
-                      display: "flex",
-                      gap: 2,
-                      pb: 4,
-                      justifyContent: { xs: "center", md: "start" },
-                    }}
-                  >
-                    <Button onClick={() => navigate(`/signup`)}>
-                      Get Started
-                    </Button>
-                    <Button onClick={() => navigate(`/login`)}>Sign In</Button>
-                  </Box>
-                </Stack>
-              </Box>
-            </Stack>
-          </Grid>
-
-          <Grid
-            item
-            xs={12}
-            md={6}
-            sx={{
-              display: "flex",
-              alignitem: "center",
-              justifyContent: "center",
-              order: { xs: 1, md: 2 },
-            }}
-          >
-            <Box
-              component="img"
-              src={homeIcon}
-              alt="Home Img"
-              sx={{
-                maxHeight: { xs: "260px", md: "340px" },
-                height: "100%",
-                width: "auto",
-              }}
-            />
-          </Grid>
-        </Grid>
-      </Box>
-
       <CircularGallery items={galleryItems} />
 
-      {/* Features Section */}
       <Box
         sx={{
           display: "flex",
@@ -214,46 +101,6 @@ const HomePage = () => {
         </Grid>
       </Box>
 
-      {/* CTA Section */}
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          flexDirection: "column",
-          py: 10,
-          background: (theme) =>
-            `linear-gradient(180deg, ${theme.palette.dark.light} 0%, ${theme.palette.dark.main} 100%)`,
-        }}
-      >
-        <Typography
-          variant="h3"
-          fontWeight="bold"
-          color="secondary.main"
-          textAlign="center"
-          sx={{ mb: 2 }}
-        >
-          Fuel Playtime With Tasks You’ll Finish
-        </Typography>
-        <Typography
-          variant="body1"
-          color="light.light"
-          textAlign="center"
-          sx={{ maxWidth: 700, mb: 4, px: 2 }}
-        >
-          Start a list, pick your vibe, and watch the checkmarks roll in.
-          Simple, colorful, and actually motivating.
-        </Typography>
-        <Stack direction="row" spacing={2}>
-          <Button onClick={() => navigate(`/signup`)}>
-            Create Free Account
-          </Button>
-          <Button onClick={() => navigate(`/faq`)} variant="text">
-            Learn More
-          </Button>
-        </Stack>
-      </Box>
-
       {/* Why Needed (split) */}
       <Box
         sx={{
@@ -300,7 +147,45 @@ const HomePage = () => {
         </Grid>
       </Box>
 
-      {/* Team Section with ChromaGrid */}
+      {/* CTA Section */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          py: 10,
+          background: (theme) =>
+            `linear-gradient(180deg, ${theme.palette.dark.light} 0%, ${theme.palette.dark.main} 100%)`,
+        }}
+      >
+        <Typography
+          variant="h3"
+          fontWeight="bold"
+          color="secondary.main"
+          textAlign="center"
+          sx={{ mb: 2 }}
+        >
+          Fuel Playtime With Tasks You’ll Finish
+        </Typography>
+        <Typography
+          variant="body1"
+          color="light.light"
+          textAlign="center"
+          sx={{ maxWidth: 700, mb: 4, px: 2 }}
+        >
+          Start a list, pick your vibe, and watch the checkmarks roll in.
+          Simple, colorful, and actually motivating.
+        </Typography>
+        <Stack direction="row" spacing={2}>
+          <Button onClick={() => navigate(`/signup`)}>
+            Create Free Account
+          </Button>
+          <Button onClick={() => navigate(`/faq`)} variant="text">
+            Learn More
+          </Button>
+        </Stack>
+      </Box>
       <TeamMemberSection />
     </Layout>
   );

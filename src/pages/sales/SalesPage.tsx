@@ -1,6 +1,7 @@
 import { Box, Grid } from "@mui/material";
 import Layout from "../../Layout";
-import { DatePlanCard, dateData } from "./";
+import DatePlanCard from "./components/DatePlanCard";
+import { dateData } from "./data/dateData";
 
 const SalesPage = () => {
   return (
