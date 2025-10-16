@@ -25,26 +25,34 @@ const getTheme = (mode: any) =>
     palette: {
       mode,
       primary: {
-        main: mode === "light" ? "#e2994f" : "#FFFFFF", // Brown for light mode, White for dark mode
-        light: "#A67C52",
-        dark: "#6D4C41",
-        contrastText: mode === "light" ? "#FFFFFF" : "#333333", // White text on primary color in light mode, dark text in dark mode
+        // Vibrant playful purple used for primary actions
+        main: mode === "light" ? "#6C2BD9" : "#A78BFA",
+        light: "#8B5CF6",
+        dark: "#4C1D95",
+        contrastText: "#FFFFFF",
       },
       secondary: {
-        main: mode === "light" ? "#f7f3f0" : "#676767", // Light grey for light mode, grey for dark mode
-        light: "#FFD700",
-        dark: "#8c8a88",
-        contrastText: "#FFFFFF", // White text on secondary color
+        // Pink accent used across headings/badges
+        main: mode === "light" ? "#FF7AD9" : "#FFA8E9",
+        light: "#FF9FE2",
+        dark: "#E052B9",
+        contrastText: "#2A0A4A",
       },
       light: {
-        main: "#F5F3EF", // Main light background color (white background color)
+        // Cloudy off-white with a hint of lavender for light surfaces
+        main: "#F3EFFE",
         light: "#FFFFFF",
-        dark: "#EDE7E0",
+        dark: "#E6DBFF",
       },
       dark: {
-        main: "#18100e", // Main dark background color
-        light: "#514c4b",
-        dark: "light.main",
+        // Deep playful purple for dark sections/backgrounds
+        main: "#1B0B3A",
+        light: "#3D2966",
+        dark: "#12072A",
+      },
+      background: {
+        default: mode === "light" ? "#1B0B3A" : "#0E0520",
+        paper: mode === "light" ? "#F3EFFE" : "#1E1340",
       },
       error: {
         main: "#f44336", // Red for errors
@@ -52,20 +60,24 @@ const getTheme = (mode: any) =>
         dark: "#d32f2f",
       },
       warning: {
-        main: "#ff9800", // Orange for warnings
+        main: "#FFB34D", // Peachy orange for warnings
         light: "#ffb74d",
         dark: "#f57c00",
       },
       info: {
-        main: mode === "light" ? "#2196f3" : "#BBDEFB", // Light blue for information in light mode, softer in dark mode
-        light: "#64b5f6",
-        dark: "#1976d2",
+        main: mode === "light" ? "#5BC0FF" : "#9AD9FF", // Sky blue accent
+        light: "#8FD6FF",
+        dark: "#2AA4F4",
       },
       success: {
-        main: "#4caf50", // Green for successes
-        light: "#81c784",
-        dark: "#388e3c",
+        main: "#8BE000", // Lime green accent
+        light: "#A5EB33",
+        dark: "#6BB300",
       },
+    },
+    shape: {
+      // Larger rounded corners across the UI
+      borderRadius: 24,
     },
     typography: {
       fontFamily: montserratFont,
@@ -85,41 +97,41 @@ const getTheme = (mode: any) =>
         },
         styleOverrides: {
           root: {
-            // padding: "20px",
-            backgroundColor: "#ffcdaa", // Light grey background
+            backgroundColor: "#F3EFFE",
+            border: "1px solid #E6DBFF",
+            borderRadius: "24px",
+            padding: "20px",
             "&.table-paper": {
               boxShadow: "none",
               borderRadius: 0,
             },
           },
-          rounded: {
-            borderRadius: "20px",
-          },
+          rounded: { borderRadius: "24px" },
           outlined: {
-            borderColor: "#bdbdbd", // Light grey border
+            borderColor: "#E6DBFF",
           },
         },
       },
       MuiToggleButtonGroup: {
         styleOverrides: {
           root: {
-            border: "1px solid #444",
-            borderRadius: "4px",
-            background: "linear-gradient(45deg, #434343 0%, #000 100%)",
+            border: "1px solid #3D2966",
+            borderRadius: "28px",
+            background: "linear-gradient(135deg, #2A0A4A 0%, #3D2966 100%)",
           },
         },
       },
       MuiToggleButton: {
         styleOverrides: {
           root: {
-            color: "#fff",
+            color: "#FFFFFF",
             border: "none",
             "&.Mui-selected": {
-              backgroundColor: "#555",
-              color: "#fff",
+              backgroundColor: "#6C2BD9",
+              color: "#FFFFFF",
             },
             "&:hover": {
-              backgroundColor: "#444",
+              backgroundColor: "#4C1D95",
             },
           },
         },
@@ -130,40 +142,40 @@ const getTheme = (mode: any) =>
         },
         styleOverrides: {
           contained: {
-            background: "#e2994f",
-            color: "#F5F3EF",
+            background: "#6C2BD9",
+            color: "#FFFFFF",
             fontWeight: "bold",
-            borderRadius: "20px",
+            borderRadius: "999px",
+            padding: "12px 20px",
             "&:hover": {
-              background: "#e2994f",
+              background: "#4C1D95",
             },
             "&:focus": {
-              background: "#e2994f",
+              background: "#4C1D95",
             },
           },
           text: {
-            background: "#F5F3EF",
-            color: "#e2994f",
-            border: "1px solid error.main",
-            borderRadius: "4px",
+            background: "transparent",
+            color: "#6C2BD9",
+            border: "1px solid #E6DBFF",
+            borderRadius: "999px",
+            padding: "10px 16px",
             "&:hover": {
-              background: "#F5F3EF",
+              background: "rgba(108,43,217,0.06)",
             },
             "&:focus": {
-              background: "#F5F3EF",
+              background: "rgba(108,43,217,0.06)",
             },
           },
           root: {
-            background: "#e2994f",
-            color: "#F5F3EF",
-            borderRadius: "28px",
-            p: "20px",
+            textTransform: "none",
+            borderRadius: "999px",
             "&:hover": {
-              background: "#c17d39",
+              filter: "brightness(0.95)",
             },
             "&.Mui-disabled": {
-              color: "#666",
-              background: "#333333",
+              color: "#A6A6A6",
+              background: "#2F2A43",
             },
           },
         },
@@ -171,9 +183,10 @@ const getTheme = (mode: any) =>
       MuiCard: {
         styleOverrides: {
           root: {
-            backgroundColor: "#f7f3f0",
+            backgroundColor: "#FFFFFF",
             padding: "24px",
-            borderRadius: "16px",
+            borderRadius: "24px",
+            border: "1px solid #EDE7FF",
             height: "100%",
           },
         },
@@ -181,7 +194,7 @@ const getTheme = (mode: any) =>
       MuiTypography: {
         styleOverrides: {
           root: {
-            color: "#18100e",
+            color: "#2A0A4A",
           },
         },
       },

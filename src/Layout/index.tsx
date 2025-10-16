@@ -7,6 +7,7 @@ import Navbar from "../components/navbar";
 import { Button, Dialog } from "@mui/material";
 import AiBot from "../components/AiBot";
 import botImg from "../assets/brewed-in-chaos/bot-ai-img.png";
+import ScrollToTopButton from "../components/ScrollToTopButton";
 
 interface LayoutProps {
   children: ReactNode;
@@ -68,6 +69,7 @@ const Layout = ({ children }: LayoutProps) => {
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
         <AiBot onClose={handleClose} />
       </Dialog>
+      <ScrollToTopButton />
     </Box>
   );
 };

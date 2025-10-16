@@ -5,106 +5,250 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Button,
+  useTheme,
+  useMediaQuery,
+  IconButton,
 } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 import Layout from "../Layout";
 
-const faqList = [
+// =========================
+// FAQ DATA
+// =========================
+const faqListGeneral = [
   {
-    code: "What is your return policy for coffee products?",
-    desc: "Our return policy allows returns within 30 days of purchase for unopened coffee products in their original condition.",
+    question: "What is Pick Me Choose Me Love Me?",
+    answer:
+      "It’s a blind-date app where users post date plans instead of profile pictures. You match by ideas and vibes, not looks.",
   },
   {
-    code: "How can I track my coffee order?",
-    desc: "You can track your coffee order using the tracking number provided in your order confirmation email.",
+    question: "How does it work?",
+    answer:
+      "You post one date plan, browse others’ plans, pick one that fits your vibe, and go on a real-world date. Afterward, both rate the experience.",
   },
   {
-    code: "Do you offer international shipping for coffee?",
-    desc: "Yes, we offer international shipping for our coffee products to numerous countries. Check our shipping policy for more details.",
+    question: "Why can I only post one plan?",
+    answer:
+      "Because commitment builds better connections. One plan keeps things intentional, not chaotic.",
   },
   {
-    code: "What payment methods do you accept for coffee?",
-    desc: "We accept various payment methods including credit/debit cards, PayPal, and bank transfers for coffee purchases.",
+    question: "Can I change my plan?",
+    answer:
+      "Yes, up to three times for free. After that, you’ll need tokens to edit or delete it.",
   },
   {
-    code: "Can I change or cancel my coffee order?",
-    desc: "You can change or cancel your coffee order within 24 hours of placing it. After that, the order processing begins, and changes may not be possible.",
-  },
-  {
-    code: "What is your warranty policy on coffee equipment?",
-    desc: "We offer a one-year warranty on all our coffee equipment. The warranty covers manufacturing defects and excludes any damage caused by misuse.",
-  },
-  {
-    code: "How can I contact customer service for coffee inquiries?",
-    desc: "You can reach our customer service team via email at coffee_support@example.com or by calling (+081) 5678 1234.",
-  },
-  {
-    code: "Are there any discounts available on coffee products?",
-    desc: "Yes, we offer seasonal discounts and promotions on our coffee products. Subscribe to our newsletter to stay updated on the latest offers.",
-  },
-  {
-    code: "How do I subscribe to your newsletter for coffee updates?",
-    desc: "You can subscribe to our coffee updates by entering your email address in the subscription box at the bottom of our website.",
-  },
-  {
-    code: "What is your privacy policy regarding customer data?",
-    desc: "Our privacy policy details how we collect, use, and protect your personal information. Please review it to understand our practices.",
+    question: "What are tokens?",
+    answer:
+      "Tokens are the app’s in-app currency. You use them to edit, delete, or refresh your date plans.",
   },
 ];
 
-const FaqPage = () => {
+const faqListBilling = [
+  {
+    question: "How much does one token cost?",
+    answer: "Each token costs RM5. Deleting a plan requires three tokens.",
+  },
+  {
+    question: "How much is the AI plan subscription?",
+    answer:
+      "RM45 per month gives you personalized date plan recommendations and vibe analysis.",
+  },
+  {
+    question: "Can I report a user or plan?",
+    answer:
+      "Yes. Every plan and user has a report button. We take safety and respect seriously.",
+  },
+  {
+    question: "Can I delete my account?",
+    answer:
+      "Yes. Go to Settings → Account → Delete. We’ll miss you, but we get it.",
+  },
+  {
+    question: "What makes Pick Me Choose Me Love Me different?",
+    answer:
+      "We don’t match faces — we match souls, humor, and actual date plans.",
+  },
+];
+
+// =========================
+// COMPONENT
+// =========================
+const FaqPage: React.FC = () => {
   const [expanded, setExpanded] = useState<string | false>(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
 
+  const renderFaqList = (list: any[], category: string) => (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: isMobile ? "column" : "row",
+        alignItems: "flex-start",
+        justifyContent: "space-between",
+        gap: 4,
+        mb: 10,
+        maxWidth: 1000,
+        mx: "auto",
+        px: 2,
+      }}
+    >
+      {/* LEFT TITLE SIDE */}
+      <Box sx={{ flex: isMobile ? "none" : "0 0 250px" }}>
+        <Typography variant="h5" fontWeight="bold" mb={1}>
+          {category}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Everything you need to know. Can’t find an answer?{" "}
+          <a
+            href="/contact"
+            style={{
+              color: theme.palette.primary.main,
+              textDecoration: "underline",
+            }}
+          >
+            Chat to our team
+          </a>
+          .
+        </Typography>
+      </Box>
+
+      {/* RIGHT ACCORDION SIDE */}
+      <Box sx={{ flex: 1 }}>
+        {list.map((faq, index) => {
+          const isOpen = expanded === `panel-${category}-${index}`;
+          return (
+            <Accordion
+              key={index}
+              expanded={isOpen}
+              onChange={handleChange(`panel-${category}-${index}`)}
+              sx={{
+                mb: 1,
+                backgroundColor: theme.palette.background.paper,
+                borderRadius: 0,
+                boxShadow: "none",
+                "&::before": { display: "none" },
+                borderTop: `1px solid ${theme.palette.divider}`,
+                borderBottom: `1px solid ${theme.palette.divider}`,
+              }}
+            >
+              <AccordionSummary
+                expandIcon={
+                  <IconButton size="small">
+                    {isOpen ? (
+                      <RemoveIcon sx={{ color: theme.palette.primary.main }} />
+                    ) : (
+                      <AddIcon sx={{ color: theme.palette.primary.main }} />
+                    )}
+                  </IconButton>
+                }
+              >
+                <Typography variant="subtitle1" fontWeight={600}>
+                  {faq.question}
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ lineHeight: 1.7 }}
+                >
+                  {faq.answer}
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+          );
+        })}
+      </Box>
+    </Box>
+  );
+
   return (
     <Layout>
       <Box
         sx={{
-          backgroundColor: "light.main",
-          padding: 4,
-          minHeight: "100vh",
+          backgroundColor: theme.palette.dark.main,
+          color: theme.palette.light.main,
+          textAlign: "center",
+          py: { xs: 8, md: 10 },
+          px: 2,
         }}
       >
+        <Typography variant="h3" fontWeight="bold" mb={2}>
+          Frequently Asked Questions
+        </Typography>
+        <Typography variant="body1" color="lightgray" maxWidth={600} mx="auto">
+          Need help with something? Here are our most frequently asked
+          questions.
+        </Typography>
+      </Box>
+
+      <Box
+        sx={{
+          backgroundColor: theme.palette.light.main,
+          py: { xs: 6, md: 10 },
+        }}
+      >
+        {renderFaqList(faqListGeneral, "General FAQs")}
+        {renderFaqList(faqListBilling, "Billing FAQs")}
+      </Box>
+
+      <Box sx={{ p: 4 }}>
         <Box
           sx={{
-            maxWidth: 800,
-            margin: "auto",
+            backgroundColor: theme.palette.dark.main,
+            color: theme.palette.light.main,
             textAlign: "center",
+            py: { xs: 6, md: 10 },
+            px: 2,
+            borderRadius: "24px",
           }}
         >
-          <Typography variant="h4" fontWeight="bold" mb={2}>
-            FAQ
+          <Typography variant="h5" fontWeight="bold" mb={1}>
+            Still have questions?
           </Typography>
-
-          {faqList.map((faq, index) => (
-            <Accordion
-              key={index}
-              expanded={expanded === `panel${index}`}
-              onChange={handleChange(`panel${index}`)}
+          <Typography variant="body2" color="lightgray" mb={3}>
+            Join over 4,000 singles already finding love with Pick Me Choose Me
+            Love Me.
+          </Typography>
+          <Box>
+            <Button
+              variant="contained"
+              color="primary"
               sx={{
-                backgroundColor: "secondary.main",
-                mb: 2,
-                // borderRadius: "20px",
+                mx: 1,
+                px: 3,
+                py: 1,
+                fontWeight: 600,
+                borderRadius: "12px",
               }}
             >
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon sx={{ color: "primary.main" }} />}
-                aria-controls={`panel${index}bh-content`}
-                id={`panel${index}bh-header`}
-              >
-                <Typography variant="h6">{faq.code}</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography variant="body2" textAlign="left">
-                  {faq.desc}
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
-          ))}
+              Learn More
+            </Button>
+            <Button
+              variant="outlined"
+              sx={{
+                mx: 1,
+                px: 3,
+                py: 1,
+                borderRadius: "12px",
+                borderColor: theme.palette.primary.main,
+                color: theme.palette.primary.main,
+                "&:hover": {
+                  borderColor: theme.palette.primary.dark,
+                  color: theme.palette.primary.dark,
+                },
+              }}
+            >
+              Get Started
+            </Button>
+          </Box>
         </Box>
       </Box>
     </Layout>

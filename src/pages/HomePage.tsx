@@ -1,64 +1,45 @@
-import Layout from "../Layout";
 import {
   Box,
-  Typography,
   Button,
-  Stack,
-  Grid,
-  CardContent,
   Card,
-  Avatar,
+  CardContent,
+  Grid,
+  Stack,
+  Typography,
 } from "@mui/material";
-import coffeeImg from "../assets/coffee1.png";
-import usq1Img from "../assets/brewed-in-chaos/usq-1.jpeg";
-import usq2Img from "../assets/brewed-in-chaos/usq-2.jpeg";
-import usq3Img from "../assets/brewed-in-chaos/usq-3.jpeg";
 import { useNavigate } from "react-router-dom";
-import homeBg from "../assets/brewedinchaosLightning.gif";
-import mobileHomeBg from "../assets/brewedinchaos.gif";
-
 import homeIcon from "../assets/brewedinchaosIcon.png";
-import { getBestSeller } from "../api/admin";
-import { useQuery } from "@tanstack/react-query";
-
-const USPList = [
-  {
-    img: usq1Img,
-    name: "BlockChain Payments",
-  },
-  {
-    img: usq2Img,
-    name: "Exclusive coffee farms",
-  },
-  {
-    img: usq3Img,
-    name: "Subscription Boxes",
-  },
-];
+import whyImg from "../assets/upcoming2.jpg";
+import LandingBannerSection from "../components/HomeSection/LandingBannerSection";
+import TeamMemberSection from "../components/HomeSection/TeamMemberSection";
+import CircularGallery from "../components/ReactBits/CircularGallery";
+import Layout from "../Layout";
 
 const HomePage = () => {
   const navigate = useNavigate();
-
-  const { data: bestSellerList } = useQuery({
-    queryKey: ["getBestSeller", 10, 0],
-    queryFn: () => getBestSeller(10, 0),
-  });
+  const galleryItems = [
+    { image: "https://picsum.photos/800/600?random=1", text: "Skate" },
+    {
+      image: "https://picsum.photos/800/600?random=2",
+      text: "Wall Bouldering",
+    },
+    { image: "https://picsum.photos/800/600?random=3", text: "Sleep" },
+    { image: "https://picsum.photos/800/600?random=4", text: "Coffee Date" },
+  ];
 
   return (
     <Layout>
+      <LandingBannerSection />
+
       <Box
         sx={{
           position: "relative",
-          backgroundSize: "cover",
-          backgroundImage: {
-            xs: `url(${mobileHomeBg})`,
-            md: `url(${homeBg})`,
-          },
-          backgroundPosition: "center",
           width: "100%",
-          minHeight: "300px",
+          minHeight: "340px",
           height: "auto",
           overflow: "hidden",
+          background: (theme) =>
+            `radial-gradient(1200px 300px at 0% 100%, ${theme.palette.secondary.light}22 0%, transparent 60%), radial-gradient(1200px 300px at 100% 0%, ${theme.palette.info.light}22 0%, transparent 60%), linear-gradient(180deg, ${theme.palette.dark.main} 0%, ${theme.palette.dark.dark} 100%)`,
         }}
       >
         <Grid container sx={{ py: 2 }}>
@@ -90,30 +71,32 @@ const HomePage = () => {
                       <Typography
                         variant="h3"
                         fontWeight="bold"
+                        color="secondary.main"
                         sx={{ textAlign: { xs: "center", md: "start" } }}
                       >
-                        Discover Your
+                        Pick. Plan. Play.
                       </Typography>
                       <Typography
-                        color="primary.main"
                         variant="h3"
                         fontWeight="bold"
                         sx={{ textAlign: { xs: "center", md: "start" } }}
                       >
-                        Perfect Favorite Bean
+                        Your To‑Do, Your Vibe.
                       </Typography>
                     </Box>
                   </Box>
                   <Typography
                     variant="h6"
-                    px={2}
                     sx={{
                       textAlign: { xs: "center", md: "start" },
                       pl: { xs: 2, md: 0 },
                       pr: { xs: 2, md: 12 },
+                      color: "light.light",
                     }}
                   >
-                    Your trust with us starts from knowing your coffee origin
+                    Organize date ideas, errands, and life admin with a playful,
+                    stress‑free to‑do list. Create tasks, group by vibe, set
+                    reminders, and keep momentum every day.
                   </Typography>
 
                   <Box
@@ -124,10 +107,10 @@ const HomePage = () => {
                       justifyContent: { xs: "center", md: "start" },
                     }}
                   >
-                    <Button onClick={() => navigate(`/product`)}>Store</Button>
-                    <Button onClick={() => navigate(`/about-us`)}>
-                      Join Us
+                    <Button onClick={() => navigate(`/signup`)}>
+                      Get Started
                     </Button>
+                    <Button onClick={() => navigate(`/login`)}>Sign In</Button>
                   </Box>
                 </Stack>
               </Box>
@@ -150,7 +133,7 @@ const HomePage = () => {
               src={homeIcon}
               alt="Home Img"
               sx={{
-                maxHeight: { xs: "280px", md: "350px" },
+                maxHeight: { xs: "260px", md: "340px" },
                 height: "100%",
                 width: "auto",
               }}
@@ -158,105 +141,167 @@ const HomePage = () => {
           </Grid>
         </Grid>
       </Box>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          justifyItems: "center",
-          flexDirection: "column",
-          p: 4,
-          bgcolor: "#f4eee1",
-        }}
-      >
-        <Typography variant="h4" fontWeight="bold" mb={2}>
-          Our Selling Point
-        </Typography>
-        <Typography px={8} textAlign="center" mb={6}>
-          Our cyrpto payments and tokenized rewards cater to tech-savvy
-          customers, enhacing user engagement and loyalty.
-        </Typography>
-        <Box sx={{ display: "flex", alignItems: "center", width: "auto" }}>
-          <Grid container spacing={2}>
-            {USPList.map((item, index) => (
-              <Grid item xs={12} md={4} key={index}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    gap: 2,
-                    flexDirection: "row",
-                    alignItems: "center ",
-                  }}
-                >
-                  <Avatar
-                    src={item.img}
-                    sx={{
-                      width: 80,
-                      height: 80,
-                      border: (theme) =>
-                        `1px solid ${theme.palette.text.secondary}`,
-                    }}
-                  />
-                  <Typography>{item.name}</Typography>
-                </Box>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          justifyItems: "center",
-          flexDirection: "column",
-          p: "40px",
-          bgcolor: "#e8e7e5",
-        }}
-      >
-        <Typography variant="h4" fontWeight="bold" mb={6}>
-          Best Seller
-        </Typography>
 
-        <Grid container spacing={4}>
-          {bestSellerList?.data?.map((item: any, index: number) => (
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              md={3}
-              key={item._id}
-              sx={{ mb: 4 }}
-              // onClick={() => navigate(`/product/${item.code}`)}
-            >
-              <Card sx={{ mb: 2 }}>
+      <CircularGallery items={galleryItems} />
+
+      {/* Features Section */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          justifyItems: "center",
+          flexDirection: "column",
+          p: 6,
+          bgcolor: (theme) => theme.palette.light.main,
+        }}
+      >
+        <Typography
+          variant="h4"
+          fontWeight="bold"
+          mb={2}
+          color="secondary.dark"
+        >
+          Make Tasks Feel Fun
+        </Typography>
+        <Typography
+          px={{ xs: 2, md: 10 }}
+          textAlign="center"
+          mb={6}
+          color="text.secondary"
+        >
+          Build lists by vibe, add reminders, and track streaks. Everything you
+          need to plan great days and better dates.
+        </Typography>
+        <Grid container spacing={3}>
+          {[
+            {
+              title: "Quick Add",
+              desc: "Create tasks in seconds with natural language.",
+            },
+            {
+              title: "Vibe Groups",
+              desc: "Cluster tasks by mood: Chill, Adventure, Errands.",
+            },
+            {
+              title: "Smart Reminders",
+              desc: "Get nudges before plans, not after.",
+            },
+            {
+              title: "Progress Streaks",
+              desc: "See your weekly momentum and keep it rolling.",
+            },
+          ].map((f, idx) => (
+            <Grid item xs={12} sm={6} md={3} key={idx}>
+              <Card>
                 <CardContent>
-                  <Box
-                    component="img"
-                    src={require(`../assets/brewed-in-chaos/package-face/${item.code}.png`)}
-                    alt="Best Seller Image"
-                    sx={{
-                      mt: { xs: 8, md: 0 },
-                      p: 1,
-                      width: 1,
-                      height: "auto",
-                      objectFit: "cover",
-                    }}
-                  />
+                  <Stack spacing={1}>
+                    <Typography
+                      variant="h6"
+                      color="primary.main"
+                      fontWeight="bold"
+                    >
+                      {f.title}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {f.desc}
+                    </Typography>
+                  </Stack>
                 </CardContent>
-                <Typography
-                  variant="body1"
-                  textAlign="center"
-                  fontWeight="bold"
-                >
-                  {item.name}
-                </Typography>
               </Card>
             </Grid>
           ))}
         </Grid>
       </Box>
+
+      {/* CTA Section */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          py: 10,
+          background: (theme) =>
+            `linear-gradient(180deg, ${theme.palette.dark.light} 0%, ${theme.palette.dark.main} 100%)`,
+        }}
+      >
+        <Typography
+          variant="h3"
+          fontWeight="bold"
+          color="secondary.main"
+          textAlign="center"
+          sx={{ mb: 2 }}
+        >
+          Fuel Playtime With Tasks You’ll Finish
+        </Typography>
+        <Typography
+          variant="body1"
+          color="light.light"
+          textAlign="center"
+          sx={{ maxWidth: 700, mb: 4, px: 2 }}
+        >
+          Start a list, pick your vibe, and watch the checkmarks roll in.
+          Simple, colorful, and actually motivating.
+        </Typography>
+        <Stack direction="row" spacing={2}>
+          <Button onClick={() => navigate(`/signup`)}>
+            Create Free Account
+          </Button>
+          <Button onClick={() => navigate(`/faq`)} variant="text">
+            Learn More
+          </Button>
+        </Stack>
+      </Box>
+
+      {/* Why Needed (split) */}
+      <Box
+        sx={{
+          px: { xs: 2, md: 8 },
+          py: 8,
+          bgcolor: (t) => t.palette.light.light,
+        }}
+      >
+        <Grid container spacing={4} alignItems="center">
+          <Grid item xs={12} md={7}>
+            <Box
+              component="img"
+              src={whyImg}
+              alt="Why we built this"
+              sx={{
+                width: 1,
+                height: "auto",
+                borderRadius: 6,
+                boxShadow: (t) => `0 20px 60px rgba(0,0,0,0.25)`,
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} md={5}>
+            <Card
+              sx={{ bgcolor: "dark.light", color: "#fff", borderRadius: 6 }}
+            >
+              <CardContent>
+                <Stack spacing={2}>
+                  <Typography variant="h5" fontWeight="bold">
+                    Not just any to‑do app.
+                  </Typography>
+                  <Typography variant="body2" sx={{ opacity: 0.9 }}>
+                    Most task apps add pressure. We add play. Our vibe‑first
+                    lists make planning dates and days feel light, colorful and
+                    achievable. Less guilt, more done.
+                  </Typography>
+                  <Button variant="contained" color="success">
+                    Why it works
+                  </Button>
+                </Stack>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+      </Box>
+
+      {/* Team Section with ChromaGrid */}
+      <TeamMemberSection />
     </Layout>
   );
 };

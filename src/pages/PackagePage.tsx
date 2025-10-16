@@ -1,56 +1,55 @@
-import React, { useState } from "react";
-import {
-  Box,
-  Typography,
-  Grid,
-  Button,
-  Card,
-  CardContent,
-  Divider,
-} from "@mui/material";
+import React from "react";
+import { Box, Typography, Grid, Card, CardContent } from "@mui/material";
 import Layout from "../Layout";
+import CheckIcon from "@mui/icons-material/Check";
 
-const packageList = [
+// Pricing tiles: Free, Tokens, AI Cupid Plan
+export const PRICING_PLANS = [
   {
-    id: "blindbox",
-    name: "Blind Box Subscription",
-    monthlyPrice: "$10 / Per Month",
-    annuallyPrice: "$120 / Per Year",
-    description:
-      "Explore new flavors each month of surprise selection of coffee beans delivered to your.",
+    id: "free",
+    tierLabel: "For starters",
+    title: "Free",
+    description: "Get productive with essentials. No credit card.",
+    chip: "free",
+    chipColor: "success",
+    surface: "#FFFFFF",
+    inverted: false,
     features: [
-      "Monthly delivery of hand-picked coffee beans",
-      "One Blind Box with a surprise selection of beans",
+      "Unlimited tasks",
+      "1 list & basic reminders",
+      "Community read-only",
     ],
-    customers: "Ideal for those looking to explore new coffee flavors",
   },
   {
-    id: "education",
-    name: "Educational Subscription",
-    monthlyPrice: "$30 / Per Month",
-    annuallyPrice: "$330 / Per Year",
-    description:
-      "Learn coffee brewing techniques through exclusive online courses and workshops.",
+    id: "tokens",
+    tierLabel: "Power ups",
+    title: "Tokens",
+    description: "Buy tokens to unlock pro actions when you need them.",
+    chip: "RM5 / token",
+    chipColor: "info",
+    surface: "#FFE5F6",
+    inverted: false,
     features: [
-      "Access to monthly online courses on coffee brewing",
-      "Participation in monthly live workshops",
+      "Undo/Redo edits with token",
+      "Pin tasks & export",
+      "Priority queue boosts",
     ],
-    customers:
-      "Perfect for beginners and enthusiasts wanting to perfect their brewing skills",
   },
   {
-    id: "member",
-    name: "Membership Subscription",
-    monthlyPrice: "$15 / Per Month",
-    annuallyPrice: "$165 / Per Year",
-    description:
-      "Enjoy exclusive member benefits and promotions throughout the year.",
+    id: "ai",
+    tierLabel: "Most popular",
+    title: "AI Cupid Plan",
+    description: "RM45/month for AI that suggests plans you’ll enjoy.",
+    chip: "RM45 / month",
+    chipColor: "primary",
+    surface: "transparent",
+    inverted: true,
+    bordered: true,
     features: [
-      "Monthly promotions exclusive to members",
-      "Special birthday promotion",
-      "10% discount on all additional purchases",
+      "AI date/task suggestions",
+      "1:1 chat prompts",
+      "Smart scheduling",
     ],
-    customers: "Great for regular customers seeking extra benefits and savings",
   },
 ];
 
@@ -59,9 +58,10 @@ const PackagePage = () => {
     <Layout>
       <Box
         sx={{
-          backgroundColor: "light.main",
-
-          p: 4,
+          backgroundColor: "#FF4D6D",
+          backgroundImage: (t) =>
+            `radial-gradient(800px 200px at 0% 100%, ${t.palette.secondary.light}22 0%, transparent 60%), radial-gradient(800px 200px at 100% 0%, ${t.palette.info.light}22 0%, transparent 60%)`,
+          p: { xs: 4, md: 8 },
           minHeight: "100vh",
         }}
       >
@@ -71,59 +71,92 @@ const PackagePage = () => {
           fontWeight="bold"
           sx={{ mb: 2 }}
         >
-          Join over 1 Million user using Pick Me, Choose Me, Love Me
+          Plans & Pricing
         </Typography>
-        <Typography variant="body1" align="center" sx={{ mb: 4 }}>
-          <span>Cancel anytime</span> • <span>Secure payment</span>
+        <Typography
+          variant="body1"
+          align="center"
+          sx={{ mb: 6, color: "#fff" }}
+        >
+          Cancel anytime • Secure payments • No hidden fees
         </Typography>
 
-        <Box sx={{ display: "flex", justifyContent: "center", mb: 4 }}></Box>
+        <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}></Box>
 
-        {/* Package Cards */}
+        {/* Package Cards - from PRICING_PLANS */}
         <Grid container spacing={4} justifyContent="center">
-          {packageList.map((pkg) => (
-            <Grid item xs={12} md={4} key={pkg.id}>
+          {PRICING_PLANS.map((plan) => (
+            <Grid item xs={12} md={4} key={plan.id}>
               <Card
                 sx={{
-                  borderRadius: 2,
-                  textAlign: "center",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "start",
+                  borderRadius: 6,
+                  p: 1,
+                  bgcolor: plan.surface,
+                  border: plan.bordered ? "2px solid #fff" : "none",
                 }}
               >
                 <CardContent>
-                  <Typography variant="body2">{pkg.customers}</Typography>
-                  <Typography variant="h4" fontWeight="bold" sx={{ my: 2 }}>
-                    {pkg.monthlyPrice}
+                  <Typography
+                    variant="overline"
+                    sx={{ color: plan.inverted ? "#fff" : "text.secondary" }}
+                  >
+                    {plan.tierLabel}
                   </Typography>
-                  <Typography variant="body1" sx={{ mb: 2 }}>
-                    {pkg.description}
+                  <Typography
+                    variant="h5"
+                    fontWeight="bold"
+                    sx={{ mb: 1, color: plan.inverted ? "#fff" : "inherit" }}
+                  >
+                    {plan.title}
                   </Typography>
-                  <Divider sx={{ mb: 2 }} />
-                  <ul style={{ paddingLeft: "20px", margin: 0 }}>
-                    {pkg.features.map((feature, index) => (
-                      <li
-                        key={index}
-                        style={{
-                          marginBottom: "8px",
-                          fontSize: "0.875rem",
-
-                          textAlign: "left",
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      mb: 2,
+                      color: plan.inverted ? "#fff" : "text.secondary",
+                    }}
+                  >
+                    {plan.description}
+                  </Typography>
+                  <Box sx={{ mb: 2 }}>
+                    {plan.features.map((f: string) => (
+                      <Box
+                        key={f}
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 1,
+                          mb: 1,
                         }}
                       >
-                        {feature}
-                      </li>
+                        <CheckIcon
+                          fontSize="small"
+                          sx={{
+                            color: plan.inverted ? "#fff" : "primary.main",
+                          }}
+                        />
+                        <Typography
+                          variant="body2"
+                          sx={{ color: plan.inverted ? "#fff" : "inherit" }}
+                        >
+                          {f}
+                        </Typography>
+                      </Box>
                     ))}
-                  </ul>
-                  <Button
-                  // variant="contained"
-                  // sx={{ mt: 2 }}
-                  // fullWidth
-                  // disabled={pkg.id === "enterprise"} // Example: Enterprise plan needs contact
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      px: 2,
+                      py: 0.5,
+                      borderRadius: 999,
+                      bgcolor: `${plan.chipColor}.main`,
+                      color: plan.inverted ? "#fff" : "#08121A",
+                    }}
                   >
-                    Join Now
-                  </Button>
+                    {plan.chip}
+                  </Box>
                 </CardContent>
               </Card>
             </Grid>

@@ -1,14 +1,14 @@
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Box, Typography } from "@mui/material";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { Box, Typography, TextField, Paper, Button } from "@mui/material";
+import * as Yup from "yup";
 import {
   EmailSubscribeParams,
   postEmailSubscribe,
 } from "../../api/postEmailSubscribe";
 import { useAppMutation } from "../../hooks/useAppMutation";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
-import { useState } from "react";
 
 const footerLinks = [
   {
@@ -68,19 +68,57 @@ const Footer = () => {
     <Box
       component="footer"
       sx={{
-        backgroundColor: "#161d2f",
-        padding: 4,
+        position: "relative",
+        backgroundColor: (t) => t.palette.secondary.main,
+        padding: 6,
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
         width: "100%",
-        color: "white",
+        color: (t) => t.palette.common.white,
         flexWrap: "wrap",
       }}
     >
+      {/* Scalloped top border */}
+      <Box
+        aria-hidden
+        sx={{
+          position: "absolute",
+          top: -24,
+          left: 0,
+          right: 0,
+          height: 24,
+          backgroundImage: (t) =>
+            `radial-gradient(12px 12px at 12px 24px, ${t.palette.light.main} 12px, transparent 13px)`,
+          backgroundSize: "24px 24px",
+          backgroundRepeat: "repeat-x",
+          backgroundPosition: "top left",
+          pointerEvents: "none",
+        }}
+      />
+      {/* Scalloped bottom border */}
+      <Box
+        aria-hidden
+        sx={{
+          position: "absolute",
+          bottom: -24,
+          left: 0,
+          right: 0,
+          height: 24,
+          backgroundImage: (t) =>
+            `radial-gradient(12px 12px at 12px 0px, ${t.palette.light.main} 12px, transparent 13px)`,
+          backgroundSize: "24px 24px",
+          backgroundRepeat: "repeat-x",
+          backgroundPosition: "bottom left",
+          pointerEvents: "none",
+        }}
+      />
       {footerLinks.map((section) => (
         <Box key={section.title} sx={{ flex: 1, minWidth: 200 }}>
-          <Typography variant="h6" sx={{ mt: 4, color: "white" }}>
+          <Typography
+            variant="h6"
+            sx={{ mt: 4, color: (t) => t.palette.common.white }}
+          >
             {section.title}
           </Typography>
           {section.links.map((item) => (
@@ -92,10 +130,10 @@ const Footer = () => {
               <Typography
                 variant="body2"
                 sx={{
-                  color: "light.main",
+                  color: (t) => t.palette.light.light,
                   mb: 1,
                   "&:hover": {
-                    color: "#4caf50",
+                    color: (t) => t.palette.info.light,
                   },
                 }}
               >
@@ -106,8 +144,11 @@ const Footer = () => {
         </Box>
       ))}
 
-      <Box sx={{ flex: 1, minWidth: 200, mt: 4 }}>
-        <Typography variant="h6" sx={{ mb: 2, color: "white" }}>
+      {/* <Box sx={{ flex: 1, minWidth: 200, mt: 4 }}>
+        <Typography
+          variant="h6"
+          sx={{ mb: 2, color: (t) => t.palette.common.white }}
+        >
           SUBSCRIBE
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -119,8 +160,8 @@ const Footer = () => {
               size="small"
               placeholder="Enter email address"
               sx={{
-                backgroundColor: "white",
-                borderRadius: 1,
+                backgroundColor: (t) => t.palette.light.light,
+                borderRadius: 999,
                 flex: 1,
                 marginRight: 1,
               }}
@@ -128,7 +169,12 @@ const Footer = () => {
             <Button
               variant="contained"
               type="submit"
-              sx={{ backgroundColor: "#ff5722", color: "white" }}
+              sx={{
+                backgroundColor: (t) => t.palette.primary.main,
+                color: (t) => t.palette.common.white,
+                borderRadius: 999,
+                px: 3,
+              }}
             >
               SEND
             </Button>
@@ -142,7 +188,7 @@ const Footer = () => {
               bottom: 120,
               right: 16,
               padding: 2,
-              borderRadius: "8px",
+              borderRadius: "12px",
             }}
           >
             🚀 Successfully submitted!
@@ -159,9 +205,12 @@ const Footer = () => {
             <Typography variant="body2">LinkedIn</Typography>
           </Link>
         </Box>
-      </Box>
+      </Box> */}
       <Box sx={{ width: "100%", mt: 4, textAlign: "center" }}>
-        <Typography variant="body2" sx={{ color: "white" }}>
+        <Typography
+          variant="body2"
+          sx={{ color: (t) => t.palette.common.white }}
+        >
           © 2024 All rights reserved by Pick Me, Choose Me, Love Me Sdn Bhd.
         </Typography>
       </Box>
