@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import {
-  Box,
-  Typography,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Button,
-  useTheme,
-  useMediaQuery,
-  IconButton,
-} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Button,
+  IconButton,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+import React, { useState } from "react";
 import Layout from "../Layout";
 
 // =========================
@@ -180,7 +180,7 @@ const FaqPage: React.FC = () => {
           px: 2,
         }}
       >
-        <Typography variant="h3" fontWeight="bold" mb={2}>
+        <Typography variant="h3" fontWeight="bold" mb={2} color="light.main">
           Frequently Asked Questions
         </Typography>
         <Typography variant="body1" color="lightgray" maxWidth={600} mx="auto">
@@ -210,7 +210,7 @@ const FaqPage: React.FC = () => {
             borderRadius: "24px",
           }}
         >
-          <Typography variant="h5" fontWeight="bold" mb={1}>
+          <Typography variant="h5" fontWeight="bold" mb={1} color="light.main">
             Still have questions?
           </Typography>
           <Typography variant="body2" color="lightgray" mb={3}>

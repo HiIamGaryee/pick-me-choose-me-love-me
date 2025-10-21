@@ -2,6 +2,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { AuthProvider } from "./AuthProvider";
 import ProtectedRoute from "./ProtectedRoute";
 import AboutUsPage from "./pages/AboutUs";
+import BlogPage from "./pages/BlogPage";
 import Faq from "./pages/FaqPage";
 import Home from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
@@ -22,6 +23,7 @@ import ContactUsListPage from "./pages/admin/ContactUsListPage";
 import ProductListPage from "./pages/admin/ProductListPage";
 import SalesList from "./pages/admin/SalesList";
 import AddSalesPage from "./pages/sales/AddSalesPage";
+import SalesHistoryPage from "./pages/sales/SalesHistoryPage";
 
 import SubscribleListPage from "./pages/admin/SubscribleListPage";
 import CartPage from "./pages/sales/CartPage";
@@ -62,9 +64,11 @@ export const router = createBrowserRouter([
       { path: "product/:productCode", element: <ProductDetailPage /> },
       { path: "/sales", element: <SalesPage /> },
       { path: "/add-sales", element: <AddSalesPage /> },
+      { path: "/sales-history", element: <SalesHistoryPage /> },
 
       { path: "/cart", element: <CartPage /> },
       { path: "/checkout", element: <CheckoutPage /> },
+      { path: "/blog", element: <BlogPage /> },
       { path: "/admin/add-listing", element: <AddListingPage /> },
       { path: "/admin/product-list", element: <ProductListPage /> },
       { path: "/admin/subscrible-list", element: <SubscribleListPage /> },

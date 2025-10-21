@@ -199,4 +199,6 @@ export const dateData = [
   },
 ];
 
-export type DatePlan = (typeof dateData)[number];
+export type DatePlan = (typeof dateData)[number] & {
+  location_enhance?: string;
+};

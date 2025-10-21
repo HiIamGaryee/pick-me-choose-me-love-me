@@ -1,6 +1,10 @@
+import EditIcon from "@mui/icons-material/Edit";
 import EventIcon from "@mui/icons-material/Event";
 import FemaleIcon from "@mui/icons-material/Female";
 import MaleIcon from "@mui/icons-material/Male";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import RateReviewIcon from "@mui/icons-material/RateReview";
+import StarIcon from "@mui/icons-material/Star";
 import WcIcon from "@mui/icons-material/Wc";
 import {
   Avatar,
@@ -13,15 +17,83 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
+import ReviewDialog from "../../../components/ReviewDialog";
+import SuccessDialog from "../../../components/SuccessDialog";
+import { Review } from "../data/salesHistoryData";
 
 interface DatePlanCardProps {
   plan: any;
+  showReviewButton?: boolean;
+  existingReview?: Review;
+  onReviewSubmit?: (review: Omit<Review, "id">) => void;
+  showJoinButton?: boolean;
+  showEditButton?: boolean;
+  onJoinDate?: (planId: string) => void;
+  onEditDate?: (plan: any) => void;
 }
 
-const DatePlanCard: React.FC<DatePlanCardProps> = ({ plan }) => {
+const DatePlanCard: React.FC<DatePlanCardProps> = ({
+  plan,
+  showReviewButton = false,
+  existingReview,
+  onReviewSubmit,
+  showJoinButton = false,
+  showEditButton = false,
+  onJoinDate,
+  onEditDate,
+}) => {
   const theme = useTheme();
   const { owner, date_plan } = plan;
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [reviewDialogOpen, setReviewDialogOpen] = useState(false);
+
+  const handleEventClick = () => {
+    setDialogOpen(true);
+  };
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
+
+  const handleReviewClick = () => {
+    setReviewDialogOpen(true);
+  };
+
+  const handleReviewDialogClose = () => {
+    setReviewDialogOpen(false);
+  };
+
+  const handleReviewSubmit = (review: Omit<Review, "id">) => {
+    if (onReviewSubmit) {
+      onReviewSubmit(review);
+    } else {
+      // Fallback for when no onReviewSubmit is provided
+      console.log("Review submitted:", review);
+    }
+    setReviewDialogOpen(false);
+  };
+
+  const handleJoinClick = () => {
+    if (onJoinDate) {
+      onJoinDate(plan.plan_id);
+    }
+  };
+
+  const handleEditClick = () => {
+    if (onEditDate) {
+      onEditDate(plan);
+    }
+  };
+
+  // Format the first timeline event for display
+  const getFirstEventDateTime = () => {
+    if (date_plan.timeline && date_plan.timeline.length > 0) {
+      const firstEvent = date_plan.timeline[0];
+      return `${firstEvent.time} - ${firstEvent.title}`;
+    }
+    return "the scheduled time";
+  };
 
   return (
     <Paper
@@ -49,10 +121,71 @@ const DatePlanCard: React.FC<DatePlanCardProps> = ({ plan }) => {
             #{plan.plan_id}
           </Typography>
 
-          <Box display="flex" justifyContent="flex-end" sx={{ mt: 1 }}>
-            <IconButton color="primary" aria-label="open date">
+          <Box display="flex" justifyContent="flex-end" gap={1} sx={{ mt: 1 }}>
+            <IconButton
+              color="primary"
+              aria-label="add to calendar"
+              onClick={handleEventClick}
+            >
               <EventIcon />
             </IconButton>
+
+            {showJoinButton && (
+              <IconButton
+                color="success"
+                aria-label="join date"
+                onClick={handleJoinClick}
+                sx={{
+                  bgcolor: theme.palette.success.light,
+                  color: theme.palette.success.contrastText,
+                  "&:hover": {
+                    bgcolor: theme.palette.success.main,
+                  },
+                }}
+              >
+                <PersonAddIcon />
+              </IconButton>
+            )}
+
+            {showEditButton && (
+              <IconButton
+                color="info"
+                aria-label="edit date plan"
+                onClick={handleEditClick}
+                sx={{
+                  bgcolor: theme.palette.info.light,
+                  color: theme.palette.info.contrastText,
+                  "&:hover": {
+                    bgcolor: theme.palette.info.main,
+                  },
+                }}
+              >
+                <EditIcon />
+              </IconButton>
+            )}
+
+            {showReviewButton && (
+              <IconButton
+                color={existingReview ? "success" : "warning"}
+                aria-label={existingReview ? "view review" : "write review"}
+                onClick={handleReviewClick}
+                sx={{
+                  bgcolor: existingReview
+                    ? theme.palette.success.light
+                    : theme.palette.warning.light,
+                  color: existingReview
+                    ? theme.palette.success.contrastText
+                    : theme.palette.warning.contrastText,
+                  "&:hover": {
+                    bgcolor: existingReview
+                      ? theme.palette.success.main
+                      : theme.palette.warning.main,
+                  },
+                }}
+              >
+                {existingReview ? <StarIcon /> : <RateReviewIcon />}
+              </IconButton>
+            )}
           </Box>
         </Box>
 
@@ -63,122 +196,83 @@ const DatePlanCard: React.FC<DatePlanCardProps> = ({ plan }) => {
           {date_plan.description}
         </Typography>
 
-        {/* Fixed snake timeline — fully connected & balanced */}
-        <Stack spacing={3} sx={{ mt: 2, position: "relative" }}>
-          {date_plan.timeline
-            .reduce((rows: any[], _: any, i: number) => {
-              if (i % 2 === 0) rows.push(date_plan.timeline.slice(i, i + 2));
-              return rows;
-            }, [])
-            .map((row: any[], rowIdx: number, allRows: any[]) => {
-              const isEven = rowIdx % 2 === 0;
-              const hasNextRow = rowIdx < allRows.length - 1;
+        {/* Connected Timeline */}
+        <Box sx={{ mt: 2, position: "relative" }}>
+          {date_plan.timeline.map((slot: any, index: number) => {
+            const isLast = index === date_plan.timeline.length - 1;
+            const isEven = index % 2 === 0;
 
-              return (
+            return (
+              <Box
+                key={index}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  mb: isLast ? 0 : 3,
+                  position: "relative",
+                }}
+              >
+                {/* Timeline dot */}
                 <Box
-                  key={rowIdx}
                   sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    flexDirection: isEven ? "row" : "row-reverse",
-                    alignItems: "center",
+                    width: 12,
+                    height: 12,
+                    borderRadius: "50%",
+                    bgcolor:
+                      index === 0
+                        ? theme.palette.text.primary
+                        : theme.palette.primary.main,
+                    border: `2px solid ${theme.palette.background.paper}`,
+                    zIndex: 2,
                     position: "relative",
                   }}
+                />
+
+                {/* Timeline line */}
+                {!isLast && (
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      left: "5px",
+                      top: "12px",
+                      width: 2,
+                      height: "calc(100% + 12px)",
+                      bgcolor: theme.palette.primary.main,
+                      zIndex: 1,
+                    }}
+                  />
+                )}
+
+                {/* Content */}
+                <Box
+                  sx={{
+                    ml: 2,
+                    flex: 1,
+                    textAlign: isEven ? "left" : "right",
+                  }}
                 >
-                  {row.map((slot, i) => {
-                    const isLeft = (isEven && i === 0) || (!isEven && i === 1);
-                    const nextExists = i === 0 && row.length > 1;
-
-                    return (
-                      <Box
-                        key={i}
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: isLeft ? "flex-start" : "flex-end",
-                          textAlign: isLeft ? "left" : "right",
-                          width: "45%",
-                          position: "relative",
-                        }}
-                      >
-                        {/* Time */}
-                        <Typography
-                          variant="caption"
-                          color="text.secondary"
-                          sx={{ mb: 0.5 }}
-                        >
-                          {slot.time}
-                        </Typography>
-
-                        {/* Dot + line */}
-                        <Box sx={{ display: "flex", alignItems: "center" }}>
-                          {isLeft && (
-                            <Box
-                              sx={{
-                                width: 10,
-                                height: 10,
-                                borderRadius: "50%",
-                                bgcolor:
-                                  rowIdx === 0 && i === 0
-                                    ? theme.palette.text.primary
-                                    : theme.palette.primary.main,
-                              }}
-                            />
-                          )}
-
-                          {nextExists && (
-                            <Box
-                              sx={{
-                                flexGrow: 1,
-                                height: 2,
-                                bgcolor: theme.palette.primary.main,
-                                mx: 1,
-                              }}
-                            />
-                          )}
-
-                          {!isLeft && (
-                            <Box
-                              sx={{
-                                width: 10,
-                                height: 10,
-                                borderRadius: "50%",
-                                bgcolor: theme.palette.primary.main,
-                              }}
-                            />
-                          )}
-                        </Box>
-
-                        {/* Title */}
-                        <Typography
-                          variant="subtitle2"
-                          fontWeight="700"
-                          sx={{ mt: 0.5 }}
-                        >
-                          {slot.title}
-                        </Typography>
-
-                        {/* Vertical connector between rows */}
-                        {hasNextRow && i === (isLeft ? 1 : 0) && (
-                          <Box
-                            sx={{
-                              position: "absolute",
-                              bottom: -24,
-                              left: isLeft ? "10px" : undefined,
-                              right: !isLeft ? "10px" : undefined,
-                              width: 2,
-                              height: 24,
-                              bgcolor: theme.palette.primary.main,
-                            }}
-                          />
-                        )}
-                      </Box>
-                    );
-                  })}
+                  <Typography
+                    variant="caption"
+                    color="text.secondary"
+                    sx={{ mb: 0.5, display: "block" }}
+                  >
+                    {slot.time}
+                  </Typography>
+                  <Typography
+                    variant="subtitle2"
+                    fontWeight="700"
+                    sx={{
+                      color: theme.palette.text.primary,
+                      fontSize: "0.9rem",
+                    }}
+                  >
+                    {slot.title}
+                  </Typography>
                 </Box>
-              );
-            })}
-        </Stack>
+              </Box>
+            );
+          })}
+        </Box>
 
         {/* Tags */}
         <Stack direction="row" spacing={1} flexWrap="wrap" sx={{ mt: 1 }}>
@@ -267,6 +361,20 @@ const DatePlanCard: React.FC<DatePlanCardProps> = ({ plan }) => {
           </Box>
         </Box>
       </Stack>
+
+      <SuccessDialog
+        open={dialogOpen}
+        onClose={handleDialogClose}
+        dateTime={getFirstEventDateTime()}
+      />
+
+      <ReviewDialog
+        open={reviewDialogOpen}
+        onClose={handleReviewDialogClose}
+        onSubmit={handleReviewSubmit}
+        planTitle={date_plan.title}
+        existingReview={existingReview}
+      />
     </Paper>
   );
 };

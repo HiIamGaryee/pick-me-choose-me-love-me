@@ -1,6 +1,7 @@
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import ArticleRoundedIcon from "@mui/icons-material/ArticleRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import HistoryIcon from "@mui/icons-material/History";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import LayersRoundedIcon from "@mui/icons-material/LayersRounded";
 import LoginIcon from "@mui/icons-material/Login";
@@ -49,9 +50,10 @@ const Navbar: React.FC = () => {
   const navLinks = [
     { name: "Home", link: "/", icon: <HomeRoundedIcon /> },
     { name: "Shop", link: "/sales", icon: <StorefrontRoundedIcon /> },
-    { name: "Featured", link: "/featured", icon: <StarRoundedIcon /> },
-    { name: "Pages", link: "/pages", icon: <LayersRoundedIcon /> },
-    { name: "Blogs", link: "/blogs", icon: <ArticleRoundedIcon /> },
+    { name: "History", link: "/sales-history", icon: <HistoryIcon /> },
+    { name: "Featured", link: "/package", icon: <StarRoundedIcon /> },
+    { name: "Faq", link: "/faq", icon: <LayersRoundedIcon /> },
+    { name: "Blogs", link: "/blog", icon: <ArticleRoundedIcon /> },
   ];
 
   const isWhite = !isHome || isScrolled;

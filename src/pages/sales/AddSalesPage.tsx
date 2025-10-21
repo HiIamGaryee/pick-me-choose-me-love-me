@@ -14,9 +14,19 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useSalesContext } from "../../context/sales-context";
 import Layout from "../../Layout";
 import IdeasBanner from "./components/IdeasBanner";
+import { DatePlan } from "./data/dateData";
+
+interface NewSaleData {
+  plan_id: string;
+  owner: any;
+  date_plan: any;
+  location_enhance: string;
+}
 
 const states = [
   "Johor",
@@ -38,7 +48,13 @@ const prefGenders = ["Male", "Female", "Any"];
 
 const AddSalesPage = () => {
   const theme = useTheme();
+  const { addNewSale } = useSalesContext();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [showIdeas, setShowIdeas] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editingPlan, setEditingPlan] = useState<any>(null);
+
   const [form, setForm] = useState<any>({
     owner: {
       user_id: "",
@@ -57,6 +73,42 @@ const AddSalesPage = () => {
     },
     location_enhance: "",
   });
+
+  // Handle edit mode initialization
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const editData = searchParams.get("edit");
+
+    if (editData) {
+      try {
+        const planData = JSON.parse(decodeURIComponent(editData));
+        setIsEditMode(true);
+        setEditingPlan(planData);
+
+        // Pre-populate form with existing data
+        setForm({
+          owner: {
+            user_id: planData.owner?.user_id || "",
+            name: planData.owner?.name || "",
+            avatar: planData.owner?.avatar || "",
+            age_range: planData.owner?.age_range || "",
+            gender: planData.owner?.gender || "",
+            looking_for_gender: planData.owner?.looking_for_gender || "",
+          },
+          date_plan: {
+            title: planData.date_plan?.title || "",
+            description: planData.date_plan?.description || "",
+            tags: planData.date_plan?.tags || [""],
+            city: planData.date_plan?.location?.city || "",
+            timeline: planData.date_plan?.timeline || [""],
+          },
+          location_enhance: planData.location_enhance || "",
+        });
+      } catch (error) {
+        console.error("Error parsing edit data:", error);
+      }
+    }
+  }, [location.search]);
 
   const handleChange = (path: string, value: string) => {
     const [root, key] = path.split(".");
@@ -88,9 +140,12 @@ const AddSalesPage = () => {
   };
 
   const handleSubmit = () => {
-    const randomId = `plan_${Math.floor(Math.random() * 10000)}`;
-    const payload = {
-      plan_id: randomId,
+    const planId = isEditMode
+      ? editingPlan.plan_id
+      : `plan_${Math.floor(Math.random() * 10000)}`;
+
+    const saleData: NewSaleData = {
+      plan_id: planId,
       owner: form.owner,
       date_plan: {
         ...form.date_plan,
@@ -99,8 +154,43 @@ const AddSalesPage = () => {
       },
       location_enhance: form.location_enhance,
     };
-    console.log("Post JSON:", payload);
-    alert("✅ Data ready in console (JSON payload logged).");
+
+    if (isEditMode) {
+      // Update existing plan
+      console.log("Updated plan:", saleData);
+      alert("✅ Date plan updated successfully!");
+      navigate("/sales-history");
+    } else {
+      // Add new plan
+      addNewSale(saleData as DatePlan);
+      console.log("Post JSON:", saleData);
+      alert(
+        "✅ Date plan created successfully! Check the Sales page to see your new plan."
+      );
+    }
+
+    // Reset form
+    setForm({
+      owner: {
+        user_id: "",
+        name: "",
+        avatar: "",
+        age_range: "",
+        gender: "",
+        looking_for_gender: "",
+      },
+      date_plan: {
+        title: "",
+        description: "",
+        tags: [""],
+        city: "",
+        timeline: [""],
+      },
+      location_enhance: "",
+    });
+
+    setIsEditMode(false);
+    setEditingPlan(null);
   };
 
   return (
@@ -126,7 +216,7 @@ const AddSalesPage = () => {
             mb={3}
             sx={{ color: theme.palette.text.primary }}
           >
-            Create New Date Plan
+            {isEditMode ? "Edit Date Plan" : "Create New Date Plan"}
           </Typography>
 
           <Divider sx={{ mb: 3 }} />
@@ -384,7 +474,7 @@ const AddSalesPage = () => {
               }}
               onClick={handleSubmit}
             >
-              Submit Date Plan
+              {isEditMode ? "Update Date Plan" : "Submit Date Plan"}
             </Button>
           </Stack>
         </Paper>

@@ -8,7 +8,10 @@ import {
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import whyImg from "../assets/upcoming2.jpg";
+import coffeeImg from "../assets/coffee1.png";
+import upcoming1Img from "../assets/upcoming1.jpeg";
+import upcoming3Img from "../assets/upcoming3.jpeg";
+import upcoming4Img from "../assets/upcoming4.jpeg";
 import LandingBannerSection from "../components/HomeSection/LandingBannerSection";
 import TeamMemberSection from "../components/HomeSection/TeamMemberSection";
 import CircularGallery from "../components/ReactBits/CircularGallery";
@@ -17,13 +20,13 @@ import Layout from "../Layout";
 const HomePage = () => {
   const navigate = useNavigate();
   const galleryItems = [
-    { image: "https://picsum.photos/800/600?random=1", text: "Skate" },
+    { image: upcoming1Img, text: "Skate" },
     {
-      image: "https://picsum.photos/800/600?random=2",
+      image: upcoming3Img,
       text: "Wall Bouldering",
     },
-    { image: "https://picsum.photos/800/600?random=3", text: "Sleep" },
-    { image: "https://picsum.photos/800/600?random=4", text: "Coffee Date" },
+    { image: upcoming4Img, text: "Sleep" },
+    { image: coffeeImg, text: "Coffee Date" },
   ];
 
   return (
@@ -49,7 +52,7 @@ const HomePage = () => {
           mb={2}
           color="secondary.dark"
         >
-          Make Tasks Feel Fun
+          Plan Dates That Actually Happen
         </Typography>
         <Typography
           px={{ xs: 2, md: 10 }}
@@ -57,26 +60,27 @@ const HomePage = () => {
           mb={6}
           color="text.secondary"
         >
-          Build lists by vibe, add reminders, and track streaks. Everything you
-          need to plan great days and better dates.
+          Create detailed date plans, find your perfect match, and turn "maybe
+          someday" into "this weekend." From coffee crawls to adventure days,
+          make every date count.
         </Typography>
         <Grid container spacing={3}>
           {[
             {
-              title: "Quick Add",
-              desc: "Create tasks in seconds with natural language.",
+              title: "Create Date Plans",
+              desc: "Design detailed timelines with activities, locations, and vibes that match your style.",
             },
             {
-              title: "Vibe Groups",
-              desc: "Cluster tasks by mood: Chill, Adventure, Errands.",
+              title: "Find Your Match",
+              desc: "Browse date plans by vibe: Adventure, Chill, Creative, Foodie, or Romantic.",
             },
             {
-              title: "Smart Reminders",
-              desc: "Get nudges before plans, not after.",
+              title: "Join & Connect",
+              desc: "RSVP to dates that excite you and meet people who share your interests.",
             },
             {
-              title: "Progress Streaks",
-              desc: "See your weekly momentum and keep it rolling.",
+              title: "Share & Review",
+              desc: "Rate your dates and help others discover amazing experiences.",
             },
           ].map((f, idx) => (
             <Grid item xs={12} sm={6} md={3} key={idx}>
@@ -101,52 +105,6 @@ const HomePage = () => {
         </Grid>
       </Box>
 
-      {/* Why Needed (split) */}
-      <Box
-        sx={{
-          px: { xs: 2, md: 8 },
-          py: 8,
-          bgcolor: (t) => t.palette.light.light,
-        }}
-      >
-        <Grid container spacing={4} alignItems="center">
-          <Grid item xs={12} md={7}>
-            <Box
-              component="img"
-              src={whyImg}
-              alt="Why we built this"
-              sx={{
-                width: 1,
-                height: "auto",
-                borderRadius: 6,
-                boxShadow: (t) => `0 20px 60px rgba(0,0,0,0.25)`,
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} md={5}>
-            <Card
-              sx={{ bgcolor: "dark.light", color: "#fff", borderRadius: 6 }}
-            >
-              <CardContent>
-                <Stack spacing={2}>
-                  <Typography variant="h5" fontWeight="bold">
-                    Not just any to‑do app.
-                  </Typography>
-                  <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                    Most task apps add pressure. We add play. Our vibe‑first
-                    lists make planning dates and days feel light, colorful and
-                    achievable. Less guilt, more done.
-                  </Typography>
-                  <Button variant="contained" color="success">
-                    Why it works
-                  </Button>
-                </Stack>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-      </Box>
-
       {/* CTA Section */}
       <Box
         sx={{
@@ -166,7 +124,7 @@ const HomePage = () => {
           textAlign="center"
           sx={{ mb: 2 }}
         >
-          Fuel Playtime With Tasks You’ll Finish
+          Ready to Plan Your Perfect Date?
         </Typography>
         <Typography
           variant="body1"
@@ -174,15 +132,15 @@ const HomePage = () => {
           textAlign="center"
           sx={{ maxWidth: 700, mb: 4, px: 2 }}
         >
-          Start a list, pick your vibe, and watch the checkmarks roll in.
-          Simple, colorful, and actually motivating.
+          Join thousands of people creating meaningful connections through
+          shared experiences. Start planning your next adventure today.
         </Typography>
         <Stack direction="row" spacing={2}>
           <Button onClick={() => navigate(`/signup`)}>
-            Create Free Account
+            Create Your First Date Plan
           </Button>
-          <Button onClick={() => navigate(`/faq`)} variant="text">
-            Learn More
+          <Button onClick={() => navigate(`/sales`)} variant="text">
+            Browse Date Ideas
           </Button>
         </Stack>
       </Box>

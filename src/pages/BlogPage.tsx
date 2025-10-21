@@ -14,50 +14,124 @@ type Post = {
 const posts: Post[] = [
   {
     id: "p1",
-    title: "Step by step to conduct usability testing",
+    title: "Best Movies to Watch on a Date in July 2025",
     excerpt:
-      "Examining how fintech is promoting access to financial services for underserved populations.",
-    author: "Andrea William",
-    date: "21 Jan, 2023",
+      "From romantic comedies to thrilling adventures - discover the perfect films to share with your special someone this summer.",
+    author: "Sarah Chen",
+    date: "15 Jan, 2025",
     image:
-      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1489599808420-5b2b1b4b4b4b?q=80&w=1200&auto=format&fit=crop",
     highlight: true,
   },
   {
     id: "p2",
-    title: "Minimal workspace for inspirations",
-    excerpt: "How a tidy space fuels creativity and focus.",
-    author: "Harsh Patel",
-    date: "21 Feb, 2023",
+    title: "Dating a Nerd Boy: A Complete Guide",
+    excerpt:
+      "Everything you need to know about dating someone who's passionate about tech, games, and intellectual conversations.",
+    author: "Alex Rodriguez",
+    date: "12 Jan, 2025",
     image:
-      "https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1518709268805-4e9042af2176?q=80&w=1200&auto=format&fit=crop",
   },
   {
     id: "p3",
-    title: "Morning routine to boost your mood",
-    excerpt: "Small habits for big energy.",
-    author: "John Doe",
-    date: "21 Mar, 2023",
+    title: "10 Creative Date Ideas for Introverts",
+    excerpt:
+      "Perfect date activities for those who prefer intimate, low-key settings over crowded social gatherings.",
+    author: "Emma Thompson",
+    date: "10 Jan, 2025",
     image:
-      "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1518709268805-4e9042af2176?q=80&w=1200&auto=format&fit=crop",
   },
   {
     id: "p4",
-    title: "Analyze holdings of your portfolio",
-    excerpt: "Simple ways to review risk and returns.",
-    author: "Alexa Kimberly",
-    date: "21 Apr, 2023",
+    title: "How to Plan the Perfect Coffee Date",
+    excerpt:
+      "From choosing the right café to conversation starters - master the art of the coffee date.",
+    author: "Marcus Johnson",
+    date: "8 Jan, 2025",
     image:
-      "https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?q=80&w=1200&auto=format&fit=crop",
   },
   {
     id: "p5",
-    title: "Should UI designers learn how to code",
-    excerpt: "Bridging the gap between design and dev.",
-    author: "James Lilian",
-    date: "21 May, 2023",
+    title: "First Date Conversation Topics That Actually Work",
+    excerpt:
+      "Skip the awkward silences with these engaging topics that help you connect on a deeper level.",
+    author: "Lisa Park",
+    date: "5 Jan, 2025",
     image:
-      "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1518709268805-4e9042af2176?q=80&w=1200&auto=format&fit=crop",
+  },
+  {
+    id: "p6",
+    title: "Dating Apps vs Real Life: Finding Love in 2025",
+    excerpt:
+      "Exploring the pros and cons of digital dating versus meeting someone organically in today's world.",
+    author: "David Kim",
+    date: "3 Jan, 2025",
+    image:
+      "https://images.unsplash.com/photo-1518709268805-4e9042af2176?q=80&w=1200&auto=format&fit=crop",
+  },
+  {
+    id: "p7",
+    title: "The Art of Flirting: Subtle vs Direct Approaches",
+    excerpt:
+      "Learn when to be subtle and when to be direct in your romantic pursuits for maximum success.",
+    author: "Sophie Williams",
+    date: "1 Jan, 2025",
+    image:
+      "https://images.unsplash.com/photo-1518709268805-4e9042af2176?q=80&w=1200&auto=format&fit=crop",
+  },
+  {
+    id: "p8",
+    title: "Long Distance Dating: Making It Work",
+    excerpt:
+      "Essential tips and strategies for maintaining a strong connection when miles apart.",
+    author: "Ryan Chen",
+    date: "28 Dec, 2024",
+    image:
+      "https://images.unsplash.com/photo-1518709268805-4e9042af2176?q=80&w=1200&auto=format&fit=crop",
+  },
+  {
+    id: "p9",
+    title: "Dating Someone with Different Interests: A Guide",
+    excerpt:
+      "How to navigate relationships when you and your partner have completely different hobbies and passions.",
+    author: "Maya Patel",
+    date: "25 Dec, 2024",
+    image:
+      "https://images.unsplash.com/photo-1518709268805-4e9042af2176?q=80&w=1200&auto=format&fit=crop",
+  },
+  {
+    id: "p10",
+    title: "The Science of Attraction: What Really Draws People Together",
+    excerpt:
+      "Exploring the psychological and biological factors that influence who we're attracted to.",
+    author: "Dr. James Wilson",
+    date: "22 Dec, 2024",
+    image:
+      "https://images.unsplash.com/photo-1518709268805-4e9042af2176?q=80&w=1200&auto=format&fit=crop",
+  },
+  {
+    id: "p11",
+    title: "Budget-Friendly Date Ideas That Still Feel Special",
+    excerpt:
+      "Romantic and memorable date activities that won't break the bank but will create lasting memories.",
+    author: "Jessica Lee",
+    date: "20 Dec, 2024",
+    image:
+      "https://images.unsplash.com/photo-1518709268805-4e9042af2176?q=80&w=1200&auto=format&fit=crop",
+  },
+  {
+    id: "p12",
+    title: "How to Know When You're Ready for a Relationship",
+    excerpt:
+      "Signs that indicate you're emotionally prepared to commit to a serious romantic relationship.",
+    author: "Michael Brown",
+    date: "18 Dec, 2024",
+    image:
+      "https://images.unsplash.com/photo-1518709268805-4e9042af2176?q=80&w=1200&auto=format&fit=crop",
   },
 ];
 
@@ -79,6 +153,7 @@ const BlogCard = ({ post, large = false }: { post: Post; large?: boolean }) => (
         backgroundImage: `url(${post.image})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
+        borderRadius: 1,
       }}
     />
     <Box sx={{ p: { xs: 2, md: 3 } }}>
@@ -109,9 +184,17 @@ export default function BlogPage() {
           variant="h3"
           textAlign="center"
           fontWeight={800}
+          sx={{ mb: 2 }}
+        >
+          Dating & Relationship Blog
+        </Typography>
+        <Typography
+          variant="h6"
+          textAlign="center"
+          color="text.secondary"
           sx={{ mb: 4 }}
         >
-          Our Blog
+          Expert advice, tips, and insights for your dating journey
         </Typography>
         <Grid container spacing={3}>
           <Grid item xs={12} md={8}>

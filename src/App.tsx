@@ -1,12 +1,13 @@
-import React from "react";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider } from "react-router-dom";
-import { ThemeProvider, CssBaseline } from "@mui/material";
-import { router } from "./routes";
-import { MovieProvider } from "./context/movie-context";
 import "./App.css";
 import { AuthProvider } from "./AuthProvider";
+import { MovieProvider } from "./context/movie-context";
+import { ReviewProvider } from "./context/review-context";
+import { SalesProvider } from "./context/sales-context";
 import useMode from "./hooks/useMode";
+import { router } from "./routes";
 
 const queryClient = new QueryClient();
 
@@ -19,7 +20,11 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <MovieProvider>
-            <RouterProvider router={router} />
+            <SalesProvider>
+              <ReviewProvider>
+                <RouterProvider router={router} />
+              </ReviewProvider>
+            </SalesProvider>
           </MovieProvider>
         </AuthProvider>
       </QueryClientProvider>
