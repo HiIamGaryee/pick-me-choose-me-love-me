@@ -1,13 +1,13 @@
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import ArticleRoundedIcon from "@mui/icons-material/ArticleRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import EventIcon from "@mui/icons-material/Event";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import HistoryIcon from "@mui/icons-material/History";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import LayersRoundedIcon from "@mui/icons-material/LayersRounded";
 import LoginIcon from "@mui/icons-material/Login";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
-import StarRoundedIcon from "@mui/icons-material/StarRounded";
-import StorefrontRoundedIcon from "@mui/icons-material/StorefrontRounded";
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import {
   AppBar,
   Box,
@@ -49,11 +49,11 @@ const Navbar: React.FC = () => {
 
   const navLinks = [
     { name: "Home", link: "/", icon: <HomeRoundedIcon /> },
-    { name: "Shop", link: "/sales", icon: <StorefrontRoundedIcon /> },
-    { name: "History", link: "/sales-history", icon: <HistoryIcon /> },
-    { name: "Featured", link: "/package", icon: <StarRoundedIcon /> },
-    { name: "Faq", link: "/faq", icon: <LayersRoundedIcon /> },
-    { name: "Blogs", link: "/blog", icon: <ArticleRoundedIcon /> },
+    { name: "Date Plans", link: "/sales", icon: <EventIcon /> },
+    { name: "My History", link: "/sales-history", icon: <HistoryIcon /> },
+    { name: "Plans & Pricing", link: "/package", icon: <MonetizationOnIcon /> },
+    { name: "FAQ", link: "/faq", icon: <HelpOutlineIcon /> },
+    { name: "Blog", link: "/blog", icon: <ArticleRoundedIcon /> },
   ];
 
   const isWhite = !isHome || isScrolled;
@@ -76,7 +76,7 @@ const Navbar: React.FC = () => {
   return (
     <>
       <AppBar
-        position="fixed"
+        position={location.pathname === "/" ? "absolute" : "sticky"}
         elevation={isWhite ? 2 : 0}
         sx={{
           backgroundColor: isWhite ? "rgba(255,255,255,0.86)" : bgColor,
@@ -107,7 +107,7 @@ const Navbar: React.FC = () => {
           <Box
             sx={{
               display: { xs: "none", md: "flex" },
-              gap: 2,
+              gap: 1,
               alignItems: "center",
             }}
           >
@@ -122,25 +122,46 @@ const Navbar: React.FC = () => {
                     sx={{
                       display: "flex",
                       alignItems: "center",
-                      gap: 1,
-                      px: 1,
-                      py: 0.5,
-                      borderRadius: 2,
+                      gap: 0.8,
+                      px: 2,
+                      py: 1,
+                      borderRadius: 3,
                       color: isActive ? theme.palette.primary.main : textColor,
-                      transition: "background-color .2s ease",
+                      backgroundColor: isActive
+                        ? isWhite
+                          ? "rgba(25, 118, 210, 0.08)"
+                          : "rgba(255,255,255,0.1)"
+                        : "transparent",
+                      transition: "all 0.2s ease",
+                      fontWeight: isActive ? 600 : 500,
                       "&:hover": {
-                        backgroundColor: isWhite
-                          ? "rgba(0,0,0,0.04)"
+                        backgroundColor: isActive
+                          ? isWhite
+                            ? "rgba(25, 118, 210, 0.12)"
+                            : "rgba(255,255,255,0.15)"
+                          : isWhite
+                          ? "rgba(0,0,0,0.06)"
                           : "rgba(255,255,255,0.08)",
+                        transform: "translateY(-1px)",
                       },
                     }}
                   >
-                    <Box sx={{ display: "grid", placeItems: "center" }}>
+                    <Box
+                      sx={{
+                        display: "grid",
+                        placeItems: "center",
+                        fontSize: "1.1rem",
+                        opacity: isActive ? 1 : 0.8,
+                      }}
+                    >
                       {item.icon}
                     </Box>
                     <Box
                       component="span"
-                      sx={{ fontWeight: 600, fontSize: "0.95rem" }}
+                      sx={{
+                        fontSize: "0.9rem",
+                        letterSpacing: "0.02em",
+                      }}
                     >
                       {item.name}
                     </Box>
@@ -233,14 +254,20 @@ const Navbar: React.FC = () => {
           </IconButton>
         </Box>
 
-        <List>
+        <List sx={{ px: 1 }}>
           {navLinks.map((item) => (
             <ListItem key={item.name} disablePadding>
               <ListItemButton
                 component={NavLink}
                 to={item.link}
                 onClick={() => setDrawerOpen(false)}
-                sx={{ py: 1.25, px: 2.5 }}
+                sx={{
+                  py: 1.5,
+                  px: 2,
+                  borderRadius: 2,
+                  mx: 1,
+                  mb: 0.5,
+                }}
               >
                 {(() => {
                   const isActive = location.pathname === item.link;
@@ -249,28 +276,25 @@ const Navbar: React.FC = () => {
                       sx={{
                         display: "flex",
                         alignItems: "center",
-                        gap: 1.25,
+                        gap: 1.5,
                         width: 1,
                       }}
                     >
                       <Box
                         sx={{
-                          width: 34,
-                          height: 34,
-                          borderRadius: 2,
+                          width: 36,
+                          height: 36,
+                          borderRadius: 2.5,
                           display: "grid",
                           placeItems: "center",
-                          background: isActive
-                            ? "transparent"
-                            : "linear-gradient(180deg, rgba(0,0,0,0.04), rgba(0,0,0,0.06))",
-                          border: (t) =>
-                            isActive
-                              ? `1px solid transparent`
-                              : `1px solid ${t.palette.divider}`,
+                          backgroundColor: isActive
+                            ? theme.palette.primary.main
+                            : theme.palette.action.hover,
                           "& svg": {
                             color: isActive
-                              ? theme.palette.primary.main
+                              ? "#fff"
                               : theme.palette.text.primary,
+                            fontSize: "1.2rem",
                           },
                         }}
                       >
@@ -279,20 +303,19 @@ const Navbar: React.FC = () => {
                       <Box
                         sx={{
                           flexGrow: 1,
-                          px: 1.25,
-                          py: 0.9,
-                          borderRadius: 0,
-                          background: isActive ? "#FFFFFF" : "transparent",
-                          boxShadow: isActive
-                            ? "0 10px 30px rgba(0,0,0,0.12)"
-                            : "none",
                         }}
                       >
                         <ListItemText
                           primary={item.name}
-                          primaryTypographyProps={{
-                            fontWeight: 800,
-                            color: isActive ? "primary.main" : "text.primary",
+                          sx={{
+                            "& .MuiListItemText-primary": {
+                              fontWeight: isActive ? 600 : 500,
+                              color: isActive
+                                ? theme.palette.primary.main
+                                : theme.palette.text.primary,
+                              fontSize: "1rem",
+                              letterSpacing: "0.01em",
+                            },
                           }}
                         />
                       </Box>

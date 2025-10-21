@@ -1,16 +1,18 @@
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import CreditCardIcon from "@mui/icons-material/CreditCard";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
   Box,
   Button,
   Chip,
   Grid,
+  IconButton,
   Tab,
   Tabs,
   Typography,
   useTheme,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SubscriptionDialog from "../../components/SubscriptionDialog";
 import TopUpDialog from "../../components/TopUpDialog";
@@ -48,6 +50,52 @@ const SalesHistoryPage = () => {
   const [tabValue, setTabValue] = useState(0);
   const [subscriptionDialogOpen, setSubscriptionDialogOpen] = useState(false);
   const [topUpDialogOpen, setTopUpDialogOpen] = useState(false);
+  const [userPlan, setUserPlan] = useState<any>(null);
+
+  // Load user plan from localStorage on component mount and when page becomes active
+  const loadUserPlan = () => {
+    const storedPlan = localStorage.getItem("userDatePlan");
+    if (storedPlan) {
+      setUserPlan(JSON.parse(storedPlan));
+    } else {
+      setUserPlan(null);
+    }
+  };
+
+  useEffect(() => {
+    loadUserPlan();
+
+    // Reload plan when page becomes active (e.g., returning from AddSalesPage)
+    const handleFocus = () => {
+      loadUserPlan();
+    };
+
+    window.addEventListener("focus", handleFocus);
+    return () => window.removeEventListener("focus", handleFocus);
+  }, []);
+
+  // Save plan to localStorage
+  const savePlanToStorage = (plan: any) => {
+    localStorage.setItem("userDatePlan", JSON.stringify(plan));
+    setUserPlan(plan);
+  };
+
+  // Delete plan from localStorage
+  const deletePlanFromStorage = () => {
+    localStorage.removeItem("userDatePlan");
+    setUserPlan(null);
+  };
+
+  // Navigate to add/edit plan page
+  const handleAddEditPlan = () => {
+    if (userPlan) {
+      // Edit existing plan
+      navigate("/add-sales", { state: { editPlan: userPlan } });
+    } else {
+      // Add new plan
+      navigate("/add-sales");
+    }
+  };
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
@@ -136,7 +184,7 @@ const SalesHistoryPage = () => {
                 plan={item}
                 showReviewButton={item.status === "completed"}
                 showJoinButton={item.status === "upcoming"}
-                showEditButton={true}
+                showEditButton={item.status === "upcoming"}
                 existingReview={item.review}
                 onReviewSubmit={(review) => addReview(item.plan_id, review)}
                 onJoinDate={handleJoinDate}
@@ -160,9 +208,9 @@ const SalesHistoryPage = () => {
           reviews.
         </Typography>
 
-        {/* Subscription and Top-up buttons */}
-        <Box sx={{ display: "flex", gap: 2, mb: 4 }}>
-          <Button
+        {/* Subscription, Top-up, and Add Plan buttons */}
+        <Box sx={{ display: "flex", gap: 2, mb: 4, flexWrap: "wrap" }}>
+          {/* <Button
             variant="contained"
             startIcon={<CreditCardIcon />}
             onClick={() => setSubscriptionDialogOpen(true)}
@@ -174,7 +222,7 @@ const SalesHistoryPage = () => {
             }}
           >
             Subscribe to Premium
-          </Button>
+          </Button> */}
           <Button
             variant="outlined"
             startIcon={<AccountBalanceWalletIcon />}
@@ -187,6 +235,26 @@ const SalesHistoryPage = () => {
             }}
           >
             Top Up Wallet
+          </Button>
+          <Button
+            variant={userPlan ? "outlined" : "contained"}
+            startIcon={<AddIcon />}
+            onClick={handleAddEditPlan}
+            sx={{
+              borderRadius: 2,
+              textTransform: "none",
+              fontWeight: 600,
+              px: 3,
+              bgcolor: userPlan ? "transparent" : "primary.main",
+              color: userPlan ? "primary.main" : "white",
+              borderColor: userPlan ? "primary.main" : "transparent",
+              "&:hover": {
+                bgcolor: userPlan ? "primary.light" : "primary.dark",
+                color: "white",
+              },
+            }}
+          >
+            {userPlan ? "Edit Plan" : "Add Plan"}
           </Button>
         </Box>
 
@@ -215,9 +283,47 @@ const SalesHistoryPage = () => {
         </Box>
 
         <TabPanel value={tabValue} index={0}>
-          <Typography variant="h5" fontWeight={600} sx={{ mb: 3 }}>
-            Completed Dates
-          </Typography>
+          {/* Display latest user plan if exists */}
+          {userPlan && (
+            <>
+              <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
+                Your Latest Plan
+              </Typography>
+              <Box sx={{ mb: 4 }}>
+                <DatePlanCard
+                  plan={userPlan}
+                  showEditButton={true}
+                  showReviewButton={false}
+                  onEditDate={(plan) => handleAddEditPlan()}
+                />
+                <Box
+                  sx={{ display: "flex", justifyContent: "flex-end", mt: 1 }}
+                >
+                  <IconButton
+                    color="error"
+                    onClick={deletePlanFromStorage}
+                    sx={{
+                      bgcolor: "error.light",
+                      color: "error.contrastText",
+                      "&:hover": {
+                        bgcolor: "error.main",
+                      },
+                    }}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </Box>
+              </Box>
+              <Typography variant="h5" fontWeight={600} sx={{ mb: 3 }}>
+                Completed Dates
+              </Typography>
+            </>
+          )}
+          {!userPlan && (
+            <Typography variant="h5" fontWeight={600} sx={{ mb: 3 }}>
+              Completed Dates
+            </Typography>
+          )}
           {renderDateCards(completedDates)}
         </TabPanel>
 

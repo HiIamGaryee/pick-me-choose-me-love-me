@@ -1,4 +1,5 @@
 import { Avatar, Box, Grid, Paper, Stack, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import Layout from "../Layout";
 
 type Post = {
@@ -13,15 +14,95 @@ type Post = {
 
 const posts: Post[] = [
   {
-    id: "p1",
-    title: "Best Movies to Watch on a Date in July 2025",
+    id: "cafe-hopping-brunch-trail",
+    title: "Cafe Hopping & Brunch Trail: The Ultimate Guide",
     excerpt:
-      "From romantic comedies to thrilling adventures - discover the perfect films to share with your special someone this summer.",
+      "Discover the best cafés and brunch spots in the city. From cozy corners to Instagram-worthy lattes, plan your perfect morning adventure.",
     author: "Sarah Chen",
-    date: "15 Jan, 2025",
+    date: "20 Jan, 2025",
+    image:
+      "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?q=80&w=1200&auto=format&fit=crop",
+    highlight: true,
+  },
+  {
+    id: "movie-chill-night-guide",
+    title: "Movie & Chill Night: Perfect Low-Key Evening Plan",
+    excerpt:
+      "Everything you need for the perfect movie night at home. From snack ideas to film recommendations that spark conversation.",
+    author: "Alex Rodriguez",
+    date: "18 Jan, 2025",
     image:
       "https://images.unsplash.com/photo-1489599808420-5b2b1b4b4b4b?q=80&w=1200&auto=format&fit=crop",
-    highlight: true,
+  },
+  {
+    id: "beach-picnic-sunset-walk",
+    title: "Beach Picnic & Sunset Walk: Romance by the Sea",
+    excerpt:
+      "Plan the perfect beach date with our guide to sunset picnics, romantic walks, and creating unforgettable moments by the water.",
+    author: "Emma Thompson",
+    date: "16 Jan, 2025",
+    image:
+      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&auto=format&fit=crop",
+  },
+  {
+    id: "wall-bouldering-coffee-date",
+    title: "Wall Bouldering & Coffee: Climb, Laugh, and Caffeinate",
+    excerpt:
+      "Combine adventure with relaxation in this unique date idea. Perfect for active couples who love trying new things together.",
+    author: "Mike Johnson",
+    date: "14 Jan, 2025",
+    image:
+      "https://images.unsplash.com/photo-1518709268805-4e9042af2176?q=80&w=1200&auto=format&fit=crop",
+  },
+  {
+    id: "art-gallery-dessert-date",
+    title: "Art Gallery & Dessert Date: Feed Your Creativity",
+    excerpt:
+      "Explore local galleries followed by indulgent desserts. A perfect blend of culture and sweetness for art-loving couples.",
+    author: "Lisa Park",
+    date: "12 Jan, 2025",
+    image:
+      "https://images.unsplash.com/photo-1541961017774-22349e4a1262?q=80&w=1200&auto=format&fit=crop",
+  },
+  {
+    id: "bookstore-tea-tasting",
+    title: "Bookstore Hideout & Tea Tasting: Books, Tea, and Quiet Charm",
+    excerpt:
+      "Discover hidden bookstores and artisanal tea shops. Perfect for bookworms and tea enthusiasts seeking intimate conversations.",
+    author: "David Kim",
+    date: "10 Jan, 2025",
+    image:
+      "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?q=80&w=1200&auto=format&fit=crop",
+  },
+  {
+    id: "food-truck-skyline-drive",
+    title: "Food Truck Night & Skyline Drive: Urban Bites and Neon Views",
+    excerpt:
+      "Experience the city's vibrant food truck scene followed by a romantic drive with stunning skyline views.",
+    author: "Maria Garcia",
+    date: "8 Jan, 2025",
+    image:
+      "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1200&auto=format&fit=crop",
+  },
+  {
+    id: "concert-late-night-supper",
+    title: "Concert & Late Night Supper: Music, Laughter, and Noodles at 2am",
+    excerpt:
+      "From live music venues to late-night ramen spots. Experience the city's nightlife and create memories that last until dawn.",
+    author: "James Wilson",
+    date: "6 Jan, 2025",
+    image:
+      "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1200&auto=format&fit=crop",
+  },
+  {
+    id: "p1",
+    title: "Best Movies to Watch on a Date in January 2025",
+    excerpt:
+      "From romantic comedies to thrilling adventures - discover the perfect films to share with your special someone this winter.",
+    author: "Sarah Chen",
+    date: "4 Jan, 2025",
+    image:
+      "https://images.unsplash.com/photo-1489599808420-5b2b1b4b4b4b?q=80&w=1200&auto=format&fit=crop",
   },
   {
     id: "p2",
@@ -135,43 +216,59 @@ const posts: Post[] = [
   },
 ];
 
-const BlogCard = ({ post, large = false }: { post: Post; large?: boolean }) => (
-  <Paper
-    elevation={0}
-    sx={{
-      border: (t) => `1px solid ${t.palette.divider}`,
-      borderRadius: 3,
-      overflow: "hidden",
-      bgcolor: "#fff",
-      height: "100%",
-    }}
-  >
-    <Box
+const BlogCard = ({ post, large = false }: { post: Post; large?: boolean }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/blog/${post.id}`);
+  };
+
+  return (
+    <Paper
+      elevation={0}
+      onClick={handleClick}
       sx={{
-        position: "relative",
-        pt: large ? "56.25%" : "56.25%",
-        backgroundImage: `url(${post.image})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
+        border: (t) => `1px solid ${t.palette.divider}`,
         borderRadius: 1,
+        overflow: "hidden",
+        bgcolor: "#fff",
+        height: "100%",
+        cursor: "pointer",
+        transition: "all 0.2s ease",
+        "&:hover": {
+          transform: "translateY(-2px)",
+          boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
+          borderColor: (t) => t.palette.primary.main,
+        },
       }}
-    />
-    <Box sx={{ p: { xs: 2, md: 3 } }}>
-      <Typography variant={large ? "h5" : "h6"} fontWeight={700} gutterBottom>
-        {post.title}
-      </Typography>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-        {post.excerpt}
-      </Typography>
-      <Stack direction="row" spacing={1} alignItems="center">
-        <Avatar sx={{ width: 28, height: 28 }}>{post.author[0]}</Avatar>
-        <Typography variant="caption" color="text.secondary">
-          {post.author} — {post.date}
+    >
+      <Box
+        sx={{
+          position: "relative",
+          pt: large ? "56.25%" : "56.25%",
+          backgroundImage: `url(${post.image})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          borderRadius: 2,
+        }}
+      />
+      <Box sx={{ p: { xs: 2, md: 3 } }}>
+        <Typography variant={large ? "h5" : "h6"} fontWeight={700} gutterBottom>
+          {post.title}
         </Typography>
-      </Stack>
-    </Box>
-  </Paper>
-);
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          {post.excerpt}
+        </Typography>
+        <Stack direction="row" spacing={1} alignItems="center">
+          <Avatar sx={{ width: 28, height: 28 }}>{post.author[0]}</Avatar>
+          <Typography variant="caption" color="text.secondary">
+            {post.author} — {post.date}
+          </Typography>
+        </Stack>
+      </Box>
+    </Paper>
+  );
+};
 
 export default function BlogPage() {
   const featured = posts.find((p) => p.highlight) || posts[0];

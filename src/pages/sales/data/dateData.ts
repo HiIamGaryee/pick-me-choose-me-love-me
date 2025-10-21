@@ -4,7 +4,7 @@ export const dateData = [
     owner: {
       user_id: "user_101",
       name: "Jamie",
-      avatar: "https://i.pravatar.cc/100?img=11",
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Jamie&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf",
       age_range: "25–30",
       gender: "Female",
       looking_for_gender: "Male",
@@ -29,7 +29,7 @@ export const dateData = [
     owner: {
       user_id: "user_102",
       name: "Riley",
-      avatar: "https://i.pravatar.cc/100?img=32",
+      avatar: "https://api.dicebear.com/7.x/personas/svg?seed=Riley&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf",
       age_range: "27–32",
       gender: "Male",
       looking_for_gender: "Male",
@@ -54,7 +54,7 @@ export const dateData = [
     owner: {
       user_id: "user_103",
       name: "Ava",
-      avatar: "https://i.pravatar.cc/100?img=47",
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Ava&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf",
       age_range: "24–28",
       gender: "Female",
       looking_for_gender: "Any",
@@ -79,7 +79,7 @@ export const dateData = [
     owner: {
       user_id: "user_104",
       name: "Leo",
-      avatar: "https://i.pravatar.cc/100?img=60",
+      avatar: "https://api.dicebear.com/7.x/personas/svg?seed=Leo&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf",
       age_range: "29–35",
       gender: "Male",
       looking_for_gender: "Female",
@@ -104,7 +104,7 @@ export const dateData = [
     owner: {
       user_id: "user_105",
       name: "Kai",
-      avatar: "https://i.pravatar.cc/100?img=65",
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Kai&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf",
       age_range: "26–31",
       gender: "Female",
       looking_for_gender: "Female",
@@ -129,7 +129,7 @@ export const dateData = [
     owner: {
       user_id: "user_106",
       name: "Ethan",
-      avatar: "https://i.pravatar.cc/100?img=52",
+      avatar: "https://api.dicebear.com/7.x/personas/svg?seed=Ethan&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf",
       age_range: "28–34",
       gender: "Male",
       looking_for_gender: "Female",
@@ -153,7 +153,7 @@ export const dateData = [
     owner: {
       user_id: "user_107",
       name: "Mira",
-      avatar: "https://i.pravatar.cc/100?img=45",
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Mira&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf",
       age_range: "23–28",
       gender: "Female",
       looking_for_gender: "Any",
@@ -177,7 +177,7 @@ export const dateData = [
     owner: {
       user_id: "user_108",
       name: "Noah",
-      avatar: "https://i.pravatar.cc/100?img=18",
+      avatar: "https://api.dicebear.com/7.x/personas/svg?seed=Noah&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf",
       age_range: "30–36",
       gender: "Male",
       looking_for_gender: "Female",

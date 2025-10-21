@@ -8,10 +8,6 @@ import {
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import coffeeImg from "../assets/coffee1.png";
-import upcoming1Img from "../assets/upcoming1.jpeg";
-import upcoming3Img from "../assets/upcoming3.jpeg";
-import upcoming4Img from "../assets/upcoming4.jpeg";
 import LandingBannerSection from "../components/HomeSection/LandingBannerSection";
 import TeamMemberSection from "../components/HomeSection/TeamMemberSection";
 import CircularGallery from "../components/ReactBits/CircularGallery";
@@ -20,13 +16,26 @@ import Layout from "../Layout";
 const HomePage = () => {
   const navigate = useNavigate();
   const galleryItems = [
-    { image: upcoming1Img, text: "Skate" },
     {
-      image: upcoming3Img,
+      image:
+        "https://images.unsplash.com/photo-1547036967-23d11aacaee0?q=80&w=1200&auto=format&fit=crop",
+      text: "Skate",
+    },
+    {
+      image:
+        "https://images.unsplash.com/photo-1518709268805-4e9042af2176?q=80&w=1200&auto=format&fit=crop",
       text: "Wall Bouldering",
     },
-    { image: upcoming4Img, text: "Sleep" },
-    { image: coffeeImg, text: "Coffee Date" },
+    {
+      image:
+        "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?q=80&w=1200&auto=format&fit=crop",
+      text: "Sleep",
+    },
+    {
+      image:
+        "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?q=80&w=1200&auto=format&fit=crop",
+      text: "Coffee Date",
+    },
   ];
 
   return (

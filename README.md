@@ -1,6 +1,6 @@
 # ❤️ Pick Me, Choose Me, Love Me
 
-A modern blind-date app built by Team COMPILE TIME CHAOS — where dating meets design, AI, and just the right amount of drama.
+A modern blind-date app built by Team mE — where dating meets design, AI, and just the right amount of drama.
 
 This project helps singles match through date plans, not profile pics — because love deserves more than a swipe. \
 

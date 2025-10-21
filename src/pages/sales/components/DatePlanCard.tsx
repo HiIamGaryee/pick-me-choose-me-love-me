@@ -47,9 +47,36 @@ const DatePlanCard: React.FC<DatePlanCardProps> = ({
   const { owner, date_plan } = plan;
   const [dialogOpen, setDialogOpen] = useState(false);
   const [reviewDialogOpen, setReviewDialogOpen] = useState(false);
+  const [isCalendarAdded, setIsCalendarAdded] = useState(false);
+
+  // Check if this plan is already added to calendar
+  React.useEffect(() => {
+    const addedPlans = JSON.parse(
+      localStorage.getItem("addedToCalendar") || "[]"
+    );
+    setIsCalendarAdded(addedPlans.includes(plan.plan_id));
+  }, [plan.plan_id]);
 
   const handleEventClick = () => {
-    setDialogOpen(true);
+    // Toggle calendar status
+    const addedPlans = JSON.parse(
+      localStorage.getItem("addedToCalendar") || "[]"
+    );
+
+    if (isCalendarAdded) {
+      // Remove from calendar
+      const updatedPlans = addedPlans.filter(
+        (id: string) => id !== plan.plan_id
+      );
+      localStorage.setItem("addedToCalendar", JSON.stringify(updatedPlans));
+      setIsCalendarAdded(false);
+    } else {
+      // Add to calendar
+      addedPlans.push(plan.plan_id);
+      localStorage.setItem("addedToCalendar", JSON.stringify(addedPlans));
+      setIsCalendarAdded(true);
+      setDialogOpen(true);
+    }
   };
 
   const handleDialogClose = () => {
@@ -126,6 +153,16 @@ const DatePlanCard: React.FC<DatePlanCardProps> = ({
               color="primary"
               aria-label="add to calendar"
               onClick={handleEventClick}
+              sx={{
+                backgroundColor: isCalendarAdded ? "#E91E63" : "transparent",
+                color: isCalendarAdded ? "white" : theme.palette.primary.main,
+                "&:hover": {
+                  backgroundColor: isCalendarAdded
+                    ? "#C2185B"
+                    : theme.palette.primary.light,
+                  color: "white",
+                },
+              }}
             >
               <EventIcon />
             </IconButton>
@@ -197,34 +234,35 @@ const DatePlanCard: React.FC<DatePlanCardProps> = ({
         </Typography>
 
         {/* Connected Timeline */}
-        <Box sx={{ mt: 2, position: "relative" }}>
+        <Box sx={{ mt: 2, position: "relative", pl: 1 }}>
           {date_plan.timeline.map((slot: any, index: number) => {
             const isLast = index === date_plan.timeline.length - 1;
-            const isEven = index % 2 === 0;
 
             return (
               <Box
                 key={index}
                 sx={{
                   display: "flex",
-                  alignItems: "center",
-                  mb: isLast ? 0 : 3,
+                  alignItems: "flex-start",
+                  mb: isLast ? 0 : 2.5,
                   position: "relative",
                 }}
               >
                 {/* Timeline dot */}
                 <Box
                   sx={{
-                    width: 12,
-                    height: 12,
+                    width: 14,
+                    height: 14,
                     borderRadius: "50%",
                     bgcolor:
                       index === 0
                         ? theme.palette.text.primary
                         : theme.palette.primary.main,
-                    border: `2px solid ${theme.palette.background.paper}`,
+                    border: `3px solid ${theme.palette.background.paper}`,
                     zIndex: 2,
                     position: "relative",
+                    flexShrink: 0,
+                    mt: 0.5,
                   }}
                 />
 
@@ -233,10 +271,10 @@ const DatePlanCard: React.FC<DatePlanCardProps> = ({
                   <Box
                     sx={{
                       position: "absolute",
-                      left: "5px",
-                      top: "12px",
+                      left: "6px",
+                      top: "17px",
                       width: 2,
-                      height: "calc(100% + 12px)",
+                      height: "calc(100% + 8px)",
                       bgcolor: theme.palette.primary.main,
                       zIndex: 1,
                     }}
@@ -246,24 +284,30 @@ const DatePlanCard: React.FC<DatePlanCardProps> = ({
                 {/* Content */}
                 <Box
                   sx={{
-                    ml: 2,
+                    ml: 2.5,
                     flex: 1,
-                    textAlign: isEven ? "left" : "right",
+                    textAlign: "left",
                   }}
                 >
                   <Typography
                     variant="caption"
                     color="text.secondary"
-                    sx={{ mb: 0.5, display: "block" }}
+                    sx={{
+                      mb: 0.5,
+                      display: "block",
+                      fontSize: "0.75rem",
+                      fontWeight: 500,
+                    }}
                   >
                     {slot.time}
                   </Typography>
                   <Typography
                     variant="subtitle2"
-                    fontWeight="700"
+                    fontWeight="600"
                     sx={{
                       color: theme.palette.text.primary,
                       fontSize: "0.9rem",
+                      lineHeight: 1.3,
                     }}
                   >
                     {slot.title}

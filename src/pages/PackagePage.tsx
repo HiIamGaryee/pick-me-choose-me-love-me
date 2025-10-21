@@ -1,7 +1,13 @@
-import React from "react";
-import { Box, Typography, Grid, Card, CardContent } from "@mui/material";
-import Layout from "../Layout";
 import CheckIcon from "@mui/icons-material/Check";
+import {
+  Box,
+  CardContent,
+  Grid,
+  Paper,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import Layout from "../Layout";
 
 // Pricing tiles: Free, Tokens, AI Cupid Plan
 export const PRICING_PLANS = [
@@ -54,6 +60,8 @@ export const PRICING_PLANS = [
 ];
 
 const PackagePage = () => {
+  const theme = useTheme();
+
   return (
     <Layout>
       <Box
@@ -87,33 +95,36 @@ const PackagePage = () => {
         <Grid container spacing={4} justifyContent="center">
           {PRICING_PLANS.map((plan) => (
             <Grid item xs={12} md={4} key={plan.id}>
-              <Card
+              <Paper
+                elevation={0}
                 sx={{
-                  borderRadius: 6,
-                  p: 1,
-                  bgcolor: plan.surface,
-                  border: plan.bordered ? "2px solid #fff" : "none",
+                  borderRadius: 0,
+                  p: 3,
+                  border: `1px solid ${theme.palette.divider}`,
+                  bgcolor: theme.palette.background.paper,
+                  boxShadow: "0 3px 8px rgba(0,0,0,0.05)",
+                  transition: "0.25s",
+                  "&:hover": {
+                    transform: "translateY(-3px)",
+                    boxShadow: "0 6px 18px rgba(0,0,0,0.1)",
+                  },
                 }}
               >
-                <CardContent>
+                <CardContent sx={{ p: 0 }}>
                   <Typography
                     variant="overline"
-                    sx={{ color: plan.inverted ? "#fff" : "text.secondary" }}
+                    sx={{ color: "text.secondary", fontWeight: 600 }}
                   >
                     {plan.tierLabel}
                   </Typography>
-                  <Typography
-                    variant="h5"
-                    fontWeight="bold"
-                    sx={{ mb: 1, color: plan.inverted ? "#fff" : "inherit" }}
-                  >
+                  <Typography variant="h5" fontWeight="bold" sx={{ mb: 1 }}>
                     {plan.title}
                   </Typography>
                   <Typography
                     variant="body2"
                     sx={{
                       mb: 2,
-                      color: plan.inverted ? "#fff" : "text.secondary",
+                      color: "text.secondary",
                     }}
                   >
                     {plan.description}
@@ -132,15 +143,10 @@ const PackagePage = () => {
                         <CheckIcon
                           fontSize="small"
                           sx={{
-                            color: plan.inverted ? "#fff" : "primary.main",
+                            color: "primary.main",
                           }}
                         />
-                        <Typography
-                          variant="body2"
-                          sx={{ color: plan.inverted ? "#fff" : "inherit" }}
-                        >
-                          {f}
-                        </Typography>
+                        <Typography variant="body2">{f}</Typography>
                       </Box>
                     ))}
                   </Box>
@@ -152,13 +158,13 @@ const PackagePage = () => {
                       py: 0.5,
                       borderRadius: 999,
                       bgcolor: `${plan.chipColor}.main`,
-                      color: plan.inverted ? "#fff" : "#08121A",
+                      color: `${plan.chipColor}.contrastText`,
                     }}
                   >
                     {plan.chip}
                   </Box>
                 </CardContent>
-              </Card>
+              </Paper>
             </Grid>
           ))}
         </Grid>

@@ -123,6 +123,7 @@ export default function BlogDetailsPage() {
                   backgroundImage: `url(${article.cover})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
+                  borderRadius: 2,
                 }}
               />
             </Box>
