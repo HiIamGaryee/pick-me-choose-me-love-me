@@ -2,6 +2,7 @@ import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import ArticleRoundedIcon from "@mui/icons-material/ArticleRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import EventIcon from "@mui/icons-material/Event";
+import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import HistoryIcon from "@mui/icons-material/History";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
@@ -50,6 +51,7 @@ const Navbar: React.FC = () => {
   const navLinks = [
     { name: "Home", link: "/", icon: <HomeRoundedIcon /> },
     { name: "Date Plans", link: "/sales", icon: <EventIcon /> },
+    { name: "Events", link: "/events", icon: <EventAvailableIcon /> },
     { name: "My History", link: "/sales-history", icon: <HistoryIcon /> },
     { name: "Plans & Pricing", link: "/package", icon: <MonetizationOnIcon /> },
     { name: "FAQ", link: "/faq", icon: <HelpOutlineIcon /> },

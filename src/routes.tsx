@@ -1,9 +1,12 @@
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import AdminProtectedRoute from "./AdminProtectedRoute";
 import { AuthProvider } from "./AuthProvider";
 import ProtectedRoute from "./ProtectedRoute";
 import AboutUsPage from "./pages/AboutUs";
 import BlogDetailPage from "./pages/BlogDetailPage";
 import BlogPage from "./pages/BlogPage";
+import EventDetailPage from "./pages/EventDetailPage";
+import EventsPage from "./pages/EventsPage";
 import Faq from "./pages/FaqPage";
 import Home from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
@@ -20,6 +23,8 @@ import BookmarkPage from "./pages/BookmarkPage";
 import ErrorPage from "./pages/ErrorPage";
 import ServicesPage from "./pages/ServicesPage";
 import AddListingPage from "./pages/admin/AddListing";
+import BlogAddEditPage from "./pages/admin/BlogAddEditPage";
+import BlogListPage from "./pages/admin/BlogListPage";
 import ContactUsListPage from "./pages/admin/ContactUsListPage";
 import ProductListPage from "./pages/admin/ProductListPage";
 import SalesList from "./pages/admin/SalesList";
@@ -71,11 +76,72 @@ export const router = createBrowserRouter([
       { path: "/checkout", element: <CheckoutPage /> },
       { path: "/blog", element: <BlogPage /> },
       { path: "/blog/:slug", element: <BlogDetailPage /> },
-      { path: "/admin/add-listing", element: <AddListingPage /> },
-      { path: "/admin/product-list", element: <ProductListPage /> },
-      { path: "/admin/subscrible-list", element: <SubscribleListPage /> },
-      { path: "/admin/sales-list", element: <SalesList /> },
-      { path: "/admin/contact-us-list", element: <ContactUsListPage /> },
+      { path: "/events", element: <EventsPage /> },
+      { path: "/events/:id", element: <EventDetailPage /> },
+      {
+        path: "/admin/add-listing",
+        element: (
+          <AdminProtectedRoute>
+            <AddListingPage />
+          </AdminProtectedRoute>
+        ),
+      },
+      {
+        path: "/admin/blog-list",
+        element: (
+          <AdminProtectedRoute>
+            <BlogListPage />
+          </AdminProtectedRoute>
+        ),
+      },
+      {
+        path: "/admin/blog/add",
+        element: (
+          <AdminProtectedRoute>
+            <BlogAddEditPage />
+          </AdminProtectedRoute>
+        ),
+      },
+      {
+        path: "/admin/blog/edit/:id",
+        element: (
+          <AdminProtectedRoute>
+            <BlogAddEditPage />
+          </AdminProtectedRoute>
+        ),
+      },
+      {
+        path: "/admin/product-list",
+        element: (
+          <AdminProtectedRoute>
+            <ProductListPage />
+          </AdminProtectedRoute>
+        ),
+      },
+      {
+        path: "/admin/subscrible-list",
+        element: (
+          <AdminProtectedRoute>
+            <SubscribleListPage />
+          </AdminProtectedRoute>
+        ),
+      },
+      {
+        path: "/admin/sales-list",
+        element: (
+          <AdminProtectedRoute>
+            <SalesList />
+          </AdminProtectedRoute>
+        ),
+      },
+      {
+        path: "/admin/contact-us-list",
+        element: (
+          <AdminProtectedRoute>
+            <ContactUsListPage />
+          </AdminProtectedRoute>
+        ),
+      },
       { path: "/wizardz", element: <WizardzPage /> },
       {
         path: "/member/profile",

@@ -15,6 +15,7 @@ export const dateData = [
         "A full day of wall bouldering, sweat, coffee, and unfiltered laughs. From the first climb to the last latte, no pressure, just pure vibe.",
       tags: ["Active", "Coffee", "Adventure"],
       location: { city: "Petaling Jaya" },
+      image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?q=80&w=1200&auto=format&fit=crop",
       timeline: [
         { time: "9:00am", title: "Morning climb" },
         { time: "12:00pm", title: "Coffee at VCR" },
@@ -40,6 +41,7 @@ export const dateData = [
         "Brunch with live beats, slow photo walk, jam in the studio, and rooftop cocktails. Creative flow meets spontaneous rhythm.",
       tags: ["Music", "Art", "Creative", "Chill"],
       location: { city: "Kuala Lumpur" },
+      image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1200&auto=format&fit=crop",
       timeline: [
         { time: "11:00am", title: "Brunch with live music" },
         { time: "2:00pm", title: "Photo walk" },
@@ -65,6 +67,7 @@ export const dateData = [
         "Morning art class, café brunch, hidden bookstore, and rooftop tea — soft smiles and quiet charm all day.",
       tags: ["Art", "Calm", "Foodie", "Creative"],
       location: { city: "Kuala Lumpur" },
+      image: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?q=80&w=1200&auto=format&fit=crop",
       timeline: [
         { time: "10:00am", title: "Painting workshop" },
         { time: "12:30pm", title: "Brunch & pastries" },
@@ -90,6 +93,7 @@ export const dateData = [
         "Cook lunch, catch a movie, and drive through city lights. A night where music’s optional, but conversation isn’t.",
       tags: ["Romantic", "Movie", "Food", "Night"],
       location: { city: "Kuala Lumpur" },
+      image: "https://images.unsplash.com/photo-1489599808-7b4a0a7b0b8a?q=80&w=1200&auto=format&fit=crop",
       timeline: [
         { time: "4:00pm", title: "Cooking class" },
         { time: "7:00pm", title: "Movie time" },
@@ -115,6 +119,7 @@ export const dateData = [
         "Sunrise surf, beach brunch, skate session, and sunset photo walk. We end the day salty, happy, and full of stories.",
       tags: ["Outdoor", "Adventure", "Beach"],
       location: { city: "Kuantan" },
+      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1200&auto=format&fit=crop",
       timeline: [
         { time: "6:00am", title: "Sunrise surf" },
         { time: "9:00am", title: "Beach brunch" },
@@ -140,6 +145,7 @@ export const dateData = [
         "Hop through record stores and coffee bars — music, caffeine, and conversations that never end.",
       tags: ["Music", "Coffee", "Chill"],
       location: { city: "Kuala Lumpur" },
+      image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1200&auto=format&fit=crop",
       timeline: [
         { time: "1:00pm", title: "Record store hop" },
         { time: "4:00pm", title: "Coffee crawl" },
@@ -164,6 +170,7 @@ export const dateData = [
         "A cozy afternoon at a hidden bookstore, followed by tea tasting and gentle conversations.",
       tags: ["Book", "Calm", "Tea"],
       location: { city: "Bangsar" },
+      image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?q=80&w=1200&auto=format&fit=crop",
       timeline: [
         { time: "2:00pm", title: "Bookstore browse" },
         { time: "4:30pm", title: "Tea tasting" },
@@ -188,6 +195,7 @@ export const dateData = [
         "Dinner at a speakeasy, skyline walk, and spontaneous karaoke — sparks and stories under neon skies.",
       tags: ["Nightlife", "Foodie", "Romantic", "Fun"],
       location: { city: "Kuala Lumpur" },
+      image: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=1200&auto=format&fit=crop",
       timeline: [
         { time: "8:00pm", title: "Dinner at speakeasy" },
         { time: "10:00pm", title: "Skyline bridge" },

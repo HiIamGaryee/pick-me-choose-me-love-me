@@ -1,16 +1,21 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
+  Alert,
   Avatar,
   Box,
   Button,
   Chip,
+  CircularProgress,
   Grid,
   Paper,
   Stack,
   Typography,
 } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Layout from "../Layout";
+import { Blog, BlogList, getBlogBySlug, getPublishedBlogs } from "../api/blog";
+import { useBlog } from "../context/blog-context";
 
 type Post = {
   id: string;
@@ -934,16 +939,90 @@ const blogPosts: Post[] = [
 export default function BlogDetailPage() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
+  const { state, dispatch } = useBlog();
+  const [post, setPost] = useState<Blog | null>(null);
+  const [relatedPosts, setRelatedPosts] = useState<BlogList[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const post = blogPosts.find((p) => p.id === slug);
+  useEffect(() => {
+    const fetchBlogData = async () => {
+      if (!slug) return;
 
-  if (!post) {
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Fetch the blog post
+        const blogPost = await getBlogBySlug(slug);
+        setPost(blogPost);
+
+        // Fetch related posts (other published blogs)
+        const allBlogs = await getPublishedBlogs();
+        const related = allBlogs
+          .filter((blog) => blog.id !== blogPost.id)
+          .slice(0, 3);
+        setRelatedPosts(related);
+      } catch (error) {
+        console.error("Error fetching blog data:", error);
+        setError("Failed to load blog post. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogData();
+  }, [slug]);
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
+  const getTags = (tagsString?: string) => {
+    if (!tagsString) return [];
+    return tagsString
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter((tag) => tag);
+  };
+
+  const calculateReadTime = (content: string) => {
+    const wordsPerMinute = 200;
+    const wordCount = content.split(/\s+/).length;
+    const readTime = Math.ceil(wordCount / wordsPerMinute);
+    return `${readTime} min read`;
+  };
+
+  if (loading) {
+    return (
+      <Layout>
+        <Box
+          sx={{
+            px: { xs: 2, md: 6 },
+            py: { xs: 3, md: 6 },
+            textAlign: "center",
+          }}
+        >
+          <CircularProgress size={60} />
+          <Typography variant="h6" sx={{ mt: 2 }}>
+            Loading blog post...
+          </Typography>
+        </Box>
+      </Layout>
+    );
+  }
+
+  if (error || !post) {
     return (
       <Layout>
         <Box sx={{ px: { xs: 2, md: 6 }, py: { xs: 3, md: 6 } }}>
-          <Typography variant="h4" textAlign="center" sx={{ mb: 4 }}>
-            Blog Post Not Found
-          </Typography>
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error || "Blog post not found"}
+          </Alert>
           <Box textAlign="center">
             <Button
               variant="contained"
@@ -958,6 +1037,9 @@ export default function BlogDetailPage() {
       </Layout>
     );
   }
+
+  const tags = getTags(post.tags);
+  const readTime = calculateReadTime(post.content);
 
   return (
     <Layout>
@@ -988,7 +1070,9 @@ export default function BlogDetailPage() {
                 sx={{
                   position: "relative",
                   pt: "56.25%",
-                  backgroundImage: `url(${post.image})`,
+                  backgroundImage: post.featured_image
+                    ? `url(${post.featured_image})`
+                    : "url(https://via.placeholder.com/800x450/f0f0f0/666666?text=No+Image)",
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                   borderRadius: 2,
@@ -1010,30 +1094,33 @@ export default function BlogDetailPage() {
                   sx={{ mb: 3 }}
                 >
                   <Avatar sx={{ width: 40, height: 40 }}>
-                    {post.author[0]}
+                    {post.author_name ? post.author_name[0] : "A"}
                   </Avatar>
                   <Box>
                     <Typography variant="body1" fontWeight={600}>
-                      {post.author}
+                      {post.author_name || "Anonymous"}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      {post.date} • {post.readTime}
+                      {formatDate(post.created_at)} • {readTime} •{" "}
+                      {post.view_count} views
                     </Typography>
                   </Box>
                 </Stack>
 
                 {/* Tags */}
-                <Stack direction="row" spacing={1} sx={{ mb: 4 }}>
-                  {post.tags.map((tag) => (
-                    <Chip
-                      key={tag}
-                      label={tag}
-                      size="small"
-                      variant="outlined"
-                      sx={{ borderRadius: 2 }}
-                    />
-                  ))}
-                </Stack>
+                {tags.length > 0 && (
+                  <Stack direction="row" spacing={1} sx={{ mb: 4 }}>
+                    {tags.map((tag) => (
+                      <Chip
+                        key={tag}
+                        label={tag}
+                        size="small"
+                        variant="outlined"
+                        sx={{ borderRadius: 2 }}
+                      />
+                    ))}
+                  </Stack>
+                )}
 
                 {/* Content */}
                 <Box
@@ -1099,11 +1186,11 @@ export default function BlogDetailPage() {
                   sx={{ mb: 2 }}
                 >
                   <Avatar sx={{ width: 60, height: 60 }}>
-                    {post.author[0]}
+                    {post.author_name ? post.author_name[0] : "A"}
                   </Avatar>
                   <Box>
                     <Typography variant="h6" fontWeight={600}>
-                      {post.author}
+                      {post.author_name || "Anonymous"}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                       Dating & Relationship Writer
@@ -1117,30 +1204,28 @@ export default function BlogDetailPage() {
               </Paper>
 
               {/* Related Posts */}
-              <Paper
-                elevation={0}
-                sx={{
-                  border: (t) => `1px solid ${t.palette.divider}`,
-                  borderRadius: 1,
-                  p: 3,
-                  bgcolor: "#fff",
-                }}
-              >
-                <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
-                  More Date Ideas
-                </Typography>
-                <Stack spacing={2}>
-                  {blogPosts
-                    .filter((p) => p.id !== post.id)
-                    .slice(0, 3)
-                    .map((relatedPost) => (
+              {relatedPosts.length > 0 && (
+                <Paper
+                  elevation={0}
+                  sx={{
+                    border: (t) => `1px solid ${t.palette.divider}`,
+                    borderRadius: 1,
+                    p: 3,
+                    bgcolor: "#fff",
+                  }}
+                >
+                  <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
+                    More Date Ideas
+                  </Typography>
+                  <Stack spacing={2}>
+                    {relatedPosts.map((relatedPost) => (
                       <Box
                         key={relatedPost.id}
                         sx={{
                           cursor: "pointer",
                           "&:hover": { opacity: 0.8 },
                         }}
-                        onClick={() => navigate(`/blog/${relatedPost.id}`)}
+                        onClick={() => navigate(`/blog/${relatedPost.slug}`)}
                       >
                         <Typography
                           variant="body2"
@@ -1150,12 +1235,14 @@ export default function BlogDetailPage() {
                           {relatedPost.title}
                         </Typography>
                         <Typography variant="caption" color="text.secondary">
-                          {relatedPost.readTime}
+                          {formatDate(relatedPost.created_at)} •{" "}
+                          {relatedPost.view_count} views
                         </Typography>
                       </Box>
                     ))}
-                </Stack>
-              </Paper>
+                  </Stack>
+                </Paper>
+              )}
             </Stack>
           </Grid>
         </Grid>

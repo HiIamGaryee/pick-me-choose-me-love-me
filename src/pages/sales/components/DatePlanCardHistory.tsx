@@ -1,16 +1,11 @@
 import EditIcon from "@mui/icons-material/Edit";
 import EventIcon from "@mui/icons-material/Event";
-import FemaleIcon from "@mui/icons-material/Female";
-import MaleIcon from "@mui/icons-material/Male";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import StarIcon from "@mui/icons-material/Star";
-import WcIcon from "@mui/icons-material/Wc";
 import {
-  Avatar,
   Box,
   Chip,
-  Divider,
   IconButton,
   Paper,
   Stack,
@@ -422,104 +417,6 @@ const DatePlanCard: React.FC<DatePlanCardProps> = ({
             />
           ))}
         </Stack>
-
-        <Divider sx={{ my: { xs: 1, md: 1.5 } }} />
-
-        {/* Footer */}
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
-          sx={{ mt: "auto" }}
-        >
-          <Box display="flex" alignItems="center" gap={{ xs: 1, md: 1.5 }}>
-            <Avatar
-              src={owner.avatar}
-              alt={owner.name}
-              sx={{ width: { xs: 28, md: 32 }, height: { xs: 28, md: 32 } }}
-            />
-            <Box>
-              <Typography
-                variant="body2"
-                fontWeight={600}
-                sx={{ fontSize: { xs: "0.8rem", md: "0.875rem" } }}
-              >
-                {owner.name} ({owner.age_range})
-              </Typography>
-              <Typography
-                variant="caption"
-                color="text.secondary"
-                sx={{ fontSize: { xs: "0.7rem", md: "0.75rem" } }}
-              >
-                {owner.gender}
-              </Typography>
-            </Box>
-          </Box>
-
-          {/* Two-icon gender pairing */}
-          <Box display="flex" alignItems="center" gap={0.3}>
-            {owner.gender === "Male" && owner.looking_for_gender === "Male" && (
-              <>
-                <MaleIcon
-                  sx={{
-                    color: theme.palette.primary.main,
-                    fontSize: { xs: 18, md: 20 },
-                  }}
-                />
-                <MaleIcon
-                  sx={{
-                    color: theme.palette.primary.main,
-                    fontSize: { xs: 18, md: 20 },
-                  }}
-                />
-              </>
-            )}
-            {owner.gender === "Female" &&
-              owner.looking_for_gender === "Female" && (
-                <>
-                  <FemaleIcon
-                    sx={{
-                      color: theme.palette.primary.main,
-                      fontSize: { xs: 18, md: 20 },
-                    }}
-                  />
-                  <FemaleIcon
-                    sx={{
-                      color: theme.palette.primary.main,
-                      fontSize: { xs: 18, md: 20 },
-                    }}
-                  />
-                </>
-              )}
-            {((owner.gender === "Male" &&
-              owner.looking_for_gender === "Female") ||
-              (owner.gender === "Female" &&
-                owner.looking_for_gender === "Male")) && (
-              <>
-                <MaleIcon
-                  sx={{
-                    color: theme.palette.primary.main,
-                    fontSize: { xs: 18, md: 20 },
-                  }}
-                />
-                <FemaleIcon
-                  sx={{
-                    color: theme.palette.primary.main,
-                    fontSize: { xs: 18, md: 20 },
-                  }}
-                />
-              </>
-            )}
-            {owner.looking_for_gender === "Any" && (
-              <WcIcon
-                sx={{
-                  color: theme.palette.primary.main,
-                  fontSize: { xs: 18, md: 20 },
-                }}
-              />
-            )}
-          </Box>
-        </Box>
       </Stack>
 
       <SuccessDialog

@@ -19,6 +19,7 @@ import TopUpDialog from "../../components/TopUpDialog";
 import { useReviewContext } from "../../context/review-context";
 import Layout from "../../Layout";
 import DatePlanCard from "./components/DatePlanCard";
+import DatePlanCardHistory from "./components/DatePlanCardHistory";
 import { salesHistoryData, SalesHistoryItem } from "./data/salesHistoryData";
 
 interface TabPanelProps {
@@ -142,7 +143,10 @@ const SalesHistoryPage = () => {
     );
   };
 
-  const renderDateCards = (items: SalesHistoryItem[]) => {
+  const renderDateCards = (
+    items: SalesHistoryItem[],
+    showUserInfo: boolean = true
+  ) => {
     if (items.length === 0) {
       return (
         <Typography
@@ -180,16 +184,29 @@ const SalesHistoryPage = () => {
                 </Box>
               )}
 
-              <DatePlanCard
-                plan={item}
-                showReviewButton={item.status === "completed"}
-                showJoinButton={item.status === "upcoming"}
-                showEditButton={item.status === "upcoming"}
-                existingReview={item.review}
-                onReviewSubmit={(review) => addReview(item.plan_id, review)}
-                onJoinDate={handleJoinDate}
-                onEditDate={handleEditDate}
-              />
+              {showUserInfo ? (
+                <DatePlanCard
+                  plan={item}
+                  showReviewButton={item.status === "completed"}
+                  showJoinButton={item.status === "upcoming"}
+                  showEditButton={item.status === "upcoming"}
+                  existingReview={item.review}
+                  onReviewSubmit={(review) => addReview(item.plan_id, review)}
+                  onJoinDate={handleJoinDate}
+                  onEditDate={handleEditDate}
+                />
+              ) : (
+                <DatePlanCardHistory
+                  plan={item}
+                  showReviewButton={item.status === "completed"}
+                  showJoinButton={item.status === "upcoming"}
+                  showEditButton={item.status === "upcoming"}
+                  existingReview={item.review}
+                  onReviewSubmit={(review) => addReview(item.plan_id, review)}
+                  onJoinDate={handleJoinDate}
+                  onEditDate={handleEditDate}
+                />
+              )}
             </Box>
           </Grid>
         ))}
@@ -279,6 +296,11 @@ const SalesHistoryPage = () => {
               id="history-tab-2"
               aria-controls="history-tabpanel-2"
             />
+            <Tab
+              label={`My History (${salesHistoryData.length})`}
+              id="history-tab-3"
+              aria-controls="history-tabpanel-3"
+            />
           </Tabs>
         </Box>
 
@@ -339,6 +361,13 @@ const SalesHistoryPage = () => {
             Cancelled Dates
           </Typography>
           {renderDateCards(cancelledDates)}
+        </TabPanel>
+
+        <TabPanel value={tabValue} index={3}>
+          <Typography variant="h5" fontWeight={600} sx={{ mb: 3 }}>
+            My History
+          </Typography>
+          {renderDateCards(salesHistoryData, false)}
         </TabPanel>
       </Box>
 

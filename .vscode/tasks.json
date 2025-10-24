@@ -6,6 +6,60 @@
       "label": "👨🏻‍💻 Run Local Member",
       "command": "npm start"
       // "command": "npm run build"
+    },
+    {
+      "type": "shell",
+      "label": "🚀 Run Backend API",
+      "command": "pip3 install -r requirements.txt && python3 main.py",
+      "options": {
+        "cwd": "${workspaceFolder}/fastapi_app"
+      },
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "problemMatcher": []
+    },
+    {
+      "type": "shell",
+      "label": "👤 Create Admin User",
+      "command": "python3 create_admin.py",
+      "options": {
+        "cwd": "${workspaceFolder}/fastapi_app"
+      },
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "problemMatcher": []
+    },
+    {
+      "type": "shell",
+      "label": "📝 Add Sample Blog Data",
+      "command": "python3 add_sample_blogs.py",
+      "options": {
+        "cwd": "${workspaceFolder}/fastapi_app"
+      },
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "problemMatcher": []
     }
   ]
 }

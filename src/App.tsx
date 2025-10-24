@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider } from "react-router-dom";
 import "./App.css";
 import { AuthProvider } from "./AuthProvider";
+import { BlogProvider } from "./context/blog-context";
 import { MovieProvider } from "./context/movie-context";
 import { ReviewProvider } from "./context/review-context";
 import { SalesProvider } from "./context/sales-context";
@@ -22,7 +23,9 @@ function App() {
           <MovieProvider>
             <SalesProvider>
               <ReviewProvider>
-                <RouterProvider router={router} />
+                <BlogProvider>
+                  <RouterProvider router={router} />
+                </BlogProvider>
               </ReviewProvider>
             </SalesProvider>
           </MovieProvider>

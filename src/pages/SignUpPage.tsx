@@ -1,27 +1,36 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import {
+  Alert,
   Box,
   Button,
-  TextField,
+  Grid,
   Link,
   Stack,
+  TextField,
   Typography,
-  Grid,
 } from "@mui/material";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { SignUpParams, postSignUp } from "../api"; // Adjust the path as necessary
+import { SignUpParams, postSignUp } from "../api";
 import loginBg from "../assets/signup-bg.jpeg";
 import { useAppMutation } from "../hooks/useAppMutation";
-import { useTranslation } from "react-i18next";
-import EnhancedEncryptionRoundedIcon from "@mui/icons-material/EnhancedEncryptionRounded";
+
 const SignUpPage = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
   const validationSchema = Yup.object({
     email: Yup.string()
       .required("Email is required")
       .email("Invalid email address"),
-    password: Yup.string().required("Password is required"),
+    password: Yup.string()
+      .required("Password is required")
+      .min(6, "Password must be at least 6 characters"),
     password_confirmation: Yup.string()
       .oneOf([Yup.ref("password"), undefined], "Passwords must match")
       .required("Password confirmation is required"),
@@ -33,6 +42,7 @@ const SignUpPage = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<SignUpParams>({
     resolver: yupResolver(validationSchema),
   });
@@ -40,7 +50,49 @@ const SignUpPage = () => {
   const { mutate } = useAppMutation(postSignUp);
 
   const onSubmit = (data: SignUpParams) => {
-    mutate(data);
+    try {
+      // Check if email already exists in localStorage
+      const existingMembers = JSON.parse(
+        localStorage.getItem("members") || "[]"
+      );
+      const emailExists = existingMembers.some(
+        (member: any) => member.email === data.email
+      );
+
+      if (emailExists) {
+        setErrorMessage("Email already exists. Please use a different email.");
+        setSuccessMessage("");
+        return;
+      }
+
+      // Create new member object
+      const newMember = {
+        id: "member-" + Date.now(),
+        email: data.email,
+        password: data.password,
+        mobile_no: data.mobile_no,
+        mobile_prefix_no: data.mobile_prefix_no,
+        createdAt: new Date().toISOString(),
+      };
+
+      // Add to localStorage
+      existingMembers.push(newMember);
+      localStorage.setItem("members", JSON.stringify(existingMembers));
+
+      // Show success message
+      setSuccessMessage("Account created successfully! You can now login.");
+      setErrorMessage("");
+      reset();
+
+      // Redirect to login after 2 seconds
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    } catch (error) {
+      console.error("Signup error:", error);
+      setErrorMessage("An error occurred during signup. Please try again.");
+      setSuccessMessage("");
+    }
   };
 
   return (
@@ -95,6 +147,18 @@ const SignUpPage = () => {
           </Box>
 
           <form onSubmit={handleSubmit(onSubmit)}>
+            {/* Success/Error Messages */}
+            {successMessage && (
+              <Alert severity="success" sx={{ mb: 2 }}>
+                {successMessage}
+              </Alert>
+            )}
+            {errorMessage && (
+              <Alert severity="error" sx={{ mb: 2 }}>
+                {errorMessage}
+              </Alert>
+            )}
+
             <Stack spacing={4}>
               <TextField
                 {...register("email")}
