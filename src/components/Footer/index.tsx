@@ -11,10 +11,10 @@ const footerLinks = [
   {
     title: "SITEMAP",
     links: [
-      { name: "About us", link: "/about-us" },
+      { name: "About us", link: "#" },
       { name: "Services", link: "#" },
       // { name: "Blog", link: "/blog" },
-      { name: "Upcoming Events", link: "#" },
+      { name: "Upcoming Events", link: "/events" },
     ],
   },
   {

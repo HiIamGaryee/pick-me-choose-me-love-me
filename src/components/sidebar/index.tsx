@@ -1,27 +1,23 @@
-import { Link, NavLink, useLocation } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
+import { Link, NavLink } from "react-router-dom";
 
-import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
-import LocalMoviesRoundedIcon from "@mui/icons-material/LocalMoviesRounded";
-import BookmarksRoundedIcon from "@mui/icons-material/BookmarksRounded";
-import LiveTvRoundedIcon from "@mui/icons-material/LiveTvRounded";
 import CottageRoundedIcon from "@mui/icons-material/CottageRounded";
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 // import PublicRoundedIcon from "@mui/icons-material/PublicRounded";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
-import StoreRoundedIcon from "@mui/icons-material/StoreRounded";
 import ShoppingCartCheckoutRoundedIcon from "@mui/icons-material/ShoppingCartCheckoutRounded";
-import CoffeeRoundedIcon from "@mui/icons-material/CoffeeRounded";
+import StoreRoundedIcon from "@mui/icons-material/StoreRounded";
 const navLinks = [
   {
     name: "Home",
     icon: <CottageRoundedIcon />,
     link: "/",
   },
-  {
-    name: "About Us",
-    icon: <CoffeeRoundedIcon />,
-    link: "/about-us",
-  },
+  // {
+  //   name: "About Us",
+  //   icon: <CoffeeRoundedIcon />,
+  //   link: "/about-us",
+  // },
   {
     name: "Mall",
     icon: <StoreRoundedIcon />,

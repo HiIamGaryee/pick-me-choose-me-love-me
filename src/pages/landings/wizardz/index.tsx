@@ -1,18 +1,16 @@
-import React from "react";
 import {
+  AppBar,
   Box,
-  Typography,
-  Grid,
   Button,
   Card,
   CardContent,
-  Toolbar,
-  AppBar,
+  Grid,
   TextField,
+  Toolbar,
+  Typography,
 } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import ThemeToggleButton from "../../../components/ThemeToggleButton";
-import { Link } from "react-router-dom";
 
 // Dummy data for services, similar to the referral rewards
 const serviceList = [
@@ -69,7 +67,7 @@ const footerLinks = [
   {
     title: "SITEMAP",
     links: [
-      { name: "About us", link: "/about-us" },
+      { name: "About us", link: "/#" },
       { name: "Services", link: "/services" },
       { name: "Blog", link: "/blog" },
       { name: "Upcoming Movies", link: "/upcoming-movies" },
