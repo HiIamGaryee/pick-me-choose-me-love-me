@@ -4,8 +4,8 @@ A modern blind-date app built by Team mE — where dating meets design, AI, and 
 
 This project helps singles match through date plans, not profile pics — because love deserves more than a swipe. \
 
-🔗 : https://xxx \
-Demo: https:/xxx
+🔗 : https://pick-me-choose-me-love-me.vercel.app \
+Demo: https://youtu.be/_EGC6YPGVRE
 
 ## Available Scripts
 
