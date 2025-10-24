@@ -23,7 +23,7 @@ const footerLinks = [
       // { name: "Getting started", link: "/getting-started" },
       { name: "Package", link: "/package" },
       { name: "FAQ", link: "/faq" },
-      { name: "Referral", link: "/referral" },
+      { name: "Referral", link: "#" },
     ],
   },
 ];
