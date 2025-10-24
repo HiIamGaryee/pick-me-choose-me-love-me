@@ -55,7 +55,7 @@ const LandingBannerSection = () => {
         </Typography>
         <Button
           variant="contained"
-          onClick={() => navigate(`/login`)}
+          onClick={() => navigate(`/sales`)}
           //   onClick={() => navigate(`/signup`)}
           sx={{
             background:
