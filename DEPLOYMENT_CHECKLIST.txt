@@ -1,0 +1,98 @@
+# ✅ SoulMatch Deployment Checklist
+
+## Pre-Deployment Setup
+
+- [ ] **Get API Keys**
+  - [ ] Infura API Key from https://infura.io/
+  - [ ] Alchemy API Key from https://www.alchemy.com/ (optional)
+  - [ ] WalletConnect Project ID from https://cloud.walletconnect.com/
+
+- [ ] **Get Testnet ETH**
+  - [ ] Get Sepolia testnet ETH from https://sepoliafaucet.com/
+  - [ ] Ensure wallet has at least 0.1 ETH
+
+- [ ] **Get Private Key**
+  - [ ] Export private key from MetaMask
+  - [ ] Add to .env file (DO NOT commit to git)
+
+- [ ] **Get Pyth Entropy Addresses**
+  - [ ] Visit https://docs.pyth.network/entropy
+  - [ ] Find Sepolia testnet contract address
+  - [ ] Update scripts/deploy.js with actual address
+
+## Environment Configuration
+
+- [ ] **Update .env file with real values:**
+  ```env
+  REACT_APP_WALLETCONNECT_PROJECT_ID=your_actual_project_id
+  REACT_APP_INFURA_API_KEY=your_actual_infura_key
+  PRIVATE_KEY=your_actual_private_key
+  ```
+
+## Deployment Steps
+
+- [ ] **Navigate to project directory**
+  ```bash
+  cd /Applications/XAMPP/Project/pick-me-choose-me-love-me
+  ```
+
+- [ ] **Run deployment script**
+  ```bash
+  ./deploy.sh
+  ```
+  OR manually:
+  ```bash
+  npm install
+  npx hardhat compile
+  npx hardhat run scripts/deploy.js --network sepolia
+  ```
+
+- [ ] **Copy deployed contract address**
+  - [ ] Note the contract address from deployment output
+  - [ ] Update .env file: `REACT_APP_ENTROPY_CONSUMER_ADDRESS=0xYourAddress`
+
+## Post-Deployment Verification
+
+- [ ] **Verify on Etherscan**
+  - [ ] Visit https://sepolia.etherscan.io/
+  - [ ] Search for your contract address
+  - [ ] Confirm contract is deployed and verified
+
+- [ ] **Test Frontend Integration**
+  - [ ] Restart development server: `npm start`
+  - [ ] Connect wallet in browser
+  - [ ] Click "Today Soul Most Meet U 🔗" button
+  - [ ] Verify random date plan appears
+
+- [ ] **Check Console Logs**
+  - [ ] Open browser developer tools
+  - [ ] Look for any error messages
+  - [ ] Verify Web3 connection is working
+
+## Troubleshooting
+
+- [ ] **Common Issues:**
+  - [ ] "Insufficient funds" → Get more testnet ETH
+  - [ ] "Invalid private key" → Check private key format
+  - [ ] "Contract not verified" → Wait and check again
+  - [ ] "Random not generating" → Check wallet connection
+
+## Success Criteria
+
+- [ ] Contract deployed successfully
+- [ ] Contract verified on Etherscan
+- [ ] Frontend shows Web3 indicators (🔗)
+- [ ] Random date selection works
+- [ ] No console errors
+- [ ] Fallback system works when wallet disconnected
+
+## Next Steps
+
+- [ ] Test all scenarios (wallet connected/disconnected)
+- [ ] Monitor gas costs
+- [ ] Consider mainnet deployment
+- [ ] Update documentation with contract address
+
+---
+
+**🎉 Once all items are checked, your SoulMatch Web3 integration is complete!**

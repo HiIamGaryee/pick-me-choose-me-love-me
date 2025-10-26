@@ -1,0 +1,156 @@
+# 📋 SoulMatch Project - Complete File List
+
+## 🚀 **DEPLOYMENT & SETUP FILES**
+
+### **Main Deployment Guides**
+- `DEPLOYMENT_GUIDE.txt` - Original deployment guide for EntropyConsumer
+- `COMPLETE_DEPLOYMENT_GUIDE.txt` - Complete guide for both contracts
+- `DEPLOYMENT_CHECKLIST.txt` - Quick reference checklist
+- `deploy.sh` - Automated deployment script
+
+### **AI Integration Guide**
+- `AI_INTEGRATION_GUIDE.md` - Complete AI features guide
+- `PYTH_ENTROPY_README.md` - Pyth Entropy specific documentation
+
+## 🔧 **CONFIGURATION FILES**
+
+### **Environment Configuration**
+- `.env` - Environment variables (API keys, contract addresses)
+- `hardhat.config.js` - Hardhat configuration
+- `package.json` - Dependencies and scripts
+
+### **Smart Contract Files**
+- `contracts/EntropyConsumer.sol` - Pyth Entropy integration contract
+- `contracts/Boost.sol` - PYUSD payment contract
+- `scripts/deploy.js` - EntropyConsumer deployment script
+- `scripts/deployBoost.js` - Boost contract deployment script
+
+## 📱 **FRONTEND COMPONENTS**
+
+### **Core Components**
+- `src/components/ASILogo.tsx` - ASI logo component
+- `src/components/AIDateFilter.tsx` - AI-powered date filtering
+- `src/components/BoostSection.tsx` - Premium boosts UI
+- `src/components/WalletConnect.tsx` - Wallet connection component
+- `src/components/Web3Profile.tsx` - Web3 profile display
+
+### **Hooks & Context**
+- `src/hooks/useEntropyConsumer.tsx` - EntropyConsumer contract hook
+- `src/hooks/useBoostContract.tsx` - Boost contract hook
+- `src/hooks/useWallet.tsx` - Wallet functionality hook
+- `src/context/Web3Context.tsx` - Web3 context provider
+
+### **Configuration**
+- `src/config/web3Config.ts` - Web3 configuration
+
+### **Pages**
+- `src/pages/sales/SalesHistoryPage.tsx` - Main page with all features
+
+## 📚 **DOCUMENTATION FILES**
+
+### **README Files**
+- `README.md` - Main project documentation
+- `PYTH_ENTROPY_README.md` - Pyth Entropy specific guide
+
+### **Guides**
+- `AI_INTEGRATION_GUIDE.md` - AI features documentation
+- `COMPLETE_DEPLOYMENT_GUIDE.txt` - Complete deployment guide
+
+## 🎯 **STEP-BY-STEP FOLLOW ORDER**
+
+### **Phase 1: Initial Setup**
+1. **Read**: `README.md` - Understand project overview
+2. **Read**: `COMPLETE_DEPLOYMENT_GUIDE.txt` - Complete setup guide
+3. **Update**: `.env` - Add your API keys and configuration
+4. **Check**: `DEPLOYMENT_CHECKLIST.txt` - Verify prerequisites
+
+### **Phase 2: Smart Contract Deployment**
+1. **Read**: `PYTH_ENTROPY_README.md` - Pyth Entropy specific info
+2. **Update**: `scripts/deploy.js` - Add Pyth Entropy addresses
+3. **Update**: `scripts/deployBoost.js` - Add PYUSD addresses
+4. **Run**: `deploy.sh` - Automated deployment script
+5. **Update**: `.env` - Add deployed contract addresses
+
+### **Phase 3: Frontend Integration**
+1. **Read**: `AI_INTEGRATION_GUIDE.md` - AI features guide
+2. **Test**: All components are already integrated
+3. **Verify**: Contract addresses in `.env`
+4. **Start**: `npm start` - Run the application
+
+### **Phase 4: Testing & Verification**
+1. **Test**: Wallet connection
+2. **Test**: Random date generation (Pyth Entropy)
+3. **Test**: Boost purchases (PYUSD)
+4. **Test**: AI date filtering
+5. **Verify**: All features working correctly
+
+## 🔑 **KEY FILES TO UPDATE**
+
+### **Must Update Before Deployment**
+- `.env` - Add your actual API keys
+- `scripts/deploy.js` - Add Pyth Entropy addresses
+- `scripts/deployBoost.js` - Add PYUSD addresses
+
+### **Files That Auto-Generate**
+- `artifacts/` - Contract artifacts (generated)
+- `cache/` - Hardhat cache (generated)
+- `node_modules/` - Dependencies (generated)
+
+## 📖 **QUICK REFERENCE**
+
+### **For Deployment**
+- `COMPLETE_DEPLOYMENT_GUIDE.txt` - Complete step-by-step
+- `deploy.sh` - One-click deployment script
+- `DEPLOYMENT_CHECKLIST.txt` - Quick checklist
+
+### **For AI Features**
+- `AI_INTEGRATION_GUIDE.md` - Complete AI guide
+- `src/components/AIDateFilter.tsx` - AI component
+- `src/components/ASILogo.tsx` - ASI branding
+
+### **For Web3 Features**
+- `PYTH_ENTROPY_README.md` - Pyth Entropy guide
+- `src/hooks/useEntropyConsumer.tsx` - Entropy hook
+- `src/hooks/useBoostContract.tsx` - Boost hook
+
+## 🚨 **IMPORTANT NOTES**
+
+### **Security**
+- Never commit `.env` file to git
+- Keep private keys secure
+- Use testnet first, then mainnet
+
+### **Dependencies**
+- All dependencies are already installed
+- Use `--legacy-peer-deps` if needed
+- Node.js 16+ required
+
+### **Testing**
+- Test on Sepolia testnet first
+- Verify all contracts on Etherscan
+- Test all features before mainnet
+
+## 📞 **SUPPORT FILES**
+
+### **If You Need Help**
+- `COMPLETE_DEPLOYMENT_GUIDE.txt` - Troubleshooting section
+- `AI_INTEGRATION_GUIDE.md` - AI troubleshooting
+- `DEPLOYMENT_CHECKLIST.txt` - Common issues
+
+### **For Development**
+- `package.json` - All dependencies listed
+- `hardhat.config.js` - Network configuration
+- `tsconfig.json` - TypeScript configuration
+
+---
+
+## 🎯 **RECOMMENDED READING ORDER**
+
+1. **Start Here**: `README.md`
+2. **Setup Guide**: `COMPLETE_DEPLOYMENT_GUIDE.txt`
+3. **Quick Check**: `DEPLOYMENT_CHECKLIST.txt`
+4. **Deploy**: Run `deploy.sh`
+5. **AI Features**: `AI_INTEGRATION_GUIDE.md`
+6. **Pyth Specific**: `PYTH_ENTROPY_README.md`
+
+**🎉 You're all set! Follow these files in order and you'll have a fully functional Web3 dating app with AI features!**

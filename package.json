@@ -11,6 +11,7 @@
     "@hookform/resolvers": "^3.9.0",
     "@mui/icons-material": "^5.16.6",
     "@mui/material": "^5.14.16",
+    "@rainbow-me/rainbowkit": "^2.2.9",
     "@tanstack/react-query": "^5.50.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -21,6 +22,7 @@
     "@types/react-dom": "^18.2.14",
     "axios": "^1.7.2",
     "eslint-config-react-app": "^7.0.1",
+    "ethers": "^6.15.0",
     "formik": "^2.4.6",
     "gsap": "^3.13.0",
     "i18next": "^23.11.5",
@@ -35,6 +37,8 @@
     "react-router-dom": "^6.18.0",
     "react-scripts": "5.0.1",
     "typescript": "^4.9.5",
+    "viem": "^2.38.4",
+    "wagmi": "^2.18.2",
     "web-vitals": "^2.1.4",
     "yup": "^1.4.0"
   },
@@ -65,7 +69,12 @@
   },
   "devDependencies": {
     "@mightymeld/runtime": "^0.1.38",
+    "@nomicfoundation/hardhat-toolbox": "^6.1.0",
+    "@openzeppelin/contracts": "^5.4.0",
+    "@pythnetwork/entropy-sdk-solidity": "^2.1.0",
     "customize-cra": "^1.0.0",
+    "dotenv": "^17.2.3",
+    "hardhat": "^3.0.9",
     "react-app-rewired": "^2.2.1",
     "shadcn-ui": "^0.9.5"
   }

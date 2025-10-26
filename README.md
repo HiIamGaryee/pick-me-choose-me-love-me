@@ -53,3 +53,7 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 Built with caffeine, chaos, and just a little bit of hope — by HiIamGaryee.
 
 “It’s a beautiful day to make a match.”
+
+FULLY FRONTEND VERSION PLS CHECK ON MAIN BRANCH
+FULLY FRONTEND VERSION PLS CHECK ON MAIN BRANCH
+FULLY FRONTEND VERSION PLS CHECK ON MAIN BRANCH

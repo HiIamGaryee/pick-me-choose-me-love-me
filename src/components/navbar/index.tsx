@@ -1,3 +1,4 @@
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import ArticleRoundedIcon from "@mui/icons-material/ArticleRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
@@ -5,12 +6,15 @@ import EventIcon from "@mui/icons-material/Event";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import HistoryIcon from "@mui/icons-material/History";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import LoginIcon from "@mui/icons-material/Login";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import {
   AppBar,
   Box,
+  Button,
+  Dialog,
+  DialogContent,
+  DialogTitle,
   Drawer,
   IconButton,
   List,
@@ -18,6 +22,7 @@ import {
   ListItemButton,
   ListItemText,
   Toolbar,
+  Typography,
   useTheme,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -33,6 +38,7 @@ const Navbar: React.FC = () => {
   const isHome = location.pathname === "/";
   const [isScrolled, setIsScrolled] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [walletDialogOpen, setWalletDialogOpen] = useState(false);
 
   useEffect(() => {
     if (!isHome) return;
@@ -62,7 +68,10 @@ const Navbar: React.FC = () => {
 
   const handleLogoClick = () => navigate("/");
   const handleLoginOrProfile = () =>
-    user ? navigate("/member/profile") : navigate("/login");
+    user ? navigate("/member/profile") : setWalletDialogOpen(true);
+  const handleWalletConnect = () => {
+    setWalletDialogOpen(true);
+  };
 
   const handleLogout = () => {
     logout();
@@ -195,7 +204,11 @@ const Navbar: React.FC = () => {
                 },
               }}
             >
-              {user ? <AccountCircleRoundedIcon /> : <LoginIcon />}
+              {user ? (
+                <AccountCircleRoundedIcon />
+              ) : (
+                <AccountBalanceWalletIcon />
+              )}
             </IconButton>
           </Box>
         </Toolbar>
@@ -347,10 +360,14 @@ const Navbar: React.FC = () => {
                     border: (t) => `1px solid ${t.palette.divider}`,
                   }}
                 >
-                  {user ? <AccountCircleRoundedIcon /> : <LoginIcon />}
+                  {user ? (
+                    <AccountCircleRoundedIcon />
+                  ) : (
+                    <AccountBalanceWalletIcon />
+                  )}
                 </Box>
                 <ListItemText
-                  primary={user ? "Profile" : "Sign in"}
+                  primary={user ? "Profile" : "Connect Wallet"}
                   primaryTypographyProps={{ fontWeight: 700 }}
                 />
               </Box>
@@ -375,6 +392,66 @@ const Navbar: React.FC = () => {
           )}
         </List>
       </Drawer>
+
+      {/* Wallet Connect Dialog */}
+      <Dialog
+        open={walletDialogOpen}
+        onClose={() => setWalletDialogOpen(false)}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+            <AccountBalanceWalletIcon
+              sx={{ color: "primary.main", fontSize: 32 }}
+            />
+            <Typography variant="h5" fontWeight={600}>
+              Connect Your Wallet
+            </Typography>
+          </Box>
+        </DialogTitle>
+        <DialogContent>
+          <Box sx={{ textAlign: "center", py: 2 }}>
+            <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+              Connect your wallet to access Web3 features and premium dating
+              experiences
+            </Typography>
+
+            <Button
+              variant="contained"
+              size="large"
+              fullWidth
+              onClick={() => {
+                // This will connect to MetaMask when Web3 is implemented
+                alert(
+                  "Wallet connection will be available after deploying smart contracts!"
+                );
+                setWalletDialogOpen(false);
+              }}
+              sx={{
+                bgcolor: "secondary.main",
+                py: 1.5,
+                mb: 2,
+                fontWeight: 600,
+                textTransform: "none",
+              }}
+              startIcon={<AccountBalanceWalletIcon />}
+            >
+              Connect MetaMask
+            </Button>
+
+            <Button
+              variant="outlined"
+              size="large"
+              fullWidth
+              onClick={() => setWalletDialogOpen(false)}
+              sx={{ textTransform: "none" }}
+            >
+              Cancel
+            </Button>
+          </Box>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };
