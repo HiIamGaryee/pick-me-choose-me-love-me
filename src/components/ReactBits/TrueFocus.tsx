@@ -13,6 +13,7 @@ interface TrueFocusProps {
   delimiter?: string; // allows grouping words by a custom separator
   textGradient?: string; // optional CSS gradient for text fill
   groupSize?: number; // number of words to focus at once
+  stacked?: boolean; // display each word on its own line
 }
 
 const TrueFocus: React.FC<TrueFocusProps> = ({
@@ -26,6 +27,7 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
   delimiter = " ",
   textGradient,
   groupSize = 1,
+  stacked = false,
 }) => {
   const words = sentence.split(delimiter);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -116,7 +118,10 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
   };
 
   return (
-    <div className="focus-container" ref={containerRef}>
+    <div
+      className={`focus-container ${stacked ? "focus-container--stacked" : ""}`}
+      ref={containerRef}
+    >
       {words.map((word, index) => {
         const isActive =
           index >= currentIndex &&

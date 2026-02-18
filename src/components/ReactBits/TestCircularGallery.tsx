@@ -22,7 +22,7 @@ const TestCircularGallery = () => {
       <CircularGallery
         items={testItems}
         bend={1}
-        textColor="#ffffff"
+        textColor="#e7eae5"
         borderRadius={0.05}
       />
     </div>

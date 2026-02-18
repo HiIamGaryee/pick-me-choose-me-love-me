@@ -24,7 +24,7 @@ const TeamMemberSection = () => {
         mb={6}
         color="secondary.dark"
       >
-        The Team
+        The Maker
       </Typography>
       <Box
         sx={{

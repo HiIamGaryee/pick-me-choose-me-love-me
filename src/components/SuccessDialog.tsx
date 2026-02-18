@@ -1,11 +1,5 @@
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogContent,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Dialog, DialogContent, Typography } from "@mui/material";
 import React from "react";
 
 interface SuccessDialogProps {
@@ -64,7 +58,7 @@ const SuccessDialog: React.FC<SuccessDialogProps> = ({
                 "#4CAF50", // Green
                 "#2196F3", // Blue
                 "#FFEB3B", // Yellow
-                "#FFFFFF", // White
+                "#e7eae5", // White
                 "#E91E63", // Pink
               ][Math.floor(Math.random() * 5)],
               borderRadius: Math.random() > 0.5 ? "50%" : "0%",

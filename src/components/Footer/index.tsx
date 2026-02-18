@@ -34,7 +34,8 @@ const Footer = () => {
     <Box
       component="footer"
       sx={{
-        backgroundColor: (t) => t.palette.secondary.main,
+        position: "relative",
+        background: "linear-gradient(135deg, #F8BBD9 0%, #F48FB1 50%, #EC407A 100%)",
         px: { xs: 3, md: 6 },
         py: { xs: 6, md: 10 },
         display: "grid",
@@ -43,65 +44,57 @@ const Footer = () => {
         color: (t) => t.palette.common.white,
       }}
     >
-      {/* Scalloped top border */}
-      <Box
-        aria-hidden
-        sx={{
-          position: "absolute",
-          top: -24,
-          left: 0,
-          right: 0,
-          height: 24,
-          backgroundImage: (t) =>
-            `radial-gradient(12px 12px at 12px 24px, ${t.palette.light.main} 12px, transparent 13px)`,
-          backgroundSize: "24px 24px",
-          backgroundRepeat: "repeat-x",
-          backgroundPosition: "top left",
-          pointerEvents: "none",
-        }}
-      />
-      {/* Scalloped bottom border */}
-      <Box
-        aria-hidden
-        sx={{
-          position: "absolute",
-          bottom: -24,
-          left: 0,
-          right: 0,
-          height: 24,
-          backgroundImage: (t) =>
-            `radial-gradient(12px 12px at 12px 0px, ${t.palette.light.main} 12px, transparent 13px)`,
-          backgroundSize: "24px 24px",
-          backgroundRepeat: "repeat-x",
-          backgroundPosition: "bottom left",
-          pointerEvents: "none",
-        }}
-      />
       {/* Left big message */}
       <Box>
-        {" "}
         <Box
           component="img"
           src={FOOTERIMAGE}
-          alt="img"
+          alt="Pick Me Choose Me Love Me"
           sx={{
             height: "auto",
             width: "100%",
             maxWidth: 480,
             pointerEvents: "none",
             userSelect: "none",
+            opacity: 0,
+            animation: "footerReveal 1s ease-out 0.2s forwards",
+            "@keyframes footerReveal": {
+              "0%": {
+                opacity: 0,
+                transform: "translateY(20px)",
+              },
+              "100%": {
+                opacity: 1,
+                transform: "translateY(0)",
+              },
+            },
           }}
         />
         <Typography
           variant="h3"
           fontWeight={900}
           sx={{
+            fontFamily: "'Reigo', sans-serif",
             mb: 2,
             lineHeight: 1.1,
             background:
               "linear-gradient(90deg, #E40303 0%, #FF8C00 25%, #FFED00 50%, #008026 65%, #004DFF 80%, #750787 100%)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+            overflow: "hidden",
+            display: "inline-block",
+            animation: "typographyReveal 1.2s ease-out 0.4s forwards",
+            "@keyframes typographyReveal": {
+              "0%": {
+                clipPath: "inset(0 100% 0 0)",
+                opacity: 0,
+              },
+              "100%": {
+                clipPath: "inset(0 0 0 0)",
+                opacity: 1,
+              },
+            },
           }}
         >
           Pick Me Choose Me Love Me

@@ -22,7 +22,7 @@ const LandingBannerSection = () => {
       }}
     >
       <Box sx={{ position: "absolute", inset: 0, zIndex: 0 }}>
-        <RippleGrid gridColor="#ffffff" rippleIntensity={0.06} opacity={0.8} />
+        <RippleGrid gridColor="#e7eae5" rippleIntensity={0.06} opacity={0.8} />
       </Box>
 
       <Box sx={{ zIndex: 1 }}>
@@ -35,7 +35,7 @@ const LandingBannerSection = () => {
           easing="ease-out"
           extraScale={1.2}
         >
-          <Box sx={{ mb: 2 }}>
+          <Box sx={{ mb: 2, fontFamily: "'Reigo', sans-serif" }}>
             <TrueFocus
               sentence="Pick Me Choose Me Love Me"
               delimiter=" "

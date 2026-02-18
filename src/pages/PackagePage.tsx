@@ -18,7 +18,7 @@ export const PRICING_PLANS = [
     description: "Get productive with essentials. No credit card.",
     chip: "free",
     chipColor: "success",
-    surface: "#FFFFFF",
+    surface: "#e7eae5",
     inverted: false,
     features: [
       "Unlimited tasks",
@@ -130,7 +130,9 @@ const PackagePage = () => {
                     <Typography
                       variant="overline"
                       sx={{
-                        color: isHighlight ? "rgba(255,255,255,0.8)" : "text.secondary",
+                        color: isHighlight
+                          ? "rgba(255,255,255,0.8)"
+                          : "text.secondary",
                         fontWeight: 600,
                       }}
                     >

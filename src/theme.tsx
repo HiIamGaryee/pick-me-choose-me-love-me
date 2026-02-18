@@ -16,8 +16,8 @@ declare module "@mui/material/styles" {
   }
 }
 
-const yesevaFont = "Yeseva One, sans-serif";
-const montserratFont = "Montserrat, sans-serif";
+const monospaceFont =
+  "ui-monospace, 'Cascadia Code', 'Consolas', 'Monaco', monospace";
 
 // Function to create a theme based on the mode
 const getTheme = (mode: any) =>
@@ -29,7 +29,7 @@ const getTheme = (mode: any) =>
         main: mode === "light" ? "#6C2BD9" : "#A78BFA",
         light: "#8B5CF6",
         dark: "#4C1D95",
-        contrastText: "#FFFFFF",
+        contrastText: "#e7eae5",
       },
       secondary: {
         // Pink accent used across headings/badges
@@ -41,7 +41,7 @@ const getTheme = (mode: any) =>
       light: {
         // Cloudy off-white with a hint of lavender for light surfaces
         main: "#F3EFFE",
-        light: "#FFFFFF",
+        light: "#e7eae5",
         dark: "#E6DBFF",
       },
       dark: {
@@ -80,15 +80,15 @@ const getTheme = (mode: any) =>
       borderRadius: 24,
     },
     typography: {
-      fontFamily: montserratFont,
-      h1: { fontFamily: yesevaFont },
-      h2: { fontFamily: yesevaFont },
-      h3: { fontFamily: yesevaFont },
-      h4: { fontFamily: yesevaFont },
-      h5: { fontFamily: yesevaFont },
-      h6: { fontFamily: yesevaFont },
-      subtitle1: { fontFamily: yesevaFont },
-      button: { fontFamily: montserratFont },
+      fontFamily: monospaceFont,
+      h1: { fontFamily: monospaceFont },
+      h2: { fontFamily: monospaceFont },
+      h3: { fontFamily: monospaceFont },
+      h4: { fontFamily: monospaceFont },
+      h5: { fontFamily: monospaceFont },
+      h6: { fontFamily: monospaceFont },
+      subtitle1: { fontFamily: monospaceFont },
+      button: { fontFamily: monospaceFont },
     },
     components: {
       MuiPaper: {
@@ -124,11 +124,11 @@ const getTheme = (mode: any) =>
       MuiToggleButton: {
         styleOverrides: {
           root: {
-            color: "#FFFFFF",
+            color: "#e7eae5",
             border: "none",
             "&.Mui-selected": {
               backgroundColor: "#6C2BD9",
-              color: "#FFFFFF",
+              color: "#e7eae5",
             },
             "&:hover": {
               backgroundColor: "#4C1D95",
@@ -143,7 +143,7 @@ const getTheme = (mode: any) =>
         styleOverrides: {
           contained: {
             background: "#6C2BD9",
-            color: "#FFFFFF",
+            color: "#e7eae5",
             fontWeight: "bold",
             borderRadius: "999px",
             padding: "12px 20px",
@@ -183,7 +183,7 @@ const getTheme = (mode: any) =>
       MuiCard: {
         styleOverrides: {
           root: {
-            backgroundColor: "#FFFFFF",
+            backgroundColor: "#e7eae5",
             padding: "24px",
             borderRadius: "24px",
             border: "1px solid #EDE7FF",

@@ -43,7 +43,7 @@ function createTextTexture(
   gl: GL,
   text: string,
   font: string = "bold 30px monospace",
-  color: string = "black"
+  color: string = "black",
 ): { texture: Texture; width: number; height: number } {
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d");
@@ -111,7 +111,7 @@ class Title {
       this.gl,
       this.text,
       this.font,
-      this.textColor
+      this.textColor,
     );
     const geometry = new Plane(this.gl);
     const program = new Program(this.gl, {
@@ -339,7 +339,7 @@ class Media {
 
   update(
     scroll: { current: number; last: number },
-    direction: "right" | "left"
+    direction: "right" | "left",
   ) {
     this.plane.position.x = this.x - scroll.current - this.extra;
 
@@ -458,12 +458,12 @@ class App {
     {
       items,
       bend = 1,
-      textColor = "#ffffff",
+      textColor = "#e7eae5",
       borderRadius = 0,
       font = "bold 30px Figtree",
       scrollSpeed = 2,
       scrollEase = 0.05,
-    }: AppConfig
+    }: AppConfig,
   ) {
     document.documentElement.classList.remove("no-js");
     this.container = container;
@@ -513,7 +513,7 @@ class App {
     bend: number = 1,
     textColor: string,
     borderRadius: number,
-    font: string
+    font: string,
   ) {
     const defaultItems = [
       {
@@ -639,7 +639,7 @@ class App {
     this.viewport = { width, height };
     if (this.medias) {
       this.medias.forEach((media) =>
-        media.onResize({ screen: this.screen, viewport: this.viewport })
+        media.onResize({ screen: this.screen, viewport: this.viewport }),
       );
     }
   }
@@ -648,7 +648,7 @@ class App {
     this.scroll.current = lerp(
       this.scroll.current,
       this.scroll.target,
-      this.scroll.ease
+      this.scroll.ease,
     );
     const direction = this.scroll.current > this.scroll.last ? "right" : "left";
     if (this.medias) {
@@ -693,7 +693,7 @@ class App {
       this.renderer.gl.canvas.parentNode
     ) {
       this.renderer.gl.canvas.parentNode.removeChild(
-        this.renderer.gl.canvas as HTMLCanvasElement
+        this.renderer.gl.canvas as HTMLCanvasElement,
       );
     }
   }
@@ -712,7 +712,7 @@ interface CircularGalleryProps {
 export default function CircularGallery({
   items,
   bend = 3,
-  textColor = "#ffffff",
+  textColor = "#e7eae5",
   borderRadius = 0.05,
   font = "bold 30px Figtree",
   scrollSpeed = 2,

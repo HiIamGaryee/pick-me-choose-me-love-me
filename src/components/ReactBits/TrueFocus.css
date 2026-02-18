@@ -6,6 +6,12 @@
     align-items: center;
     flex-wrap: wrap;
   }
+
+  .focus-container--stacked {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 0.1em;
+  }
   
   .focus-word {
     position: relative;

@@ -211,7 +211,7 @@ const Navbar: React.FC = () => {
             background:
               theme.palette.mode === "dark"
                 ? theme.palette.background.paper
-                : "#ffffff",
+                : "#e7eae5",
             color: theme.palette.text.primary,
             pt: 2,
             borderRadius: 0,
