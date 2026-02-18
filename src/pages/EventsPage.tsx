@@ -318,7 +318,7 @@ const EventCard = ({ event }: { event: (typeof events)[0] }) => {
           flexWrap="wrap"
           sx={{ mt: { xs: 1, md: 1.5 } }}
         >
-          {event.tags.map((tag, index) => (
+          {event.tags.map((tag: string, index: number) => (
             <Box
               key={index}
               sx={{

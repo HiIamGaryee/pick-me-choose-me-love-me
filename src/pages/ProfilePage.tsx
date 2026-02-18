@@ -9,13 +9,10 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useTranslation } from "react-i18next";
 import ProfilePicture from "../assets/profile-avatar.jpg";
 import Layout from "../Layout";
 
 const ProfilePage = () => {
-  const { t } = useTranslation();
-
   return (
     <Layout>
       <Box sx={{ p: { xs: 2, md: 4 } }}>

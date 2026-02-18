@@ -6,21 +6,17 @@ import {
   TextField,
   Stack,
   Grid,
-  Toolbar,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { LoginParams, postLogin } from "../api"; // Adjust the path as necessary
 import loginBg from "../assets/login-bg.jpeg";
-import loginBg2 from "../assets/coffee1.png";
 
 import { useAppMutation } from "../hooks/useAppMutation";
-import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
-  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const validationSchema = Yup.object({

@@ -8,14 +8,14 @@ import {
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import ctaDateV1 from "../assets/cta-date-v1.png";
+import ctaDateV2 from "../assets/cta-date-v2.png";
+import ctaDateV3 from "../assets/cta-date-v3.png";
+import ctaDateV4 from "../assets/useAuthStatus.png";
 import LandingBannerSection from "../components/HomeSection/LandingBannerSection";
 import TeamMemberSection from "../components/HomeSection/TeamMemberSection";
 import CircularGallery from "../components/ReactBits/CircularGallery";
 import Layout from "../Layout";
-import ctaDateV1 from "../assets/cta-date-v1.png";
-import ctaDateV2 from "../assets/cta-date-v2.png";
-import ctaDateV3 from "../assets/cta-date-v3.png";
-import ctaDateV4 from "../assets/cta-date-v4.png";
 
 const HomePage = () => {
   const navigate = useNavigate();

@@ -15,13 +15,6 @@ interface TrueFocusProps {
   groupSize?: number; // number of words to focus at once
 }
 
-interface FocusRect {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
-
 const TrueFocus: React.FC<TrueFocusProps> = ({
   sentence = "True Focus",
   manualMode = false,
@@ -42,12 +35,6 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
   const wordRefs: React.MutableRefObject<(HTMLSpanElement | null)[]> = useRef(
     []
   );
-  const [focusRect, setFocusRect] = useState<FocusRect>({
-    x: 0,
-    y: 0,
-    width: 0,
-    height: 0,
-  });
 
   // auto-animate words
   useEffect(() => {
@@ -103,8 +90,6 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
       height: Math.max(0, maxBottom - minTop),
     };
 
-    setFocusRect(newRect);
-
     // animate with GSAP
     gsap.to(frameRef.current, {
       x: newRect.x,
@@ -115,7 +100,7 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
       duration: animationDuration,
       ease: "power2.out",
     });
-  }, [currentIndex, animationDuration, words.length]);
+  }, [currentIndex, animationDuration, words.length, groupSize]);
 
   const handleMouseEnter = (index: number) => {
     if (manualMode) {

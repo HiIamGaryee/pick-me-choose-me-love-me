@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Box,
   Typography,
@@ -15,7 +15,6 @@ import {
 import Layout from "../../Layout";
 
 import { useQuery } from "@tanstack/react-query";
-import { getEmailSubscribe } from "../../api";
 import InventoryRoundedIcon from "@mui/icons-material/InventoryRounded";
 import AddIcCallRoundedIcon from "@mui/icons-material/AddIcCallRounded";
 import MarkEmailReadRoundedIcon from "@mui/icons-material/MarkEmailReadRounded";

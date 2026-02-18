@@ -5,7 +5,8 @@ import PinterestIcon from "@mui/icons-material/Pinterest";
 import XIcon from "@mui/icons-material/X";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import { Box, IconButton, Stack, Typography } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import FOOTERIMAGE from "../../assets/footer.png";
 
 const footerLinks = [
   {
@@ -29,8 +30,6 @@ const footerLinks = [
 ];
 
 const Footer = () => {
-  const navigate = useNavigate();
-
   return (
     <Box
       component="footer"
@@ -80,6 +79,19 @@ const Footer = () => {
       />
       {/* Left big message */}
       <Box>
+        {" "}
+        <Box
+          component="img"
+          src={FOOTERIMAGE}
+          alt="img"
+          sx={{
+            height: "auto",
+            width: "100%",
+            maxWidth: 480,
+            pointerEvents: "none",
+            userSelect: "none",
+          }}
+        />
         <Typography
           variant="h3"
           fontWeight={900}

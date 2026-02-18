@@ -5,7 +5,6 @@ import {
   Dialog,
   DialogContent,
   Typography,
-  useTheme,
 } from "@mui/material";
 import React from "react";
 
@@ -20,8 +19,6 @@ const SuccessDialog: React.FC<SuccessDialogProps> = ({
   onClose,
   dateTime,
 }) => {
-  const theme = useTheme();
-
   return (
     <Dialog
       open={open}

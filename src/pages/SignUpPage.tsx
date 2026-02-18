@@ -13,10 +13,7 @@ import * as Yup from "yup";
 import { SignUpParams, postSignUp } from "../api"; // Adjust the path as necessary
 import loginBg from "../assets/signup-bg.jpeg";
 import { useAppMutation } from "../hooks/useAppMutation";
-import { useTranslation } from "react-i18next";
-import EnhancedEncryptionRoundedIcon from "@mui/icons-material/EnhancedEncryptionRounded";
 const SignUpPage = () => {
-  const { t } = useTranslation();
   const validationSchema = Yup.object({
     email: Yup.string()
       .required("Email is required")

@@ -1,5 +1,5 @@
 import { Box, Button, TextField, Paper } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 import Layout from "../../Layout";
 import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -13,7 +13,7 @@ import {
 } from "../../api/admin";
 
 const AddListingPage = () => {
-  const { data: BestSellerList } = useQuery({
+  useQuery({
     queryKey: ["getBestSeller", 10, 0], // Includes parameters in the query key
     queryFn: () => getBestSeller(10, 0), // Calls the function with parameters
   });

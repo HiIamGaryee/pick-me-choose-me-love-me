@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Box,
   Typography,
@@ -22,7 +22,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import {
   getProductList,
-  postDeleteProductList,
   postProductList,
   ProductListParams,
 } from "../../api/admin";
@@ -32,7 +31,6 @@ import MarkEmailReadRoundedIcon from "@mui/icons-material/MarkEmailReadRounded";
 import AddIcCallRoundedIcon from "@mui/icons-material/AddIcCallRounded";
 import MonetizationOnRoundedIcon from "@mui/icons-material/MonetizationOnRounded";
 import { useNavigate } from "react-router-dom";
-import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 const ProductListPage = () => {
   const validationSchema = Yup.object({
     code: Yup.string().required("Email is required"),

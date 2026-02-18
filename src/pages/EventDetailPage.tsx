@@ -713,7 +713,7 @@ const EventDetailPage = () => {
                     sx={{ fontSize: { xs: "0.7rem", md: "0.75rem" } }}
                   />
                   <Box sx={{ mt: 1 }}>
-                    {event.tags.map((tag, index) => (
+                    {event.tags.map((tag: string, index: number) => (
                       <Chip
                         key={index}
                         label={tag}

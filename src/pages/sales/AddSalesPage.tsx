@@ -169,7 +169,7 @@ const datePlanTemplates = [
 
 const AddSalesPage = () => {
   const theme = useTheme();
-  const { addNewSale } = useSalesContext();
+  useSalesContext();
   const location = useLocation();
   const navigate = useNavigate();
   const [showIdeas, setShowIdeas] = useState(false);
