@@ -13,6 +13,8 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import Layout from "../Layout";
+import faqImage from "../assets/faq-v1.png";
+import faqImage2 from "../assets/faq-v2.png";
 
 // =========================
 // FAQ DATA
@@ -85,7 +87,7 @@ const FaqPage: React.FC = () => {
       setExpanded(isExpanded ? panel : false);
     };
 
-  const renderFaqList = (list: any[], category: string) => (
+  const renderFaqList = (list: any[], category: string, imageSrc?: string) => (
     <Box
       sx={{
         display: "flex",
@@ -117,6 +119,14 @@ const FaqPage: React.FC = () => {
           </a>
           .
         </Typography>
+        {imageSrc && (
+          <Box
+            component="img"
+            src={imageSrc}
+            alt=""
+            sx={{ mt: 2, width: "100%", maxWidth: 220, display: "block" }}
+          />
+        )}
       </Box>
 
       {/* RIGHT ACCORDION SIDE */}
@@ -195,8 +205,8 @@ const FaqPage: React.FC = () => {
           py: { xs: 6, md: 10 },
         }}
       >
-        {renderFaqList(faqListGeneral, "General FAQs")}
-        {renderFaqList(faqListBilling, "Billing FAQs")}
+        {renderFaqList(faqListGeneral, "General FAQs", faqImage)}
+        {renderFaqList(faqListBilling, "Billing FAQs", faqImage2)}
       </Box>
 
       <Box sx={{ p: 4 }}>
