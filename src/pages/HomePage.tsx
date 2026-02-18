@@ -8,14 +8,14 @@ import {
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import LandingBannerSection from "../components/HomeSection/LandingBannerSection";
-import TeamMemberSection from "../components/HomeSection/TeamMemberSection";
-import CircularGallery from "../components/ReactBits/CircularGallery";
-import Layout from "../Layout";
 import ctaDateV1 from "../assets/cta-date-v1.png";
 import ctaDateV2 from "../assets/cta-date-v2.png";
 import ctaDateV3 from "../assets/cta-date-v3.png";
 import ctaDateV4 from "../assets/cta-date-v4.png";
+import LandingBannerSection from "../components/HomeSection/LandingBannerSection";
+import TeamMemberSection from "../components/HomeSection/TeamMemberSection";
+import CircularGallery from "../components/ReactBits/CircularGallery";
+import Layout from "../Layout";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -162,8 +162,8 @@ const HomePage = () => {
           justifyContent: "center",
           flexDirection: "column",
           py: 10,
-          background: (theme) =>
-            `linear-gradient(180deg, ${theme.palette.dark.light} 0%, ${theme.palette.dark.main} 100%)`,
+          background:
+            "linear-gradient(180deg, #3D2966 0%, #5B3A8C 25%, #7C4DBF 50%, #6C2BD9 75%, #1B0B3A 100%)",
         }}
       >
         <Typography
@@ -188,9 +188,7 @@ const HomePage = () => {
           <Button onClick={() => navigate(`/signup`)}>
             Create Your First Date Plan
           </Button>
-          <Button onClick={() => navigate(`/sales`)} variant="text">
-            Browse Date Ideas
-          </Button>
+          <Button onClick={() => navigate(`/sales`)}>Browse Date Ideas</Button>
         </Stack>
       </Box>
       <TeamMemberSection />

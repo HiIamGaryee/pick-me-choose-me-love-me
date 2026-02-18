@@ -57,8 +57,10 @@ const Navbar: React.FC = () => {
   ];
 
   const isWhite = !isHome || isScrolled;
-  const bgColor = isWhite ? "#fff" : "transparent";
-  const textColor = isWhite ? "#000" : theme.palette.light.main;
+  const bgColor = isWhite
+    ? "rgba(255,255,255,0.92)"
+    : "rgba(248,247,254,0.35)";
+  const textColor = isWhite ? "#1B0B3A" : theme.palette.light.main;
 
   const handleLogoClick = () => navigate("/");
   const handleLoginOrProfile = () =>
@@ -76,17 +78,19 @@ const Navbar: React.FC = () => {
   return (
     <>
       <AppBar
-        position={location.pathname === "/" ? "absolute" : "sticky"}
+        position="sticky"
         elevation={isWhite ? 2 : 0}
         sx={{
-          backgroundColor: isWhite ? "rgba(255,255,255,0.86)" : bgColor,
+          top: 0,
+          zIndex: 1100,
+          backgroundColor: bgColor,
+          backdropFilter: "saturate(180%) blur(10px)",
           color: textColor,
           transition: "background-color 0.3s ease, box-shadow 0.3s ease",
           boxShadow: isWhite ? "0 2px 6px rgba(0,0,0,0.06)" : "none",
           borderBottom: isWhite ? `1px solid ${theme.palette.divider}` : "none",
           padding: 0,
           borderRadius: 0,
-          backdropFilter: isWhite ? "saturate(180%) blur(8px)" : "none",
         }}
       >
         <Toolbar
@@ -119,6 +123,7 @@ const Navbar: React.FC = () => {
               >
                 {({ isActive }) => (
                   <Box
+                    component="span"
                     sx={{
                       display: "flex",
                       alignItems: "center",
@@ -129,20 +134,26 @@ const Navbar: React.FC = () => {
                       color: isActive ? theme.palette.primary.main : textColor,
                       backgroundColor: isActive
                         ? isWhite
-                          ? "rgba(25, 118, 210, 0.08)"
+                          ? "rgba(108, 43, 217, 0.12)"
                           : "rgba(255,255,255,0.1)"
                         : "transparent",
-                      transition: "all 0.2s ease",
-                      fontWeight: isActive ? 600 : 500,
+                      transition: "all 0.25s ease",
+                      fontWeight: isActive ? 700 : 500,
                       "&:hover": {
-                        backgroundColor: isActive
-                          ? isWhite
-                            ? "rgba(25, 118, 210, 0.12)"
-                            : "rgba(255,255,255,0.15)"
-                          : isWhite
-                          ? "rgba(0,0,0,0.06)"
-                          : "rgba(255,255,255,0.08)",
-                        transform: "translateY(-1px)",
+                        color: theme.palette.primary.main,
+                        backgroundColor: isWhite
+                          ? "rgba(108, 43, 217, 0.1)"
+                          : "rgba(255,255,255,0.15)",
+                        transform: "translateY(-2px) scale(1.02)",
+                        boxShadow: "0 4px 12px rgba(108, 43, 217, 0.2)",
+                      },
+                      "&:focus": {
+                        outline: "none",
+                        boxShadow: `0 0 0 2px ${theme.palette.primary.main}`,
+                      },
+                      "&:focus-visible": {
+                        outline: "none",
+                        boxShadow: `0 0 0 2px ${theme.palette.primary.main}`,
                       },
                     }}
                   >
@@ -151,7 +162,7 @@ const Navbar: React.FC = () => {
                         display: "grid",
                         placeItems: "center",
                         fontSize: "1.1rem",
-                        opacity: isActive ? 1 : 0.8,
+                        opacity: 1,
                       }}
                     >
                       {item.icon}
@@ -267,6 +278,11 @@ const Navbar: React.FC = () => {
                   borderRadius: 2,
                   mx: 1,
                   mb: 0.5,
+                  transition: "all 0.25s ease",
+                  "&:hover": {
+                    backgroundColor: "rgba(108, 43, 217, 0.08)",
+                    transform: "translateX(4px)",
+                  },
                 }}
               >
                 {(() => {
