@@ -152,8 +152,24 @@ export default function BlogPage() {
     );
   }
 
-  const blogs = state.blogs;
-  const featured = blogs[0]; // First blog as featured
+  const blogs = [...state.blogs].sort((a, b) => {
+    const parse = (tags?: string) => {
+      const arr = (tags || "").split(",").map((t) => t.trim());
+      const placement =
+        arr.find((t) => t.startsWith("placement:"))?.split(":")[1] || "regular";
+      const seq = parseInt(
+        arr.find((t) => t.startsWith("seq:"))?.split(":")[1] || "999",
+        10
+      );
+      return { placement, seq } as { placement: string; seq: number };
+    };
+    const A = parse(a.tags);
+    const B = parse(b.tags);
+    if (A.placement !== B.placement) return A.placement === "trending" ? -1 : 1;
+    if (A.seq !== B.seq) return A.seq - B.seq;
+    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+  });
+  const featured = blogs[0];
   const rest = blogs.slice(1);
 
   return (

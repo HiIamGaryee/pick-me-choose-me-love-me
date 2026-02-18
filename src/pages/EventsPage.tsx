@@ -13,11 +13,13 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Event as ApiEvent, getEvents } from "../api/events";
 import Layout from "../Layout";
 
-// Hardcoded event data
-const events = [
+// Fallback hardcoded event data (used until API loads)
+const eventsFallback = [
   {
     id: 1,
     title: "Blind Date Speed Dating",
@@ -128,7 +130,7 @@ const events = [
   },
 ];
 
-const EventCard = ({ event }: { event: (typeof events)[0] }) => {
+const EventCard = ({ event }: { event: any }) => {
   const navigate = useNavigate();
   const theme = useTheme();
 
@@ -203,7 +205,7 @@ const EventCard = ({ event }: { event: (typeof events)[0] }) => {
           }}
         >
           <img
-            src={event.image}
+            src={event.image || event.image_url}
             alt={event.title}
             style={{
               width: "100%",
@@ -410,8 +412,28 @@ const EventCard = ({ event }: { event: (typeof events)[0] }) => {
 
 const EventsPage = () => {
   const theme = useTheme();
-  const blindDateEvents = events.filter((event) => event.type === "blind_date");
-  const otherEvents = events.filter((event) => event.type !== "blind_date");
+  const [apiEvents, setApiEvents] = useState<ApiEvent[] | null>(null);
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const data = await getEvents();
+        setApiEvents(data);
+      } catch (e) {
+        setApiEvents(null);
+      }
+    };
+    load();
+  }, []);
+
+  const source =
+    apiEvents && apiEvents.length > 0 ? apiEvents : (eventsFallback as any[]);
+  const blindDateEvents = source.filter(
+    (event: any) => event.type === "blind_date" || event.type === undefined
+  );
+  const otherEvents = source.filter(
+    (event: any) => event.type && event.type !== "blind_date"
+  );
 
   return (
     <Layout>

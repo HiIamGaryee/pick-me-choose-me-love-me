@@ -7,6 +7,7 @@ import React, {
   useState,
 } from "react";
 import { LoginParams, postLogin } from "./api";
+import api from "./utils/axiosConfig";
 
 interface User {
   id?: string;
@@ -34,11 +35,7 @@ const AuthContext = createContext<AuthContextType>({
 
 export const useAuth = () => useContext(AuthContext);
 
-// Hardcoded admin credentials
-const ADMIN_CREDENTIALS = {
-  email: "admin@admin.com",
-  password: "admin123",
-};
+// Remove hardcoded credentials; rely on API
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
@@ -64,67 +61,37 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   const login = async (userCredentials: LoginParams) => {
     try {
-      // Check if it's admin login
-      if (
-        userCredentials.email === ADMIN_CREDENTIALS.email &&
-        userCredentials.password === ADMIN_CREDENTIALS.password
-      ) {
-        const adminUser: User = {
-          id: "admin-1",
-          name: "Admin User",
-          email: ADMIN_CREDENTIALS.email,
-          token: "admin-token-" + Date.now(),
-          role: "admin",
-        };
+      // Call API (tries admin then member)
+      const jwt = await postLogin(userCredentials);
 
-        localStorage.setItem("user", JSON.stringify(adminUser));
-        setUser(adminUser);
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${adminUser.token}`;
-        return;
-      }
-
-      // Check if it's member login (from localStorage)
-      const members = JSON.parse(localStorage.getItem("members") || "[]");
-      const member = members.find(
-        (m: any) =>
-          m.email === userCredentials.email &&
-          m.password === userCredentials.password
-      );
-
-      if (member) {
-        const memberUser: User = {
-          id: member.id,
-          name: member.name || member.email,
-          email: member.email,
-          token: "member-token-" + Date.now(),
-          role: "member",
-        };
-
-        localStorage.setItem("user", JSON.stringify(memberUser));
-        setUser(memberUser);
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${memberUser.token}`;
-        return;
-      }
-
-      // If not found, try the original API call (for backward compatibility)
-      const response = await postLogin(userCredentials);
-      const apiUser: User = {
-        id: "api-user-" + Date.now(),
-        name: response.name,
-        email: response.email || userCredentials.email,
-        token: response.token,
-        role: "member", // Default to member for API users
-      };
-
-      localStorage.setItem("user", JSON.stringify(apiUser));
-      setUser(apiUser);
+      // Persist token and set headers
+      localStorage.setItem("token", jwt.access_token);
       axios.defaults.headers.common[
         "Authorization"
-      ] = `Bearer ${response.token}`;
+      ] = `Bearer ${jwt.access_token}`;
+      api.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${jwt.access_token}`;
+
+      // Fetch profile to determine role and user info
+      const me = await api.get<{
+        id: number;
+        name: string;
+        email: string;
+        role: "admin" | "member";
+      }>("/users/me");
+
+      const profile = me.data;
+      const sessionUser: User = {
+        id: String(profile.id),
+        name: profile.name,
+        email: profile.email,
+        token: jwt.access_token,
+        role: profile.role,
+      };
+
+      localStorage.setItem("user", JSON.stringify(sessionUser));
+      setUser(sessionUser);
     } catch (error) {
       console.error("Login error:", error);
       throw new Error("Invalid email or password");

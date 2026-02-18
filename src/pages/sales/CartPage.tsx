@@ -1,33 +1,34 @@
-import React, { useState, useEffect } from "react";
+import AccountBalanceRoundedIcon from "@mui/icons-material/AccountBalanceRounded";
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import CurrencyBitcoinRoundedIcon from "@mui/icons-material/CurrencyBitcoinRounded";
+import DeleteIcon from "@mui/icons-material/Delete";
+import RemoveRoundedIcon from "@mui/icons-material/RemoveRounded";
 import {
   Box,
-  Typography,
   Button,
   Card,
   CardContent,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  Grid,
   IconButton,
+  Paper,
+  Stack,
   Table,
   TableBody,
   TableCell,
   TableContainer,
-  Dialog,
-  DialogActions,
-  DialogTitle,
   TableHead,
   TableRow,
-  Stack,
-  Grid,
   TextField,
-  Paper,
+  Typography,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import Layout from "../../Layout";
-import AddRoundedIcon from "@mui/icons-material/AddRounded";
-import RemoveRoundedIcon from "@mui/icons-material/RemoveRounded";
-import { useAppMutation } from "../../hooks/useAppMutation";
+import { useEffect, useState } from "react";
 import { CheckoutParams, postCheckout } from "../../api/admin";
-import AccountBalanceRoundedIcon from "@mui/icons-material/AccountBalanceRounded";
-import CurrencyBitcoinRoundedIcon from "@mui/icons-material/CurrencyBitcoinRounded";
+import { useAppMutation } from "../../hooks/useAppMutation";
+import { useProducts } from "../../hooks/useProducts";
+import Layout from "../../Layout";
 type CartProduct = {
   name: string;
   code: string;
@@ -51,11 +52,18 @@ const CartPage = () => {
     },
   });
   const [showSuccess, setShowSuccess] = useState(false);
+  const { data: productData, mapByCode } = useProducts(500, 0);
 
   useEffect(() => {
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-    setProducts(cart);
-  }, []);
+    // Refresh cart items with latest API price/name if available
+    const refreshed = cart.map((item: CartProduct) => {
+      const p = mapByCode.get(item.code);
+      return p ? { ...item, name: p.name, price: p.price } : item;
+    });
+    setProducts(refreshed);
+    localStorage.setItem("cart", JSON.stringify(refreshed));
+  }, [mapByCode]);
 
   const handleQuantityChange = (code: string, newQuantity: number) => {
     const updatedProducts = products.map((product: CartProduct) => {

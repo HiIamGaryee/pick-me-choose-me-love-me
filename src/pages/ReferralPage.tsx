@@ -1,15 +1,19 @@
-import React from "react";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import TwitterIcon from "@mui/icons-material/Twitter";
 import {
   Box,
-  Typography,
-  Grid,
   Button,
   Card,
   CardContent,
+  Grid,
+  Paper,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import TwitterIcon from "@mui/icons-material/Twitter";
+import { useEffect, useState } from "react";
 import Layout from "../Layout";
+import { createReferral, listReferrals } from "../api/referrals";
 import humanWithCoffee from "../assets/humanwithcoffee.png";
 
 const referralStepList = [
@@ -55,6 +59,47 @@ const referralStepList = [
 ];
 
 const ReferralPage = () => {
+  const [referrerEmail, setReferrerEmail] = useState("");
+  const [refereeEmail, setRefereeEmail] = useState("");
+  const [code, setCode] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [referrals, setReferrals] = useState<any[]>([]);
+
+  const load = async () => {
+    try {
+      const res = await listReferrals(20, 0);
+      setReferrals(res.data || []);
+    } catch (e) {
+      // ignore
+    }
+  };
+
+  useEffect(() => {
+    load();
+  }, []);
+
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      setSuccess(null);
+      await createReferral({
+        referrer_email: referrerEmail,
+        referee_email: refereeEmail,
+        code: code || "GEN-REF",
+      });
+      setSuccess("Referral submitted");
+      setRefereeEmail("");
+      setCode("");
+      load();
+    } catch (e) {
+      setError("Failed to submit referral");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <Layout>
       <Box
@@ -147,9 +192,39 @@ const ReferralPage = () => {
                       </Button>
                     </Box>
 
-                    <Button variant="contained" color="primary">
-                      Send Referral Invites
-                    </Button>
+                    <Stack
+                      spacing={1}
+                      sx={{ mb: 2, maxWidth: 420, mx: "auto" }}
+                    >
+                      <TextField
+                        label="Your Email"
+                        value={referrerEmail}
+                        onChange={(e) => setReferrerEmail(e.target.value)}
+                        fullWidth
+                      />
+                      <TextField
+                        label="Friend's Email"
+                        value={refereeEmail}
+                        onChange={(e) => setRefereeEmail(e.target.value)}
+                        fullWidth
+                      />
+                      <TextField
+                        label="Referral Code (optional)"
+                        value={code}
+                        onChange={(e) => setCode(e.target.value)}
+                        fullWidth
+                      />
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleSubmit}
+                        disabled={loading || !referrerEmail || !refereeEmail}
+                      >
+                        {loading ? "Sending..." : "Send Referral Invites"}
+                      </Button>
+                      {success && <Paper sx={{ p: 1.5 }}>✅ {success}</Paper>}
+                      {error && <Paper sx={{ p: 1.5 }}>❌ {error}</Paper>}
+                    </Stack>
                   </Box>
 
                   <Box
@@ -173,6 +248,31 @@ const ReferralPage = () => {
               </Card>
             </Grid>
           </Grid>
+        </Box>
+
+        {/* Recent Referrals */}
+        <Box sx={{ mt: 6 }}>
+          <Typography variant="h5" fontWeight="bold" sx={{ mb: 2 }}>
+            Recent Referrals
+          </Typography>
+          {referrals.length === 0 ? (
+            <Typography color="text.secondary">No referrals yet.</Typography>
+          ) : (
+            <Grid container spacing={2}>
+              {referrals.map((r) => (
+                <Grid item xs={12} md={6} key={r.id}>
+                  <Paper sx={{ p: 2 }}>
+                    <Typography variant="body2">
+                      <b>{r.referrer_email}</b> → {r.referee_email}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      Code: {r.code} • {new Date(r.created_at).toLocaleString()}
+                    </Typography>
+                  </Paper>
+                </Grid>
+              ))}
+            </Grid>
+          )}
         </Box>
 
         {/* Additional Perks Section */}

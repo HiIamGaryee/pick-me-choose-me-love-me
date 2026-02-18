@@ -1,6 +1,8 @@
-export * from "./postSignup";
-export * from "./postLogin";
 export * from "./getAboutUs";
-export * from "./postEmailSubscribe";
 export * from "./getEmailSubscribe";
+export * from "./getProfile";
 export * from "./postContactUs";
+export * from "./postEmailSubscribe";
+export * from "./postLogin";
+export * from "./postSignup";
+

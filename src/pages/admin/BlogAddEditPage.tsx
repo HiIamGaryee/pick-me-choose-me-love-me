@@ -17,9 +17,10 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Layout from "../../Layout";
+import { createBlog, getBlogAdmin, updateBlog } from "../../api/blog";
 
 // Hardcoded blog data for editing
 const existingBlogPosts = [
@@ -56,20 +57,17 @@ const BlogAddEditPage = () => {
   const { id } = useParams<{ id: string }>();
   const isEdit = Boolean(id);
 
-  // Find existing post if editing
-  const existingPost = isEdit
-    ? existingBlogPosts.find((post) => post.id === id)
-    : null;
-
   // Form state
   const [formData, setFormData] = useState({
-    title: existingPost?.title || "",
-    excerpt: existingPost?.excerpt || "",
-    content: existingPost?.content || "",
-    author: existingPost?.author || "",
-    image: existingPost?.image || "",
-    tags: existingPost?.tags || [],
-    status: existingPost?.status || "draft",
+    title: "",
+    excerpt: "",
+    content: "",
+    author: "",
+    image: "",
+    tags: [] as string[],
+    status: "draft",
+    placement: "regular" as "regular" | "trending",
+    sequence: 0,
   });
 
   const [newTag, setNewTag] = useState("");
@@ -98,11 +96,66 @@ const BlogAddEditPage = () => {
     }));
   };
 
-  const handleSubmit = () => {
-    // In real app, this would call API to save
-    console.log("Saving blog post:", formData);
-    alert(`${isEdit ? "Updated" : "Created"} blog post successfully!`);
-    navigate("/admin/blog-list");
+  useEffect(() => {
+    const load = async () => {
+      if (!isEdit || !id) return;
+      const blogId = parseInt(id, 10);
+      if (Number.isNaN(blogId)) return;
+      try {
+        const blog = await getBlogAdmin(blogId);
+        const tagsArr = (blog.tags || "")
+          .split(",")
+          .map((t) => t.trim())
+          .filter(Boolean);
+        const placementTag = tagsArr.find((t) => t.startsWith("placement:"));
+        const seqTag = tagsArr.find((t) => t.startsWith("seq:"));
+        setFormData((prev) => ({
+          ...prev,
+          title: blog.title,
+          excerpt: blog.excerpt || "",
+          content: blog.content,
+          author: blog.author_name || "",
+          image: blog.featured_image || "",
+          tags: tagsArr.filter(
+            (t) => !t.startsWith("placement:") && !t.startsWith("seq:")
+          ),
+          status: blog.is_published ? "published" : "draft",
+          placement:
+            placementTag?.split(":")[1] === "trending" ? "trending" : "regular",
+          sequence: seqTag ? parseInt(seqTag.split(":")[1] || "0", 10) : 0,
+        }));
+      } catch (e) {
+        // ignore
+      }
+    };
+    load();
+  }, [id, isEdit]);
+
+  const handleSubmit = async () => {
+    try {
+      const tags = [
+        ...formData.tags,
+        `placement:${formData.placement}`,
+        `seq:${Number(formData.sequence) || 0}`,
+      ].join(",");
+      const payload = {
+        title: formData.title,
+        content: formData.content,
+        excerpt: formData.excerpt || undefined,
+        featured_image: formData.image || undefined,
+        tags,
+        is_published: formData.status === "published",
+      };
+
+      if (isEdit && id) {
+        await updateBlog(parseInt(id, 10), payload);
+      } else {
+        await createBlog(payload);
+      }
+      navigate("/admin/blog-list");
+    } catch (e) {
+      alert("Failed to save blog. Please try again.");
+    }
   };
 
   const handlePreview = () => {
@@ -305,6 +358,46 @@ const BlogAddEditPage = () => {
                     />
                   </RadioGroup>
                 </FormControl>
+
+                <Typography variant="h6" fontWeight={600} sx={{ mt: 3, mb: 1 }}>
+                  Placement
+                </Typography>
+                <FormControl component="fieldset">
+                  <RadioGroup
+                    value={formData.placement}
+                    onChange={(e) =>
+                      handleInputChange("placement", e.target.value)
+                    }
+                  >
+                    <FormControlLabel
+                      value="regular"
+                      control={<Radio />}
+                      label="Regular"
+                    />
+                    <FormControlLabel
+                      value="trending"
+                      control={<Radio />}
+                      label="Trending"
+                    />
+                  </RadioGroup>
+                </FormControl>
+
+                <TextField
+                  label="Sequence"
+                  type="number"
+                  value={formData.sequence}
+                  onChange={(e) =>
+                    handleInputChange(
+                      "sequence",
+                      parseInt(e.target.value || "0", 10)
+                    )
+                  }
+                  fullWidth
+                  variant="filled"
+                  sx={{ bgcolor: "light.main", mt: 2 }}
+                  placeholder="0"
+                  helperText="Lower numbers appear first within the same placement"
+                />
               </Paper>
 
               {/* Image Preview */}

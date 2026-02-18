@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getSalesHistory, Order } from "../../api/sales";
 import SubscriptionDialog from "../../components/SubscriptionDialog";
 import TopUpDialog from "../../components/TopUpDialog";
 import { useReviewContext } from "../../context/review-context";
@@ -52,6 +53,9 @@ const SalesHistoryPage = () => {
   const [subscriptionDialogOpen, setSubscriptionDialogOpen] = useState(false);
   const [topUpDialogOpen, setTopUpDialogOpen] = useState(false);
   const [userPlan, setUserPlan] = useState<any>(null);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [ordersLoading, setOrdersLoading] = useState(true);
+  const [ordersError, setOrdersError] = useState<string | null>(null);
 
   // Load user plan from localStorage on component mount and when page becomes active
   const loadUserPlan = () => {
@@ -73,6 +77,22 @@ const SalesHistoryPage = () => {
 
     window.addEventListener("focus", handleFocus);
     return () => window.removeEventListener("focus", handleFocus);
+  }, []);
+
+  useEffect(() => {
+    const loadOrders = async () => {
+      try {
+        setOrdersLoading(true);
+        setOrdersError(null);
+        const res = await getSalesHistory(50, 0);
+        setOrders(res.data || []);
+      } catch (e) {
+        setOrdersError("Failed to load history");
+      } finally {
+        setOrdersLoading(false);
+      }
+    };
+    loadOrders();
   }, []);
 
   // Save plan to localStorage
@@ -367,7 +387,52 @@ const SalesHistoryPage = () => {
           <Typography variant="h5" fontWeight={600} sx={{ mb: 3 }}>
             My History
           </Typography>
-          {renderDateCards(salesHistoryData, false)}
+          {ordersLoading ? (
+            <Typography color="text.secondary">Loading...</Typography>
+          ) : ordersError ? (
+            <Typography color="error">{ordersError}</Typography>
+          ) : orders.length === 0 ? (
+            <Typography color="text.secondary">No orders found.</Typography>
+          ) : (
+            <Grid container spacing={2}>
+              {orders.map((o) => (
+                <Grid item xs={12} md={6} key={o.id}>
+                  <Box
+                    sx={{
+                      p: 2,
+                      border: (t) => `1px solid ${t.palette.divider}`,
+                      borderRadius: 2,
+                    }}
+                  >
+                    <Typography variant="subtitle1" fontWeight={700}>
+                      Order #{o.id}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {new Date(o.created_at).toLocaleString()}
+                    </Typography>
+                    <Typography variant="body2">
+                      Total: ${o.total.toFixed(2)} (Shipping: $
+                      {o.shipping.toFixed(2)})
+                    </Typography>
+                    <Typography variant="body2">Status: {o.status}</Typography>
+                    <Typography variant="subtitle2" sx={{ mt: 1 }}>
+                      Items:
+                    </Typography>
+                    {o.items.map((it, idx) => (
+                      <Typography
+                        key={idx}
+                        variant="body2"
+                        color="text.secondary"
+                      >
+                        {it.product_code} x {it.quantity} — $
+                        {it.price.toFixed(2)}
+                      </Typography>
+                    ))}
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
+          )}
         </TabPanel>
       </Box>
 

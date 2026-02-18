@@ -31,7 +31,12 @@ import SalesList from "./pages/admin/SalesList";
 import AddSalesPage from "./pages/sales/AddSalesPage";
 import SalesHistoryPage from "./pages/sales/SalesHistoryPage";
 
+import DatePlansPage from "./pages/DatePlansPage";
+import AdminDatePlansPage from "./pages/admin/AdminDatePlansPage";
+import AdminEventsPage from "./pages/admin/AdminEventsPage";
+import DatePlanCardAdminPage from "./pages/admin/DatePlanCardAdminPage";
 import SubscribleListPage from "./pages/admin/SubscribleListPage";
+import UsersListPage from "./pages/admin/UsersListPage";
 import CartPage from "./pages/sales/CartPage";
 import SalesPage from "./pages/sales/SalesPage";
 
@@ -91,6 +96,46 @@ export const router = createBrowserRouter([
         element: (
           <AdminProtectedRoute>
             <BlogListPage />
+          </AdminProtectedRoute>
+        ),
+      },
+      {
+        path: "/admin/users",
+        element: (
+          <AdminProtectedRoute>
+            <UsersListPage />
+          </AdminProtectedRoute>
+        ),
+      },
+      {
+        path: "/dates",
+        element: (
+          <ProtectedRoute>
+            <DatePlansPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/admin/dates",
+        element: (
+          <AdminProtectedRoute>
+            <AdminDatePlansPage />
+          </AdminProtectedRoute>
+        ),
+      },
+      {
+        path: "/admin/date-plan-cards",
+        element: (
+          <AdminProtectedRoute>
+            <DatePlanCardAdminPage />
+          </AdminProtectedRoute>
+        ),
+      },
+      {
+        path: "/admin/events",
+        element: (
+          <AdminProtectedRoute>
+            <AdminEventsPage />
           </AdminProtectedRoute>
         ),
       },

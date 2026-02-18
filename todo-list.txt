@@ -45,3 +45,18 @@ About / FAQ Page
 
 Email: admin123@gmail.com
 Password: Qwerty123!
+
+
+Act as a technical lead reviewing a full-stack project. I want you to go through my entire project structure and list in detail:
+
+All pages that currently do not have an API implemented
+
+All pages that have an API implemented but are missing frontend integration
+
+Output the results clearly in two sections:
+
+Pages missing APIs
+
+Pages with APIs but no frontend integration
+
+You can assume the project follows standard file/folder structures (e.g. /api, /pages, or /components) for a FastAPI + React/MUI stack. Analyze based on filenames, structure, and naming conventions.

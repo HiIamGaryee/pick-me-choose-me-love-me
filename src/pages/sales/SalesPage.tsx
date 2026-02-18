@@ -9,8 +9,9 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { listPublicDatePlanCards } from "../../api/datePlanCards";
 import SwipeableCard from "../../components/SwipeableCard";
 import { useSalesContext } from "../../context/sales-context";
 import Layout from "../../Layout";
@@ -24,9 +25,45 @@ const SalesPage = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [likedPlans, setLikedPlans] = useState<string[]>([]);
   const [passedPlans, setPassedPlans] = useState<string[]>([]);
+  const [apiPlans, setApiPlans] = useState<any[]>([]);
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const cards = await listPublicDatePlanCards({
+          limit: 24,
+          sort: "popularity_desc",
+        });
+        const mapped = cards.map((c) => ({
+          plan_id: `card-${c.id}`,
+          owner: {
+            name: "Date Plan",
+            age_range: "",
+            gender: "Any",
+            looking_for_gender: "Any",
+            avatar: "/logo.png",
+          },
+          date_plan: {
+            title: c.title,
+            description: c.subtitle || "",
+            image: c.thumbnail_url,
+            timeline: [],
+            tags: (c.tags || "")
+              .split(",")
+              .map((t) => t.trim())
+              .filter(Boolean),
+          },
+        }));
+        setApiPlans(mapped);
+      } catch (e) {
+        setApiPlans([]);
+      }
+    };
+    load();
+  }, []);
 
   // Combine existing data with newly added sales
-  const allSales = [...newlyAddedSales, ...dateData];
+  const allSales = [...newlyAddedSales, ...apiPlans, ...dateData];
 
   const handleAddNewPlan = () => {
     navigate("/add-sales");

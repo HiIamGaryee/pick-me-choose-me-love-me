@@ -1,265 +1,155 @@
 import {
   Box,
-  Typography,
   Button,
-  Grid,
-  TextField,
-  Link,
   Card,
   CardContent,
+  Grid,
+  Paper,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
-import React from "react";
+import { useEffect, useMemo, useState } from "react";
 import Layout from "../../Layout";
-import { Phone, Email, Instagram, LocationOn } from "@mui/icons-material";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import MarketingIcon from "@mui/icons-material/LocalOffer";
-import BusinessIcon from "@mui/icons-material/BusinessCenter";
-import CreativeIcon from "@mui/icons-material/Brush";
-import WebIcon from "@mui/icons-material/Web";
-// import { getAboutUs } from "../api";
-// import { useQuery } from "@tanstack/react-query";
-
-const contactList = [
-  { icon: <Phone color="primary" />, text: "(+081) 5678 1234", label: "Phone" },
-  { icon: <Email color="primary" />, text: "mail@example.com", label: "Email" },
-  {
-    icon: <LocationOn color="primary" />,
-    text: "London Eye, London",
-    label: "Address",
-  },
-  {
-    icon: <Instagram color="primary" />,
-    text: "@username",
-    label: "Instagram",
-  },
-];
-
-const services = [
-  {
-    title: "Marketing",
-    description:
-      "Craft relevant content with ads across all platforms to increase your online visibility.",
-    icon: <MarketingIcon color="primary" />,
-  },
-  {
-    title: "Solution",
-    description:
-      "Cut through business clutter with clear and precise strategies tailored to your needs.",
-    icon: <BusinessIcon color="primary" />,
-  },
-  {
-    title: "Creative",
-    description:
-      "Develop beautiful layouts that make your project stand out from the competition.",
-    icon: <CreativeIcon color="primary" />,
-  },
-  {
-    title: "Development",
-    description:
-      "Create robust platforms that facilitate easier client interactions and functionality.",
-    icon: <WebIcon color="primary" />,
-  },
-];
+import { CheckoutParams, postCheckout } from "../../api/admin";
+import { useAppMutation } from "../../hooks/useAppMutation";
 
 const CheckoutPage = () => {
-  // const { data: aboutData } = useQuery({
-  //   queryKey: ["aboutUs"],
-  //   queryFn: getAboutUs,
-  // });
+  const [address, setAddress] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [email, setEmail] = useState("");
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [cart, setCart] = useState<any[]>([]);
+
+  useEffect(() => {
+    const c = JSON.parse(localStorage.getItem("cart") || "[]");
+    setCart(c);
+  }, []);
+
+  const subtotal = useMemo(
+    () => cart.reduce((sum, it) => sum + it.price * it.quantity, 0),
+    [cart]
+  );
+
+  const { mutate, reset } = useAppMutation(postCheckout, {
+    onSuccess: () => {
+      reset();
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 3000);
+      setCart([]);
+      localStorage.removeItem("cart");
+    },
+  });
+
+  const handleCheckout = () => {
+    const payload: CheckoutParams = {
+      shipping: "0",
+      total: subtotal.toFixed(2),
+      address,
+      mobile,
+      email,
+      status: "pending",
+      products: cart.map((p) => ({
+        code: p.code,
+        price: String(p.price),
+        quantity: p.quantity,
+      })),
+    };
+    mutate(payload);
+  };
 
   return (
     <Layout>
-      <Box
-        sx={{
-          backgroundColor: "light.main",
-          color: "white",
-          padding: 4,
-          minHeight: "100vh",
-        }}
-      >
-        {/* <p>
-          <strong>About:</strong> {aboutData?.about}
-        </p> */}
-
-        <Box sx={{ maxWidth: 1200, margin: "auto", textAlign: "center" }}>
-          {/* Original About Us Content */}
-          <Typography variant="h4" gutterBottom fontWeight="bold">
-            About Us Page
-          </Typography>
-          <Typography variant="body1" sx={{ marginBottom: 4 }}>
-            Our mission is to lead the industry in creating value for ourselves
-            and our partners by revolutionizing the way people experience
-            products. Our team is dedicated to pushing the boundaries of what's
-            possible, striving to set standards rather than follow them.
-          </Typography>
-          <Grid container spacing={4}>
-            <Grid item xs={12} md={6}>
-              <Card sx={{ p: 3, boxShadow: 4 }}>
-                <Typography
-                  variant="h5"
-                  gutterBottom
-                  fontWeight="bold"
-                  align="center"
-                >
-                  Our Products
+      <Box sx={{ p: 4 }}>
+        <Grid container spacing={4}>
+          <Grid item xs={12} md={8}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" sx={{ mb: 2 }}>
+                  Order Items
                 </Typography>
-                <Typography align="center">
-                  We offer a range of high-quality products that integrate
-                  seamlessly with your daily life, enhancing your efficiency and
-                  enjoyment.
-                </Typography>
-              </Card>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Card sx={{ p: 3, boxShadow: 4 }}>
-                <Typography
-                  variant="h5"
-                  gutterBottom
-                  fontWeight="bold"
-                  align="center"
-                >
-                  Our Vision
-                </Typography>
-                <Typography align="center">
-                  To be recognized as the most innovative company in our
-                  industry, providing solutions that improve the quality of life
-                  worldwide.
-                </Typography>
-              </Card>
-            </Grid>
-          </Grid>
-
-          {/* New Get In Touch Section */}
-          <Box sx={{ flexGrow: 1, p: 4 }}>
-            <Typography
-              variant="h4"
-              gutterBottom
-              component="div"
-              textAlign="center"
-            >
-              Service We Provide
-            </Typography>
-            <Grid container spacing={4} justifyContent="center">
-              {services.map((service, index) => (
-                <Grid item key={index} xs={12} sm={6} md={3}>
-                  <Card
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <CardContent sx={{ flexGrow: 1 }}>
+                <Stack spacing={1}>
+                  {cart.length === 0 ? (
+                    <Typography color="text.secondary">
+                      Your cart is empty.
+                    </Typography>
+                  ) : (
+                    cart.map((it) => (
                       <Box
+                        key={it.code}
                         sx={{
                           display: "flex",
-                          gap: 1,
-                          justifyContent: "center",
+                          justifyContent: "space-between",
                         }}
                       >
-                        <Typography
-                          variant="h5"
-                          sx={{ alignItems: "center", display: "flex" }}
-                        >
-                          {service.icon}
+                        <Typography>
+                          {it.name} x {it.quantity}
                         </Typography>
-                        <Typography variant="h5">{service.title}</Typography>
+                        <Typography>
+                          ${(it.price * it.quantity).toFixed(2)}
+                        </Typography>
                       </Box>
-                      <Typography variant="body2" color="text.secondary" mt={2}>
-                        {service.description}
-                      </Typography>
-                    </CardContent>
-                    <Box sx={{ p: 2 }}>
-                      <Button>Learn More</Button>
-                    </Box>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
-
-          <Grid container spacing={2}>
-            <Grid
-              item
-              xs={12}
-              md={6}
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                flexDirection: "column",
-              }}
-            >
-              <Box>
-                <Typography variant="h4" align="left" fontWeight="bold">
-                  Get In Touch
-                </Typography>
-                <Typography align="left" color="secondary.main">
-                  Get In Touch Desc
-                </Typography>
-              </Box>
-              <Grid container spacing={2} justifyContent="center">
-                {contactList.map((contact, index) => (
-                  <Grid item xs={12} md={6} key={index} gap={2}>
-                    <Typography variant="h3">{contact.icon}</Typography>
-                    <Typography variant="body1" fontWeight="bold">
-                      {contact.text}
-                    </Typography>
-                  </Grid>
-                ))}
-              </Grid>
-
-              <Box sx={{ display: "flex", gap: 2 }}>
-                <Link href="#">
-                  <FacebookIcon />
-                </Link>
-                <Link href="#">
-                  <InstagramIcon />
-                </Link>
-                <Link href="#">
-                  <TwitterIcon />
-                </Link>
-                <Link href="#">
-                  <LinkedInIcon />
-                </Link>
-              </Box>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Box
-                component="form"
-                noValidate
-                autoComplete="off"
-                sx={{ display: "flex", flexDirection: "column", gap: 2 }}
-              >
-                <TextField
-                  label="Email"
-                  variant="filled"
-                  sx={{ bgcolor: "light.main" }}
-                />
-                <TextField
-                  label="Name"
-                  variant="filled"
-                  sx={{ bgcolor: "light.main" }}
-                />
-                <TextField
-                  label="Phone"
-                  variant="filled"
-                  sx={{ bgcolor: "light.main" }}
-                />
-                <TextField
-                  label="Message"
-                  variant="filled"
-                  multiline
-                  rows={4}
-                  sx={{ bgcolor: "light.main" }}
-                />
-                <Button sx={{ mt: 2 }}>Submit</Button>
-              </Box>
-            </Grid>
+                    ))
+                  )}
+                </Stack>
+              </CardContent>
+            </Card>
           </Grid>
-        </Box>
+          <Grid item xs={12} md={4}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" sx={{ mb: 2 }}>
+                  Delivery Details
+                </Typography>
+                <Stack spacing={2}>
+                  <TextField
+                    label="Delivery Address"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    fullWidth
+                  />
+                  <TextField
+                    label="Mobile"
+                    value={mobile}
+                    onChange={(e) => setMobile(e.target.value)}
+                    fullWidth
+                  />
+                  <TextField
+                    label="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    fullWidth
+                  />
+                </Stack>
+                <Typography sx={{ mt: 2 }}>
+                  Subtotal: ${subtotal.toFixed(2)}
+                </Typography>
+                <Button
+                  variant="contained"
+                  sx={{ mt: 2 }}
+                  disabled={cart.length === 0}
+                  onClick={handleCheckout}
+                >
+                  Pay Now
+                </Button>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+        {showSuccess && (
+          <Paper
+            elevation={4}
+            sx={{
+              position: "fixed",
+              bottom: 24,
+              right: 24,
+              p: 2,
+              borderRadius: 2,
+            }}
+          >
+            ✅ Checkout completed
+          </Paper>
+        )}
       </Box>
     </Layout>
   );

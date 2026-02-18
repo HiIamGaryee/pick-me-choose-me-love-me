@@ -1,27 +1,49 @@
-import React, { useState } from "react";
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import RemoveRoundedIcon from "@mui/icons-material/RemoveRounded";
 import {
   Box,
-  Typography,
   Button,
-  Grid,
   Card,
   CardMedia,
+  Grid,
   IconButton,
   Paper,
   Stack,
+  Typography,
 } from "@mui/material";
-import Layout from "../../Layout";
+import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import AddRoundedIcon from "@mui/icons-material/AddRounded";
-import RemoveRoundedIcon from "@mui/icons-material/RemoveRounded";
+import { getProductByCode } from "../../api/admin/getProductByCode";
+import Layout from "../../Layout";
 
 const ProductDetailPage = () => {
   const location = useLocation();
-  const product = location.state.product;
+  const initialProduct = (location.state as any)?.product;
   const { productCode } = useParams();
 
+  const [product, setProduct] = useState<any>(initialProduct || null);
+  const [loading, setLoading] = useState(!initialProduct);
+  const [error, setError] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [showSuccess, setShowSuccess] = useState(false);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      if (product) return;
+      if (!productCode) return;
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await getProductByCode(productCode);
+        setProduct(data);
+      } catch (e) {
+        setError("Failed to load product");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProduct();
+  }, [productCode]);
 
   // Functions to handle quantity changes
   const handleIncrease = () => setQuantity(quantity + 1);
@@ -55,6 +77,26 @@ const ProductDetailPage = () => {
     setShowSuccess(true);
     setTimeout(() => setShowSuccess(false), 3000);
   };
+
+  if (loading) {
+    return (
+      <Layout>
+        <Box sx={{ p: 4 }}>
+          <Typography>Loading product...</Typography>
+        </Box>
+      </Layout>
+    );
+  }
+
+  if (error || !product) {
+    return (
+      <Layout>
+        <Box sx={{ p: 4 }}>
+          <Typography color="error">{error || "Product not found"}</Typography>
+        </Box>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>

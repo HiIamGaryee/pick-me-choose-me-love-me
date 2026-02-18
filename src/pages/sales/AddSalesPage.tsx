@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { createDatePlan } from "../../api/dates";
 import { useSalesContext } from "../../context/sales-context";
 import Layout from "../../Layout";
 import IdeasBanner from "./components/IdeasBanner";
@@ -347,7 +348,7 @@ const AddSalesPage = () => {
 
     return errors;
   };
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // Validate timeline before submitting
     const timelineValidationErrors = validateTimeline();
     if (timelineValidationErrors.length > 0) {
@@ -382,6 +383,20 @@ const AddSalesPage = () => {
     };
 
     localStorage.setItem("userDatePlan", JSON.stringify(saleData));
+
+    // Also create a backend DatePlan (basic fields mapped)
+    try {
+      await createDatePlan({
+        title: form.date_plan.title,
+        description: form.date_plan.description || "",
+        location: form.date_plan.city || undefined,
+        scheduled_at: undefined,
+        status: "planned",
+      });
+    } catch (e) {
+      // ignore backend errors for now; local flow still succeeds
+    }
+
     setShowSuccessDialog(true);
   };
 

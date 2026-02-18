@@ -16,10 +16,12 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { getEventById } from "../api/events";
 import Layout from "../Layout";
 
-// Hardcoded event data (same as EventsPage)
+// Fallback hardcoded event data (partial)
 const events = [
   {
     id: 1,
@@ -184,8 +186,49 @@ const events = [
 const EventDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [event, setEvent] = useState<any | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const event = events.find((e) => e.id === parseInt(id || "0"));
+  useEffect(() => {
+    const load = async () => {
+      try {
+        setLoading(true);
+        if (id) {
+          const data = await getEventById(parseInt(id));
+          setEvent({
+            ...data,
+            image: data.image_url,
+            fullDescription: data.description,
+            whatToExpect: "",
+            requirements: "",
+            cancellationPolicy: "",
+          });
+        }
+      } catch (e) {
+        const fallback = events.find((e) => e.id === parseInt(id || "0"));
+        setEvent(fallback || null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <Layout>
+        <Box
+          sx={{
+            px: { xs: 2, md: 6 },
+            py: { xs: 3, md: 6 },
+            textAlign: "center",
+          }}
+        >
+          <Typography>Loading event...</Typography>
+        </Box>
+      </Layout>
+    );
+  }
 
   if (!event) {
     return (

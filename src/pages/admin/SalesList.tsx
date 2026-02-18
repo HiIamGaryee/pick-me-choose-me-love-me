@@ -1,33 +1,31 @@
-import React, { useState } from "react";
 import {
   Box,
-  Typography,
+  Card,
+  Grid,
+  IconButton,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Card,
-  Grid,
-  IconButton,
+  Typography,
 } from "@mui/material";
 import Layout from "../../Layout";
 
-import { useQuery } from "@tanstack/react-query";
-import { getEmailSubscribe } from "../../api";
-import InventoryRoundedIcon from "@mui/icons-material/InventoryRounded";
 import AddIcCallRoundedIcon from "@mui/icons-material/AddIcCallRounded";
+import InventoryRoundedIcon from "@mui/icons-material/InventoryRounded";
 import MarkEmailReadRoundedIcon from "@mui/icons-material/MarkEmailReadRounded";
+import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { getCheckoutList } from "../../api/admin/getCheckoutList";
+import { getAdminSales } from "../../api/admin/getAdminSales";
 
 const SalesList = () => {
   const navigate = useNavigate();
 
-  const { data: subscribleList } = useQuery({
-    queryKey: ["getCheckoutList", 50, 0],
-    queryFn: () => getCheckoutList(50, 0),
+  const { data: salesList } = useQuery({
+    queryKey: ["getAdminSales", 100, 0],
+    queryFn: () => getAdminSales(100, 0),
   });
 
   return (
@@ -74,8 +72,8 @@ const SalesList = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {subscribleList?.data?.flatMap((order: any, index: number) =>
-                    order.products.map((product: any, productIndex: number) => (
+                  {salesList?.data?.flatMap((order: any, index: number) =>
+                    order.items.map((product: any, productIndex: number) => (
                       <TableRow
                         key={`${order._id}-${productIndex}`}
                         sx={{ verticalAlign: "top" }}
@@ -83,31 +81,31 @@ const SalesList = () => {
                         {/* Display order details only on the first product row */}
                         {productIndex === 0 && (
                           <>
-                            <TableCell rowSpan={order.products.length}>
+                            <TableCell rowSpan={order.items.length}>
                               {index + 1}
                             </TableCell>
-                            <TableCell rowSpan={order.products.length}>
-                              {order.email}
+                            <TableCell rowSpan={order.items.length}>
+                              {order.user_email}
                             </TableCell>
-                            <TableCell rowSpan={order.products.length}>
+                            <TableCell rowSpan={order.items.length}>
                               {order.shipping}
                             </TableCell>
-                            <TableCell rowSpan={order.products.length}>
+                            <TableCell rowSpan={order.items.length}>
                               {order.total}
                             </TableCell>
-                            <TableCell rowSpan={order.products.length}>
+                            <TableCell rowSpan={order.items.length}>
                               {order.address}
                             </TableCell>
-                            <TableCell rowSpan={order.products.length}>
+                            <TableCell rowSpan={order.items.length}>
                               {order.mobile}
                             </TableCell>
-                            <TableCell rowSpan={order.products.length}>
+                            <TableCell rowSpan={order.items.length}>
                               {order.status}
                             </TableCell>
                           </>
                         )}
                         {/* Product details for each row */}
-                        <TableCell>{product.code}</TableCell>
+                        <TableCell>{product.product_code}</TableCell>
                         <TableCell>{product.price}</TableCell>
                         <TableCell>{product.quantity}</TableCell>
                       </TableRow>

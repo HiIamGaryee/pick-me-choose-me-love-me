@@ -3,6 +3,10 @@ import {
   Alert,
   Box,
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Grid,
   Link,
   Stack,
@@ -24,9 +28,11 @@ const LoginPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
-  const { login } = useAuth();
+  const { login, isAdmin } = useAuth();
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [forgotOpen, setForgotOpen] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState("");
 
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -54,11 +60,8 @@ const LoginPage = () => {
 
       // Redirect to intended page or admin dashboard
       const from = location.state?.from?.pathname || "/";
-      if (data.email === "admin@admin.com") {
-        navigate("/admin/blog-list");
-      } else {
-        navigate(from);
-      }
+      if (isAdmin) navigate("/admin/blog-list");
+      else navigate(from);
     } catch (error) {
       setErrorMessage("Invalid email or password. Please try again.");
     } finally {
@@ -204,11 +207,9 @@ const LoginPage = () => {
               mt={2}
               sx={{ display: "flex", justifyContent: "space-between" }}
             >
-              <Link href="#" underline="none">
-                <Typography variant="body2" color="text.secondary">
-                  Forgot Password?
-                </Typography>
-              </Link>
+              <Button variant="text" onClick={() => setForgotOpen(true)}>
+                Forgot Password?
+              </Button>
               <Link href="/" underline="none">
                 <Typography variant="body2" color="text.secondary">
                   Back Home
@@ -218,6 +219,33 @@ const LoginPage = () => {
           </form>
         </Grid>
       </Grid>
+      <Dialog open={forgotOpen} onClose={() => setForgotOpen(false)}>
+        <DialogTitle>Forgot Password</DialogTitle>
+        <DialogContent>
+          <Typography variant="body2" sx={{ mb: 2 }}>
+            Enter your email. We'll add the reset flow next.
+          </Typography>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Email"
+            type="email"
+            value={forgotEmail}
+            onChange={(e) => setForgotEmail(e.target.value)}
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setForgotOpen(false)}>Cancel</Button>
+          <Button
+            onClick={() => setForgotOpen(false)}
+            variant="contained"
+            disabled={!forgotEmail}
+          >
+            Continue
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };

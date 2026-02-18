@@ -15,6 +15,7 @@ import {
 import React, { useState } from "react";
 import ReviewDialog from "../../../components/ReviewDialog";
 import SuccessDialog from "../../../components/SuccessDialog";
+import api from "../../../utils/axiosConfig";
 import { Review } from "../data/salesHistoryData";
 
 interface DatePlanCardProps {
@@ -52,25 +53,21 @@ const DatePlanCard: React.FC<DatePlanCardProps> = ({
     setIsCalendarAdded(addedPlans.includes(plan.plan_id));
   }, [plan.plan_id]);
 
-  const handleEventClick = () => {
-    // Toggle calendar status
-    const addedPlans = JSON.parse(
-      localStorage.getItem("addedToCalendar") || "[]"
-    );
-
-    if (isCalendarAdded) {
-      // Remove from calendar
-      const updatedPlans = addedPlans.filter(
-        (id: string) => id !== plan.plan_id
+  const handleEventClick = async () => {
+    try {
+      const idStr = String(plan.plan_id || "");
+      const cardId = idStr.startsWith("card-")
+        ? parseInt(idStr.slice(5), 10)
+        : Number(idStr);
+      if (!Number.isFinite(cardId)) return;
+      const res = await api.post<{ calendar_added: boolean }>(
+        `/dateplan-cards/${cardId}/calendar/toggle`
       );
-      localStorage.setItem("addedToCalendar", JSON.stringify(updatedPlans));
-      setIsCalendarAdded(false);
-    } else {
-      // Add to calendar
-      addedPlans.push(plan.plan_id);
-      localStorage.setItem("addedToCalendar", JSON.stringify(addedPlans));
-      setIsCalendarAdded(true);
-      setDialogOpen(true);
+      const added = res.data.calendar_added;
+      setIsCalendarAdded(added);
+      if (added) setDialogOpen(true);
+    } catch (e) {
+      // noop
     }
   };
 
